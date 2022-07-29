@@ -1,9 +1,10 @@
 <template>
+<LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
  <div class="container">
   <div class="my-4 d-flex justify-content-between">
     <h2>產品管理</h2>
     <button type="button" class="btn btn-dark text-warning"
-    @click="$refs.productModal.showModal()">
+    @click="openProductModal(true)">
     <i class="bi bi-bag-plus-fill me-2"></i>新增產品&ensp;</button>
   </div>
   <table class="table">
@@ -18,39 +19,133 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>撞色系</td>
-      <td>金童鐘</td>
-      <td>399</td>
-      <td>349</td>
+    <tr v-for="item in products" :key="item.id">
+      <td>{{item.category}}</td>
+      <td>{{item.title}}</td>
+      <td>{{item.origin_price}}</td>
+      <td>{{item.price}}</td>
       <td>
-        <span>啟用</span>
-        <!-- <span>未啟用</span> -->
+        <span class="text-success" v-if="item.is_enabled">啟用</span>
+        <span class="text-muted" v-else>未啟用</span>
       </td>
       <td>
         <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary text-white">編輯</button>
+          <button type="button" class="btn btn-primary text-white"
+          @click="openProductModal(false,item)">編輯</button>
           <button type="button" class="btn btn-danger text-white"
-          @click="$refs.deleteProductModal.showModal()">刪除</button>
+          @click="openDeleteModal(item)">刪除</button>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
- </div>
+</div>
 
- <ProductModal ref="productModal"></ProductModal>
- <DeleteProductModal ref="deleteProductModal"></DeleteProductModal>
+ <!-- components-- -->
+
+ <!-- 新增/編輯 modal -->
+ <ProductModal ref="productModal"
+ :product="tempProduct"
+ @update-product = "updateProduct"></ProductModal>
+ <!-- 刪除modal-- -->
+ <DeleteProductModal
+ ref="deleteProductModal"
+ :product="tempProduct"
+ @delete-item ="deleteProduct"
+ ></DeleteProductModal>
+ <!-- 分頁------ -->
+<div class="container">
+   <Pagination
+   :pages="pagination"
+   @page-num="getProducts"
+   @pre-page="getProducts"
+   @next-page="getProducts"></Pagination>
+</div>
 </template>
 
 <script>
 import ProductModal from '../components/ProductModal.vue';
 import DeleteProductModal from '../components/DeleteProductModal.vue';
+import Pagination from '../components/PaginationView.vue';
 
 export default {
+  data() {
+    return {
+      products: [],
+      pagination: {}, // 分頁
+      tempProduct: {},
+      isNew: false, // 用於判斷是新增還是編輯
+      isLoading: false, // 讀取效果插件
+    };
+  },
+  methods: {
+    getProducts(page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
+      this.isLoading = true;
+      this.axios.get(api).then((res) => {
+        this.isLoading = false;
+        console.log('getProducts()', res);
+        this.products = res.data.products;
+        this.pagination = res.data.pagination;
+      });
+    },
+    // 開啟新增/編輯modal
+    openProductModal(isNew, item) {
+      if (isNew) {
+        this.tempProduct = {};
+      } else {
+        // this.tempProduct = item;
+        // 上面這樣寫會有bug↑，如果開啟編輯modal並改欄位的值，
+        // 按取消關閉modal後更改的值會套用，需重新整理才會消失。
+        // 用下面淺層拷貝寫法才不會有這個問題
+        this.tempProduct = { ...item };
+      }
+      this.$refs.productModal.showModal();
+      this.isNew = isNew;
+    },
+    updateProduct(item) {
+      // this.tempProduct = item; // 這行刪掉應該沒影響
+      // 新增
+      if (this.isNew) {
+        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+        this.axios.post(api, { data: item }).then((res) => {
+          console.log('updateProduct(item)新增', res);
+          this.$refs.productModal.hideModal();
+          this.getProducts();
+        });
+        // 編輯
+      } else {
+        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+        this.axios.put(api, { data: item }).then((res) => {
+          console.log('updateProduct(item)-編輯', res);
+          this.$refs.productModal.hideModal();
+          this.getProducts();
+        });
+      }
+    },
+    // 開啟刪除modal
+    openDeleteModal(item) {
+      this.$refs.deleteProductModal.showModal();
+      console.log('openDeleteModal', item);
+      this.tempProduct = item;
+    },
+    // 刪除api
+    deleteProduct(item) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+      this.axios.delete(api).then((res) => {
+        console.log('deleteProduct(item)', res);
+        this.$refs.deleteProductModal.hideModal();
+        this.getProducts();
+      });
+    },
+  },
   components: {
     ProductModal,
     DeleteProductModal,
+    Pagination,
+  },
+  created() {
+    this.getProducts();
   },
 };
 </script>

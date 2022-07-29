@@ -1,4 +1,5 @@
 <template>
+<LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
   <div class="modal" tabindex="-1" ref="modal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -22,7 +23,8 @@
                       type="text"
                       class="form-control"
                       id="productName"
-                      placeholder="請輸入產品名稱">
+                      placeholder="請輸入產品名稱"
+                      v-model="tempProduct.title">
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -32,7 +34,8 @@
                       type="text"
                       class="form-control"
                       id="productCategory"
-                      placeholder="請輸入分類名稱">
+                      placeholder="請輸入分類名稱"
+                      v-model="tempProduct.category">
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -42,7 +45,8 @@
                       type="text"
                       class="form-control"
                       id="productUnit"
-                      placeholder="請輸入單位名稱">
+                      placeholder="請輸入單位名稱"
+                      v-model="tempProduct.unit">
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -52,7 +56,8 @@
                       type="number"
                       class="form-control"
                       id="originalPrice"
-                      placeholder="請輸入原價">
+                      placeholder="請輸入原價"
+                      v-model="tempProduct.origin_price">
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -62,7 +67,8 @@
                       type="number"
                       class="form-control"
                       id="productPrice"
-                      placeholder="請輸入售價">
+                      placeholder="請輸入售價"
+                      v-model="tempProduct.price">
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -72,7 +78,8 @@
                       type="text"
                       class="form-control"
                       id="productDescription"
-                      placeholder="請輸入產品描述">
+                      placeholder="請輸入產品描述"
+                      v-model="tempProduct.description">
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -82,7 +89,8 @@
                       type="text"
                       class="form-control"
                       id="productContent"
-                      placeholder="請輸入產品內容">
+                      placeholder="請輸入產品內容"
+                      v-model="tempProduct.content">
                   </label>
                 </div>
               </div>
@@ -96,7 +104,8 @@
                       type="text"
                       class="form-control"
                       id="productUrl"
-                      placeholder="輸入圖片網址">
+                      placeholder="輸入圖片網址"
+                      v-model="tempProduct.imageUrl">
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -105,15 +114,21 @@
                     <input
                       type="file"
                       class="form-control"
-                      id="uploadImg">
+                      id="uploadImg"
+                      ref="fileInput"
+                      @change="uploadFile">
                   </label>
+                </div>
+                <div>
+                  <img :src="tempProduct.imageUrl" alt="" class="img-fluid">
                 </div>
                 <div class="col-12">
                   <div class="form-check">
                     <label class="form-check-label" for="enableProduct">
                       啟用
                       <input class="form-check-input" type="checkbox"
-                      value="" id="enableProduct" checked>
+                      id="enableProduct"
+                      v-model="tempProduct.is_enabled">
                     </label>
                   </div>
                 </div>
@@ -123,7 +138,8 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary text-white">確認</button>
+          <button type="button" class="btn btn-primary text-white"
+          @click="$emit('update-product', tempProduct)">確認</button>
         </div>
       </div>
     </div>
@@ -131,26 +147,43 @@
 </template>
 
 <script>
-// import Modal from 'bootstrap/js/dist/modal';
 import modalMixin from '@/mixins/modalMixin';
 
 export default {
+  props: ['product'],
+  emits: ['update-product'], // 沒這句會有黃色警告
   data() {
     return {
       modal: {},
+      tempProduct: {},
+      isLoading: false, // 讀取效果插件
     };
   },
+  watch: {
+    product() {
+      this.tempProduct = this.product;
+    },
+  },
+  methods: {
+    uploadFile() {
+      // 參考https://openhome.cc/Gossip/ECMAScript/FormData.html
+      // console.dir(this.$refs.fileInput.files[0]);
+      const uploadImg = this.$refs.fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file-to-upload', uploadImg);
+      // ------------------
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
+      this.isLoading = true;
+      this.axios.post(api, formData).then((res) => {
+        this.isLoading = false;
+        console.log('uploadFile()', res);
+        if (res.data.success) {
+          this.tempProduct.imageUrl = res.data.imageUrl;
+          this.$refs.fileInput.value = ''; // 完成後清空上傳圖片<input>
+        }
+      });
+    },
+  },
   mixins: [modalMixin],
-  // methods: {
-  //   showModal() {
-  //     this.modal.show();
-  //   },
-  //   hideModal() {
-  //     this.modal.hide();
-  //   },
-  // },
-  // mounted() {
-  //   this.modal = new Modal(this.$refs.modal);
-  // },
 };
 </script>

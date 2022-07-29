@@ -4,16 +4,16 @@
     <div class="card p-4 border-0">
       <div class="row g-0">
         <div class="col-md-6">
-          <img src="../assets/img/sample_product02.jpg"
+          <img :src="product.imageUrl"
           class="img-fluid rounded-3 shadow" alt="clock">
         </div>
         <div class="col-md-6">
           <div class="card-body">
-            <h5 class="card-title">潮流紅經典鬧鐘</h5>
-            <p class="card-text">多色系 經典不敗</p>
+            <h5 class="card-title">{{product.title}}</h5>
+            <p class="card-text">{{product.description}}</p>
             <div class="d-flex align-items-center mb-3">
-              <p class="text-secondary mb-0 ogPrice me-3">原價NT$469</p>
-              <p class="text-danger mb-0 h5">NT$399</p>
+              <p class="text-secondary mb-0 ogPrice me-3">原價NT${{product.origin_price}}</p>
+              <p class="text-danger mb-0 h5">NT${{product.price}}</p>
             </div>
             <div class="col-4 col-md-3">
               <div class="input-group input-group-sm mb-3">
@@ -60,3 +60,27 @@
   </div>
 </section>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      id: '',
+      product: {},
+    };
+  },
+  methods: {
+    getProductDetail() {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${this.id}`;
+      this.axios.get(api).then((res) => {
+        console.log('getProductDetail()', res);
+        this.product = res.data.product;
+      });
+    },
+  },
+  created() {
+    this.id = this.$route.params.id;
+    this.getProductDetail();
+  },
+};
+</script>

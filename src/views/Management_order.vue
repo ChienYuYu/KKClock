@@ -1,4 +1,5 @@
 <template>
+<LoadingPlugin :active="isLoading"></LoadingPlugin>
   <div class="container">
   <div class="my-4 d-flex justify-content-between">
     <h2>訂單管理</h2>
@@ -7,54 +8,127 @@
   <thead>
     <tr>
       <th scope="col">購買時間</th>
-      <th scope="col">Email</th>
+      <th scope="col">姓名 / Email</th>
       <th scope="col">購買項目</th>
       <th scope="col">應付金額</th>
-      <th scope="col">是否付款</th>
+      <th scope="col">付款</th>
       <th scope="col">檢視/刪除</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>2022/7/11</td>
-      <td>333ddfs@fddd.com</td>
-      <td>撞色系潮流鐘</td>
-      <td>799</td>
+    <tr v-for="item in orders" :key="item.id">
+      <td>{{new Date(item.create_at*1000).toLocaleDateString()}}</td>
+      <td>{{item.user.name}} / {{item.user.email}}</td>
+      <td>
+        <ul class="list-unstyled">
+          <li v-for="purchaseItem in item.products"
+          :key="purchaseItem.id">{{purchaseItem.product.title}}</li>
+        </ul>
+      </td>
+      <td>{{Math.round(item.total)}}</td>
       <td>
         <div class="form-check form-switch">
           <label class="form-check-label" for="flexSwitchCheckDefault">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked>
-            <span>已付款</span>
-            <!-- <span v-else>未付款</span> -->
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+            v-model="item.is_paid"
+            @change="updatePaid(item)">
+            <span v-if="item.is_paid">已付款</span>
+            <span v-else>未付款</span>
             </label>
         </div>
       </td>
       <td>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-primary text-white"
-          @click="$refs.orderModal.showModal()"
+          @click="openOrderModal(item)"
           >檢視</button>
           <button type="button" class="btn btn-danger text-white"
-          @click="$refs.deleteOrderModal.showModal()">刪除</button>
+          @click="openDelModal(item)">刪除</button>
         </div>
       </td>
     </tr>
   </tbody>
 </table>
  </div>
-
- <OrderModal ref="orderModal"></OrderModal>
- <DeleteOrderModal ref="deleteOrderModal"></DeleteOrderModal>
+<!-- components-- -->
+ <OrderModal ref="orderModal"
+ :order="tempOrder"></OrderModal>
+ <!-- --------------------- -->
+ <DeleteOrderModal ref="delOrderModal"
+ @delete-order="deleteOrder"
+ :order="tempOrder"></DeleteOrderModal>
+  <!-- --------------------- -->
+ <Pagination
+ :pages="pagination"
+ @pre-page="getOrders"
+ @page-num="getOrders"
+ @next-page="getOrders"></Pagination>
 </template>
 
 <script>
 import OrderModal from '../components/OrderModal.vue';
 import DeleteOrderModal from '../components/DeleteOrderModal.vue';
+import Pagination from '../components/PaginationView.vue';
 
 export default {
   components: {
     OrderModal,
     DeleteOrderModal,
+    Pagination,
+  },
+  data() {
+    return {
+      orders: [],
+      pagination: {},
+      tempOrder: {
+        user: {},
+      },
+      isLoading: false,
+    };
+  },
+  methods: {
+    getOrders(page = 1) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
+      this.isLoading = true;
+      this.axios.get(api).then((res) => {
+        this.isLoading = false;
+        console.log('getOrders()', res);
+        this.orders = res.data.orders;
+        this.pagination = res.data.pagination;
+      });
+    },
+    // 更改付款狀態api
+    updatePaid(item) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
+      this.isLoading = true;
+      this.axios.put(api, { data: item }).then((res) => {
+        this.isLoading = false;
+        console.log('updatePaid(item)', res);
+      });
+    },
+    // 開啟檢視modal
+    openOrderModal(item) {
+      this.$refs.orderModal.showModal();
+      this.tempOrder = { ...item };
+      console.log('檢視', item);
+    },
+    // 開啟刪除modal
+    openDelModal(item) {
+      this.$refs.delOrderModal.showModal();
+      this.tempOrder = { ...item };
+    },
+    // 刪除api
+    deleteOrder(item) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
+      this.axios.delete(api).then((res) => {
+        console.log('deleteOrder(item)', res);
+        this.$refs.delOrderModal.hideModal();
+        this.getOrders();
+      });
+    },
+  },
+  created() {
+    this.getOrders();
   },
 };
 </script>

@@ -1,11 +1,17 @@
 <template>
-<footer class="footer p-5">
-  <p class="text-light text-center">© 2022 by Chen Chien Yu</p>
+<footer class="footer text-center">
+  <router-link to="/login" class="text-decoration-none text-white">
+    <i class="bi bi-person-fill me-1"></i>後台管理登入&ensp;</router-link>
+  <p class="text-light pt-2">© 2022 by Chen Chien Yu</p>
 </footer>
 </template>
 
 <style>
   .footer{
-    background: rgb(89, 187, 179);
+    background: #59BBB3;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>

@@ -1,0 +1,71 @@
+<template>
+  <div class="col" v-for="item in products" :key="item.id">
+    <div class="card product_card rounded-1 overflow-hidden h-100 border-0">
+      <a href="#" class="text-decoration-none text-dark"
+        @click.prevent="$emit('get-product-data', item.id)">
+        <img :src="item.imageUrl" class="card-img-top" alt="clock">
+        <div class="card-body py-1">
+          <h3 class="card-text fs-6">{{item.title}}</h3>
+          <div class="d-flex align-items-center justify-content-between">
+            <p class="text-secondary mb-0 ogPrice">原價NT${{item.origin_price}}</p>
+            <p class="text-myred mb-0">NT${{item.price}}</p>
+          </div>
+        </div>
+      </a>
+      <button type="button"
+        :disabled="this.loadingItem == item.id"
+        class="btn btn-mygreen text-white m-2 py-0"
+        @click="addCart(item.id)">
+        <div class="spinner-border spinner-border-sm text-white"
+        role="status" v-if="this.loadingItem == item.id">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        加入購物車
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  props: ['products'],
+  emits: ['get-product-data'],
+  data() {
+    return {
+      loadingItem: '',
+    };
+  },
+  inject: ['emitter'],
+  methods: {
+    // 加入購物車
+    addCart(id) {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
+      this.loadingItem = id;
+      const cart = {
+        product_id: id,
+        qty: 1,
+      };
+      this.axios.post(api, { data: cart }).then((res) => {
+        this.loadingItem = '';
+        console.log('addCart()', res);
+        this.emitter.emit('updateData');
+      });
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+  .product_card{
+  box-shadow: 4px 4px 5px rgb(227, 227, 227);
+  transition: .3s;
+  &:hover{
+    transform: scale(105%);
+  }
+}
+.ogPrice{
+  font-size: 12px;
+  text-decoration: line-through;
+}
+</style>

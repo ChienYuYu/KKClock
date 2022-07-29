@@ -23,19 +23,19 @@
                 <tbody>
                   <tr>
                     <th scope="row">姓名</th>
-                    <td>Mark</td>
+                    <td>{{order.user.name}}</td>
                   </tr>
                   <tr>
                     <th scope="row">Email</th>
-                    <td>mdfk426@gmail.com</td>
+                    <td>{{order.user.email}}</td>
                   </tr>
                   <tr>
                     <th scope="row">電話</th>
-                    <td>0987987987</td>
+                    <td>{{order.user.tel}}</td>
                   </tr>
                   <tr>
                     <th scope="row">地址</th>
-                    <td>蘆洲火車站火字下</td>
+                    <td>{{order.user.address}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -48,15 +48,18 @@
                 <tbody>
                   <tr>
                     <th scope="row">訂單編號</th>
-                    <td>-N6fDYwKhS1kiLGbNEtQ</td>
+                    <td>-{{order.id}}</td>
                   </tr>
                   <tr>
                     <th scope="row">下單時間</th>
-                    <td>2022/7/11</td>
+                    <td>{{order.create_at}}</td>
                   </tr>
                   <tr>
                     <th scope="row">付款狀態</th>
-                    <td>尚未付款</td>
+                    <td>
+                      <span class="text-success" v-if="order.is_paid">已付款</span>
+                      <span class="text-danger" v-else>尚未付款</span>
+                    </td>
                   </tr>
                   <tr>
                     <th scope="row">付款時間</th>
@@ -73,56 +76,36 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">潮流撞色鐘</th>
-                    <td>1/個</td>
-                    <td>499</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">誠實鐘</th>
-                    <td>1/個</td>
-                    <td>799</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">金童鐘</th>
-                    <td>1/個</td>
-                    <td>299</td>
+                  <tr v-for="item in order.products" :key="item.id">
+                    <th scope="row">{{item.product.title}}</th>
+                    <td>數量:{{item.qty}}</td>
+                    <td>價格:NT${{item.final_total}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認?</button>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal">確認?</button>
           <button type="button" class="btn btn-primary text-white">確認</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import Modal from 'bootstrap/js/dist/modal';
 import modalMixin from '@/mixins/modalMixin';
 
 export default {
+  props: ['order'],
   data() {
     return {
       modal: {},
     };
   },
   mixins: [modalMixin],
-  // methods: {
-  //   showModal() {
-  //     this.modal.show();
-  //   },
-  //   hideModal() {
-  //     this.modal.hide();
-  //   },
-  // },
-  // mounted() {
-  //   this.modal = new Modal(this.$refs.modal);
-  // },
 };
 </script>

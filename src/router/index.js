@@ -46,11 +46,11 @@ const routes = [
         component: () => import('../views/KKClock_home.vue'),
       },
       {
-        path: 'product_list',
+        path: 'product_list/:category',
         component: () => import('../views/KKClock_product.vue'),
       },
       {
-        path: 'product_list/:id',
+        path: 'product_list/product/:id',
         component: () => import('../views/KKClock_productItem.vue'),
       },
       {
@@ -58,7 +58,7 @@ const routes = [
         component: () => import('../views/KKClock_cart.vue'),
       },
       {
-        path: 'checkout/:id',
+        path: 'checkout/:orderId',
         component: () => import('../views/KKClock_checkout.vue'),
       },
     ],
