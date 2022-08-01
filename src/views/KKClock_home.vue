@@ -145,92 +145,23 @@
     <h2 class="text-secondary mb-4">
       特價商品<hr>
     </h2>
-    <div class="row row-cols-2 row-cols-md-5 g-3 pb-5">
-      <div class="col">
-        <div class="card border-0 discount_product">
-          <a href="#" class="text-decoration-none link-dark">
-            <img src="../assets/img/sample_product01.jpg" class="card-img-top" alt="clock">
-            <div class="card-body">
-              <h3 class="card-text fs-6">超級9號鐘 蒂芬尼藍</h3>
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <p class="text-secondary mb-0 ogPrice">原價NT$469</p>
-                <p class="text-danger mb-0">NT$399</p>
-              </div>
-              <button type="button" class="w-100 btn btn-outline-secondary py-0">
-                加入購物車</button>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card border-0 discount_product">
-          <a href="#" class="text-decoration-none link-dark">
-            <img src="../assets/img/sample_product01.jpg" class="card-img-top" alt="clock">
-            <div class="card-body">
-              <h3 class="card-text fs-6">超級9號鐘 蒂芬尼藍</h3>
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <p class="text-secondary mb-0 ogPrice">原價NT$469</p>
-                <p class="text-danger mb-0">NT$399</p>
-              </div>
-              <button type="button" class="w-100 btn btn-outline-secondary py-0">
-                加入購物車</button>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card border-0 discount_product">
-          <a href="#" class="text-decoration-none link-dark">
-            <img src="../assets/img/sample_product01.jpg" class="card-img-top" alt="clock">
-            <div class="card-body">
-              <h3 class="card-text fs-6">超級9號鐘 蒂芬尼藍</h3>
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <p class="text-secondary mb-0 ogPrice">原價NT$469</p>
-                <p class="text-danger mb-0">NT$399</p>
-              </div>
-              <button type="button" class="w-100 btn btn-outline-secondary py-0">
-                加入購物車</button>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card border-0 discount_product">
-          <a href="#" class="text-decoration-none link-dark">
-            <img src="../assets/img/sample_product01.jpg" class="card-img-top" alt="clock">
-            <div class="card-body">
-              <h3 class="card-text fs-6">超級9號鐘 蒂芬尼藍</h3>
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <p class="text-secondary mb-0 ogPrice">原價NT$469</p>
-                <p class="text-danger mb-0">NT$399</p>
-              </div>
-              <button type="button" class="w-100 btn btn-outline-secondary py-0">
-                加入購物車</button>
-            </div>
-          </a>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card border-0 discount_product">
-          <a href="#" class="text-decoration-none link-dark">
-            <img src="../assets/img/sample_product01.jpg" class="card-img-top" alt="clock">
-            <div class="card-body">
-              <h3 class="card-text fs-6">超級9號鐘 蒂芬尼藍</h3>
-              <div class="d-flex align-items-center justify-content-between mb-1">
-                <p class="text-secondary mb-0 ogPrice">原價NT$469</p>
-                <p class="text-danger mb-0">NT$399</p>
-              </div>
-              <button type="button" class="w-100 btn btn-outline-secondary py-0">
-                加入購物車</button>
-            </div>
-          </a>
-        </div>
-      </div>
+    <!-- <div class="row row-cols-2 row-cols-md-5 g-3 pb-5">
+      <DProductCard></DProductCard>
+    </div> -->
+    <!-- -------------- -->
+    <!-- <div class="row g-3 pb-5">
+      <DProductCard></DProductCard>
+    </div> -->
+    <!-- -------------- -->
+    <div class="row row-cols-1  g-3 pb-5">
+      <DProductCard></DProductCard>
     </div>
+    <!-- -------------- -->
     <div class="text-center">
-      <a href="#" class="btn btn-secondary px-5">
-        查看更多特價品<i class="bi bi-caret-right-fill"></i>
-      </a>
+      <router-link to="product_list/全部商品" href="#"
+      class="btn btn-secondary px-5">
+        查看更多商品<i class="bi bi-caret-right-fill"></i>
+      </router-link>
     </div>
   </div>
 </section>
@@ -239,6 +170,7 @@
 
 <script>
 import CarouselView from '../components/CarouselView.vue';
+import DProductCard from '../components/ProductCard_discounted.vue';
 
 export default {
   data() {
@@ -246,6 +178,7 @@ export default {
   },
   components: {
     CarouselView,
+    DProductCard,
   },
 };
 </script>

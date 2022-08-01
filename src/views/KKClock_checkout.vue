@@ -8,17 +8,17 @@
               <th>品名</th>
               <th>數量</th>
               <th class="text-end">小計</th>
-              <th class="text-end">優惠價</th>
+              <th class="text-end">折扣後$</th>
             </thead>
             <tbody>
               <tr v-for="item in order.products" :key="item.id">
                 <td>{{item.product.title}}</td>
                 <td>{{item.qty}}</td>
-                <td class="text-end">${{item.total}}</td>
+                <td class="text-end">${{currency(item.total)}}</td>
                 <td class="text-end">
                   <span class="mb-0
                   d-inline-block text-truncate
-                  text-myorange">${{item.final_total}}</span>
+                  text-myorange">${{currency(item.final_total)}}</span>
                 </td>
               </tr>
             </tbody>
@@ -28,7 +28,7 @@
                 <td></td>
                 <td colspan="2" class="text-end">
                   <p class="text-myred mb-0">
-                    總計 ${{finalPrice}}
+                    總計 ${{currency(finalPrice)}}
                   </p>
                     <span class="text-muted remind">(小數點四捨五入)</span>
                 </td>
@@ -78,7 +78,9 @@
 </template>
 
 <script>
+
 export default {
+  inject: ['currency'],
   data() {
     return {
       order: {

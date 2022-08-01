@@ -46,13 +46,20 @@
 </template>
 
 <script>
+import currency from '@/methods/currency';
+
 export default {
+  provide() {
+    return {
+      currency,
+    };
+  },
   methods: {
     logout() {
       const api = `${process.env.VUE_APP_API}logout`;
       this.axios.post(api).then((res) => {
         console.log('logout()', res);
-        this.$router.push('/login');
+        this.$router.push('/kkClock_administrator/login');
       });
     },
   },
@@ -65,7 +72,7 @@ export default {
     const api = `${process.env.VUE_APP_API}api/user/check`;
     this.axios.post(api).then((res) => {
       if (!res.data.success) {
-        this.$router.push('/login');
+        this.$router.push('/kkClock_administrator/login');
       }
     });
   },

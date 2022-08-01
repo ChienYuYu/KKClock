@@ -13,6 +13,7 @@
 <script>
 // import Carousel from 'bootstrap/js/dist/carousel';
 import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
 import Navbar from '../components/NavbarView.vue';
 import Footer from '../components/FooterView.vue';
 
@@ -27,6 +28,7 @@ export default {
   provide() {
     return {
       emitter,
+      currency,
     };
   },
   methods: {},

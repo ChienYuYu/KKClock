@@ -16,7 +16,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
   },
   {
-    path: '/login',
+    path: '/kkClock_administrator/login',
     component: () => import('../views/LoginView.vue'),
   },
   {
@@ -60,6 +60,10 @@ const routes = [
       {
         path: 'checkout/:orderId',
         component: () => import('../views/KKClock_checkout.vue'),
+      },
+      {
+        path: 'order_search',
+        component: () => import('../views/KKClock_orderSearch.vue'),
       },
     ],
   },

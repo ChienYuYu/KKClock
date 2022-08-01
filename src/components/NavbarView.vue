@@ -25,7 +25,7 @@
               <router-link to="/kkClock/product_list/全部商品" class="nav-link">產品列表</router-link>
             </li>
             <li class="nav-item">
-              <router-link to="/kkClock/" class="nav-link">訂單查詢</router-link>
+              <router-link to="/kkClock/order_search" class="nav-link">訂單查詢</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"

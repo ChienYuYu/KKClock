@@ -22,8 +22,8 @@
     <tr v-for="item in products" :key="item.id">
       <td>{{item.category}}</td>
       <td>{{item.title}}</td>
-      <td>{{item.origin_price}}</td>
-      <td>{{item.price}}</td>
+      <td>{{currency(item.origin_price)}}</td>
+      <td>{{currency(item.price)}}</td>
       <td>
         <span class="text-success" v-if="item.is_enabled">啟用</span>
         <span class="text-muted" v-else>未啟用</span>
@@ -69,6 +69,7 @@ import DeleteProductModal from '../components/DeleteProductModal.vue';
 import Pagination from '../components/PaginationView.vue';
 
 export default {
+  inject: ['currency'],
   data() {
     return {
       products: [],

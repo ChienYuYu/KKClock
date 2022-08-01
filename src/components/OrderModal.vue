@@ -48,11 +48,11 @@
                 <tbody>
                   <tr>
                     <th scope="row">訂單編號</th>
-                    <td>-{{order.id}}</td>
+                    <td>{{order.id}}</td>
                   </tr>
                   <tr>
                     <th scope="row">下單時間</th>
-                    <td>{{order.create_at}}</td>
+                    <td>{{new Date(order.create_at*1000).toLocaleDateString()}}</td>
                   </tr>
                   <tr>
                     <th scope="row">付款狀態</th>
@@ -63,7 +63,12 @@
                   </tr>
                   <tr>
                     <th scope="row">付款時間</th>
-                    <td>????</td>
+                    <td>
+                      <span v-if="order.paid_date" >
+                        {{new Date(order.paid_date*1000).toLocaleDateString()}}
+                      </span>
+                      <span v-else>尚未付款</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -79,7 +84,13 @@
                   <tr v-for="item in order.products" :key="item.id">
                     <th scope="row">{{item.product.title}}</th>
                     <td>數量:{{item.qty}}</td>
-                    <td>價格:NT${{item.final_total}}</td>
+                    <td>價格:NT${{currency(item.final_total)}}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-end pe-4">
+                      <p class="mb-0 text-myred">總計 ${{currency(Math.round(order.total))}}</p>
+                      <span class="text-muted remind">(小數點四捨五入)</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -100,6 +111,7 @@
 import modalMixin from '@/mixins/modalMixin';
 
 export default {
+  inject: ['currency'],
   props: ['order'],
   data() {
     return {

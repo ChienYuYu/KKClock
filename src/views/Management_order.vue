@@ -25,7 +25,7 @@
           :key="purchaseItem.id">{{purchaseItem.product.title}}</li>
         </ul>
       </td>
-      <td>{{Math.round(item.total)}}</td>
+      <td>{{currency(Math.round(item.total))}}</td>
       <td>
         <div class="form-check form-switch">
           <label class="form-check-label" for="flexSwitchCheckDefault">
@@ -76,6 +76,7 @@ export default {
     DeleteOrderModal,
     Pagination,
   },
+  inject: ['currency'],
   data() {
     return {
       orders: [],

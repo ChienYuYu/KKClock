@@ -54,7 +54,7 @@
                   </button>
                 </div>
               </td>
-              <td>{{item.total}}</td>
+              <td>{{currency(item.total)}}</td>
             </tr>
           </tbody>
             <tr>
@@ -63,7 +63,7 @@
                 @click="clearCart">清空購物車</button>
               </td>
               <td class="text-end">合計&ensp;</td>
-              <td class="text-myred">NT${{totalPrice}}</td>
+              <td class="text-myred">NT${{currency(totalPrice)}}</td>
             </tr>
         </table>
         <button type="button" class="btn btn-myorange text-white w-100 mb-3"
@@ -87,7 +87,7 @@ export default {
       isLoading: false,
     };
   },
-  inject: ['emitter'],
+  inject: ['emitter', 'currency'],
   methods: {
     showOffcanvas() {
       this.cartOffcanvas.show();

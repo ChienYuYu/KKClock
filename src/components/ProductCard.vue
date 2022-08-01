@@ -7,8 +7,8 @@
         <div class="card-body py-1">
           <h3 class="card-text fs-6">{{item.title}}</h3>
           <div class="d-flex align-items-center justify-content-between">
-            <p class="text-secondary mb-0 ogPrice">原價NT${{item.origin_price}}</p>
-            <p class="text-myred mb-0">NT${{item.price}}</p>
+            <p class="text-secondary mb-0 ogPrice">原價NT${{currency(item.origin_price)}}</p>
+            <p class="text-myred mb-0">NT${{currency(item.price)}}</p>
           </div>
         </div>
       </a>
@@ -36,7 +36,7 @@ export default {
       loadingItem: '',
     };
   },
-  inject: ['emitter'],
+  inject: ['emitter', 'currency'],
   methods: {
     // 加入購物車
     addCart(id) {
