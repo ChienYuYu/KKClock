@@ -1,66 +1,79 @@
 <template>
-<LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
- <div class="container">
-  <div class="my-4 d-flex justify-content-between">
-    <h2>產品管理</h2>
-    <button type="button" class="btn btn-dark text-warning"
-    @click="openProductModal(true)">
-    <i class="bi bi-bag-plus-fill me-2"></i>新增產品&ensp;</button>
+  <LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
+  <div class="container">
+    <div class="my-4 d-flex justify-content-between">
+      <h2>產品管理</h2>
+      <button type="button" class="btn btn-dark text-warning" @click="openProductModal(true)">
+        <i class="bi bi-bag-plus-fill me-2"></i>新增產品&ensp;
+      </button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">類別</th>
+          <th scope="col">名稱</th>
+          <th scope="col">原價</th>
+          <th scope="col">售價</th>
+          <th scope="col">是否啟用</th>
+          <th scope="col">編輯/刪除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in products" :key="item.id">
+          <td>{{ item.category }}</td>
+          <td>{{ item.title }}</td>
+          <td>{{ currency(item.origin_price) }}</td>
+          <td>{{ currency(item.price) }}</td>
+          <td>
+            <span class="text-success" v-if="item.is_enabled">啟用</span>
+            <span class="text-muted" v-else>未啟用</span>
+          </td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button
+                type="button"
+                class="btn btn-primary text-white"
+                @click="openProductModal(false, item)"
+              >
+                編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger text-white"
+                @click="openDeleteModal(item)"
+              >
+                刪除
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">類別</th>
-      <th scope="col">名稱</th>
-      <th scope="col">原價</th>
-      <th scope="col">售價</th>
-      <th scope="col">是否啟用</th>
-      <th scope="col">編輯/刪除</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in products" :key="item.id">
-      <td>{{item.category}}</td>
-      <td>{{item.title}}</td>
-      <td>{{currency(item.origin_price)}}</td>
-      <td>{{currency(item.price)}}</td>
-      <td>
-        <span class="text-success" v-if="item.is_enabled">啟用</span>
-        <span class="text-muted" v-else>未啟用</span>
-      </td>
-      <td>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary text-white"
-          @click="openProductModal(false,item)">編輯</button>
-          <button type="button" class="btn btn-danger text-white"
-          @click="openDeleteModal(item)">刪除</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-</div>
 
- <!-- components-- -->
+  <!-- components-- -->
 
- <!-- 新增/編輯 modal -->
- <ProductModal ref="productModal"
- :product="tempProduct"
- @update-product = "updateProduct"></ProductModal>
- <!-- 刪除modal-- -->
- <DeleteProductModal
- ref="deleteProductModal"
- :product="tempProduct"
- @delete-item ="deleteProduct"
- ></DeleteProductModal>
- <!-- 分頁------ -->
-<div class="container">
-   <Pagination
-   :pages="pagination"
-   @page-num="getProducts"
-   @pre-page="getProducts"
-   @next-page="getProducts"></Pagination>
-</div>
+  <!-- 新增/編輯 modal -->
+  <ProductModal
+    ref="productModal"
+    :product="tempProduct"
+    @update-product="updateProduct"
+  ></ProductModal>
+  <!-- 刪除modal-- -->
+  <DeleteProductModal
+    ref="deleteProductModal"
+    :product="tempProduct"
+    @delete-item="deleteProduct"
+  ></DeleteProductModal>
+  <!-- 分頁------ -->
+  <div class="container">
+    <Pagination
+      :pages="pagination"
+      @page-num="getProducts"
+      @pre-page="getProducts"
+      @next-page="getProducts"
+    ></Pagination>
+  </div>
 </template>
 
 <script>
@@ -85,7 +98,6 @@ export default {
       this.isLoading = true;
       this.axios.get(api).then((res) => {
         this.isLoading = false;
-        console.log('getProducts()', res);
         this.products = res.data.products;
         this.pagination = res.data.pagination;
       });
@@ -110,9 +122,6 @@ export default {
       if (this.isNew) {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
         this.axios.post(api, { data: item }).then((res) => {
-          // console.log('updateProduct(item)新增', res);
-          // this.$refs.productModal.hideModal();
-          // this.getProducts();
           this.$refs.productModal.hideModal();
           if (res.data.success) {
             this.getProducts();
@@ -132,9 +141,6 @@ export default {
       } else {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
         this.axios.put(api, { data: item }).then((res) => {
-          // console.log('updateProduct(item)-編輯', res);
-          // this.$refs.productModal.hideModal();
-          // this.getProducts();
           this.$refs.productModal.hideModal();
           if (res.data.success) {
             this.getProducts();
@@ -155,14 +161,12 @@ export default {
     // 開啟刪除modal
     openDeleteModal(item) {
       this.$refs.deleteProductModal.showModal();
-      console.log('openDeleteModal', item);
       this.tempProduct = item;
     },
     // 刪除api
     deleteProduct(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
-      this.axios.delete(api).then((res) => {
-        console.log('deleteProduct(item)', res);
+      this.axios.delete(api).then(() => {
         this.$refs.deleteProductModal.hideModal();
         this.getProducts();
         this.emitter.emit('push-message', {

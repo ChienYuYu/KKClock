@@ -1,20 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-  },
   {
     path: '/kkClock_administrator/login',
     component: () => import('../views/LoginView.vue'),
@@ -44,10 +30,16 @@ const routes = [
       {
         path: 'home',
         component: () => import('../views/KKClock_home.vue'),
+        meta: {
+          title: 'KKClock 時鐘專賣 送禮最佳選擇',
+        },
       },
       {
         path: 'product_list/:category',
         component: () => import('../views/KKClock_product.vue'),
+        meta: {
+          title: 'KKClock 產品',
+        },
       },
       {
         path: 'product_list/product/:id',
@@ -56,14 +48,23 @@ const routes = [
       {
         path: 'cart',
         component: () => import('../views/KKClock_cart.vue'),
+        meta: {
+          title: 'KKClock 填寫訂單資料',
+        },
       },
       {
         path: 'checkout/:orderId',
         component: () => import('../views/KKClock_checkout.vue'),
+        meta: {
+          title: 'KKClock 訂單明細',
+        },
       },
       {
         path: 'order_search',
         component: () => import('../views/KKClock_orderSearch.vue'),
+        meta: {
+          title: 'KKClock 訂單查詢',
+        },
       },
     ],
   },
@@ -73,8 +74,6 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes,
   scrollBehavior() {
-    // `to` 和 `from` 都是路由地址
-    // `savedPosition` 可以为空，如果没有的话。
     return {
       top: 0,
     };

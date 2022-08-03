@@ -96,7 +96,6 @@ export default {
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.axios.get(api).then((res) => {
-        console.log('getCarts()', res);
         this.carts = res.data.data.carts;
         this.totalPrice = res.data.data.total;
       });
@@ -107,8 +106,7 @@ export default {
       const cart = { data: { product_id: item.id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       this.isLoading = true;
-      this.axios.put(api, cart).then((res) => {
-        console.log('updateCart(item, num)', res);
+      this.axios.put(api, cart).then(() => {
         this.emitter.emit('updateData');
         this.isLoading = false;
         this.getCarts();
@@ -117,8 +115,7 @@ export default {
     // 刪除品項
     deleteCart(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.delete(api).then((res) => {
-        console.log('deleteCart()', res);
+      this.axios.delete(api).then(() => {
         this.getCarts();
         this.emitter.emit('updateData');
       });
@@ -137,8 +134,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
-          this.axios.delete(api).then((res) => {
-            console.log('clearCart()', res);
+          this.axios.delete(api).then(() => {
             this.emitter.emit('updateData');
             this.getCarts();
             this.$swal({

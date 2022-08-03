@@ -72,7 +72,6 @@ export default {
     getDiscountedProduct() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
       this.axios.get(api).then((res) => {
-        console.log('getDiscountedProduct()', res);
         this.products = res.data.products.filter((item) => item.category === '特價');
       });
     },
@@ -87,9 +86,8 @@ export default {
         product_id: id,
         qty: 1,
       };
-      this.axios.post(api, { data: cart }).then((res) => {
+      this.axios.post(api, { data: cart }).then(() => {
         this.loadingItem = '';
-        console.log('addCart()', res);
         this.emitter.emit('updateData');
         // SweetAlert-----
         this.$swal({
@@ -123,7 +121,6 @@ export default {
     window.onresize = () => {
       this.deviceWidth = window.innerWidth;
       this.swiperNum();
-      console.log(this.deviceWidth);
     };
   },
 };

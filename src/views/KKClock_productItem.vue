@@ -146,7 +146,6 @@ export default {
     getProductDetail() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${this.id}`;
       this.axios.get(api).then((res) => {
-        console.log('getProductDetail()', res);
         this.product = res.data.product;
       });
     },
@@ -159,8 +158,7 @@ export default {
           qty: this.qty,
         },
       };
-      this.axios.post(api, cart).then((res) => {
-        console.log('addCart()', res);
+      this.axios.post(api, cart).then(() => {
         this.emitter.emit('updateData');
         this.loadingItem = '';
         this.$swal({
@@ -180,7 +178,6 @@ export default {
   created() {
     this.id = this.$route.params.id;
     this.getProductDetail();
-    console.log('created', this.id);
   },
 
   // 下方產品卡

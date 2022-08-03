@@ -46,9 +46,8 @@ export default {
         product_id: id,
         qty: 1,
       };
-      this.axios.post(api, { data: cart }).then((res) => {
+      this.axios.post(api, { data: cart }).then(() => {
         this.loadingItem = '';
-        console.log('addCart()', res);
         this.emitter.emit('updateData');
         // SweetAlert-----
         this.$swal({

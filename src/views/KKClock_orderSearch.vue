@@ -120,7 +120,6 @@ export default {
       this.axios.get(api).then((res) => {
         this.isLoading = false;
         if (res.data.order !== null) {
-          console.log('searchOrder', res);
           this.order = res.data.order;
           this.tempOrderId = res.data.order.id;
         } else {
@@ -130,11 +129,13 @@ export default {
     },
     checkout() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios.post(api).then((res) => {
-        console.log('checkout', res);
+      this.axios.post(api).then(() => {
         this.searchOrder();
       });
     },
+  },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
   },
 };
 </script>

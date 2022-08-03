@@ -1,62 +1,68 @@
 <template>
-<LoadingPlugin :active="isLoading"></LoadingPlugin>
- <div class="container">
-  <div class="my-4 d-flex justify-content-between">
-    <h2>優惠券管理</h2>
-    <button type="button" class="btn btn-dark text-warning"
-    @click="openModal(true)">
-    <i class="bi bi-bag-plus-fill me-2"></i>新增優惠券&ensp;</button>
+  <LoadingPlugin :active="isLoading"></LoadingPlugin>
+  <div class="container">
+    <div class="my-4 d-flex justify-content-between">
+      <h2>優惠券管理</h2>
+      <button type="button" class="btn btn-dark text-warning" @click="openModal(true)">
+        <i class="bi bi-bag-plus-fill me-2"></i>新增優惠券&ensp;
+      </button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">名稱</th>
+          <th scope="col">優惠碼</th>
+          <th scope="col">折扣百分比</th>
+          <th scope="col">到期日</th>
+          <th scope="col">是否啟用</th>
+          <th scope="col">編輯/刪除</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in coupons" :key="item.id">
+          <td scope="row">{{ item.title }}</td>
+          <td>{{ item.code }}</td>
+          <td>{{ item.percent }}%</td>
+          <!-- <td>{{new Date(item.due_date)}}</td> -->
+          <td>{{ new Date(item.due_date).toLocaleDateString() }}</td>
+          <td>
+            <span class="text-success" v-if="item.is_enabled === 1">啟用</span>
+            <span class="text-danger" v-else>未啟用</span>
+          </td>
+          <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+              <button
+                type="button"
+                class="btn btn-primary text-white"
+                @click="openModal(false, item)"
+              >
+                編輯
+              </button>
+              <button type="button" class="btn btn-danger text-white" @click="openDelModal(item)">
+                刪除
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">名稱</th>
-      <th scope="col">優惠碼</th>
-      <th scope="col">折扣百分比</th>
-      <th scope="col">到期日</th>
-      <th scope="col">是否啟用</th>
-      <th scope="col">編輯/刪除</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in coupons" :key="item.id">
-      <td scope="row">{{item.title}}</td>
-      <td>{{item.code}}</td>
-      <td>{{item.percent}}%</td>
-      <!-- <td>{{new Date(item.due_date)}}</td> -->
-      <td>{{new Date(item.due_date).toLocaleDateString()}}</td>
-      <td>
-        <span class="text-success" v-if="item.is_enabled === 1">啟用</span>
-        <span class="text-danger" v-else>未啟用</span>
-      </td>
-      <td>
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-primary text-white"
-          @click="openModal(false, item)">編輯</button>
-          <button type="button" class="btn btn-danger text-white"
-          @click="openDelModal(item)">刪除</button>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
- </div>
-<!-- components-- -->
- <CouponModal ref="couponModal"
- :coupon="tempCoupon"
- @update-coupon="updateCoupon"></CouponModal>
- <!-- ------------------------ -->
- <DeleteCouponModal ref="delCouponModal"
- :coupon="tempCoupon"
- @delete-coupon="delCoupon"></DeleteCouponModal>
- <!-- ------------------------ -->
- <Pagination
- :pages="pagination"
- @pre-page="getCoupons"
- @page-num="getCoupons"
- @next-page="getCoupons"></Pagination>
- <!-- ------------------------ -->
-
+  <!-- components-- -->
+  <CouponModal ref="couponModal" :coupon="tempCoupon" @update-coupon="updateCoupon"></CouponModal>
+  <!-- ------------------------ -->
+  <DeleteCouponModal
+    ref="delCouponModal"
+    :coupon="tempCoupon"
+    @delete-coupon="delCoupon"
+  ></DeleteCouponModal>
+  <!-- ------------------------ -->
+  <Pagination
+    :pages="pagination"
+    @pre-page="getCoupons"
+    @page-num="getCoupons"
+    @next-page="getCoupons"
+  ></Pagination>
+  <!-- ------------------------ -->
 </template>
 
 <script>
@@ -86,7 +92,6 @@ export default {
       this.isLoading = true;
       this.axios.get(api).then((res) => {
         this.isLoading = false;
-        console.log('getCoupons()', res);
         this.coupons = res.data.coupons;
         this.pagination = res.data.pagination;
       });
@@ -108,7 +113,6 @@ export default {
       if (this.isNew) {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
         this.axios.post(api, { data: item }).then((res) => {
-          // console.log('updateCoupon()-新增', res);
           this.$refs.couponModal.hideModal();
           if (res.data.success) {
             this.getCoupons();
@@ -127,7 +131,6 @@ export default {
       } else {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
         this.axios.put(api, { data: item }).then((res) => {
-          console.log('updateCoupon()-編輯', res);
           this.$refs.couponModal.hideModal();
           if (res.data.success) {
             this.getCoupons();
@@ -151,8 +154,7 @@ export default {
     },
     delCoupon(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
-      this.axios.delete(api).then((res) => {
-        console.log('delCoupon(item)', res);
+      this.axios.delete(api).then(() => {
         this.$refs.delCouponModal.hideModal();
         this.getCoupons();
         this.emitter.emit('push-message', {

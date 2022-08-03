@@ -87,16 +87,17 @@ export default {
           this.products = res.data.products;
         }
         this.isLoading = false;
-        console.log('getProducts()', res);
       });
     },
     // 取得類別
     getCategory(category) {
       this.category = category;
-      console.log(category);
       this.$router.push(`${category}`);
       this.getProducts();
     },
+  },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
   },
   created() {
     this.category = this.$route.params.category;

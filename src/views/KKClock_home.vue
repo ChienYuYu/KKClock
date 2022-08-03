@@ -63,5 +63,8 @@ export default {
     MonthFeatured,
     DProductCard,
   },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
+  },
 };
 </script>

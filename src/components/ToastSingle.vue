@@ -15,13 +15,8 @@
 import Toast from 'bootstrap/js/dist/toast';
 
 export default {
-  // name: 'ToastSi',
+  // name: 'Toast',
   props: ['msg'],
-  // data() {
-  //   return {
-
-  //   };
-  // },
   mounted() {
     const toastEl = this.$refs.toast;
     const toast = new Toast(toastEl, {

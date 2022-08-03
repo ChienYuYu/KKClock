@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="text-center">
-      <router-link to="product_list/全部商品" class="btn btn-outline-info px-5">
+      <router-link to="product_list/全部商品" class="go-buy btn px-5">
         <i class="bi bi-cart me-1"></i>
         購物去
         <i class="bi bi-caret-right"></i>
@@ -75,5 +75,13 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+}
+.go-buy{
+  border: 1px solid #40d5ef;
+  color: #40d5ef;
+  &:hover{
+    background: #40d5ef;
+    color: #fff;
+  }
 }
 </style>

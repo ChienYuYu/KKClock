@@ -62,7 +62,6 @@ export default {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;
       this.axios.post(api, this.user).then((res) => {
-        console.log('signIn()', res);
         if (res.data.success === true) {
           const { token, expired } = res.data;
           // 把token存到cookie裡↓

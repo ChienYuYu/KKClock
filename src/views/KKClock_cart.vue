@@ -102,7 +102,6 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.isLoading = true;
       this.axios.get(api).then((res) => {
-        console.log('getCarts()', res);
         this.isLoading = false;
         this.carts = res.data.data.carts;
         this.totalPrice = res.data.data.total;
@@ -112,26 +111,26 @@ export default {
     updateCart(id, num) {
       const cart = { data: { product_id: id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.put(api, cart).then((res) => {
-        console.log('updateCart(item, num)', res);
+      this.axios.put(api, cart).then(() => {
         this.getCarts();
       });
     },
     deleteCart(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.delete(api).then((res) => {
-        console.log('deleteCart()', res);
+      this.axios.delete(api).then(() => {
         this.getCarts();
         this.emitter.emit('updateData');
       });
     },
     useCouponCode() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`;
-      this.axios.post(api, { data: { code: this.couponCode } }).then((res) => {
-        console.log('useCouponCode', res);
+      this.axios.post(api, { data: { code: this.couponCode } }).then(() => {
         this.getCarts();
       });
     },
+  },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
   },
   created() {
     this.getCarts();

@@ -92,7 +92,6 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
       this.isLoading = true;
       this.axios.get(api).then((res) => {
-        console.log('getOrder()', res);
         this.isLoading = false;
         this.order = res.data.order;
         this.finalPrice = Math.round(res.data.order.total);
@@ -100,11 +99,13 @@ export default {
     },
     checkout() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios.post(api).then((res) => {
-        console.log('checkout', res);
+      this.axios.post(api).then(() => {
         this.getOrder();
       });
     },
+  },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
   },
   created() {
     this.orderId = this.$route.params.orderId;
