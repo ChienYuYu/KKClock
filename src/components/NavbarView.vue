@@ -1,49 +1,51 @@
 <template>
- <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 shadow-sm fixed-top">
-      <div class="container">
-        <h1 class="m-0">
-          <router-link to="/kkClock/home" class="navbar-brand p-0 d-block">
-            <img src="../assets/img/fakeLogo05.png" alt="logo" height="40">
-          </router-link>
-        </h1>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <router-link to="/kkClock/home" class="nav-link">首頁</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/kkClock/product_list/全部商品" class="nav-link">產品列表</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/kkClock/order_search" class="nav-link">訂單查詢</router-link>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#"
-                @click.prevent="openOffcanvas()">
-                購物車
-                <i class="bi bi-cart-fill position-relative">
-                  <span class="position-absolute top-0 start-100
-                  translate-middle badge badge_txt rounded-circle bg-myorange">{{cartQty}}</span>
-                </i>
-              </a>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 shadow-sm fixed-top">
+    <div class="container">
+      <h1 class="m-0">
+        <router-link to="/kkClock/home" class="navbar-brand p-0 d-block">
+          <img src="../assets/img/fakeLogo05.png" alt="logo" height="40" />
+        </router-link>
+      </h1>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/kkClock/home" class="nav-link">首頁</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/kkClock/product_list/全部商品" class="nav-link">產品列表</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/kkClock/order_search" class="nav-link">訂單查詢</router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" @click.prevent="openOffcanvas()">
+              購物車
+              <i class="bi bi-cart-fill position-relative">
+                <span
+                  class="position-absolute top-0 start-100
+                  translate-middle badge badge_txt rounded-circle bg-myorange"
+                  >{{ cartQty }}</span
+                >
+              </i>
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
- <!-- -components-- -->
- <CartOffcanvas ref="cartOffcanvas"></CartOffcanvas>
- <!-- --------------------------- -->
+    </div>
+  </nav>
+
+  <CartOffcanvas ref="cartOffcanvas"></CartOffcanvas>
 </template>
 
 <script>
@@ -80,11 +82,26 @@ export default {
   created() {
     this.getCarts();
   },
+  // 監聽$route解決nav收闔問題
+  // 參考 https://ithelp.ithome.com.tw/m/articles/10284730
+  watch: {
+    $route() {
+      if (document.body.offsetWidth < 992) {
+        this.$router.go(0);
+      }
+    },
+  },
 };
 </script>
 
 <style>
-.badge_txt{
+.badge_txt {
   font-size: 8px;
+}
+.nav-spacing {
+  padding-bottom: 65px;
+}
+.router-link-active {
+  color: #5fd0c3 !important;
 }
 </style>

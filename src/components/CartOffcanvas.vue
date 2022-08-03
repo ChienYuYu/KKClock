@@ -95,24 +95,26 @@ export default {
     },
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.isLoading = true;
       this.axios.get(api).then((res) => {
         console.log('getCarts()', res);
-        this.isLoading = false;
         this.carts = res.data.data.carts;
         this.totalPrice = res.data.data.total;
       });
     },
+    // 變更數量
     updateCart(item, num) {
       console.log(item, num);
       const cart = { data: { product_id: item.id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
+      this.isLoading = true;
       this.axios.put(api, cart).then((res) => {
         console.log('updateCart(item, num)', res);
         this.emitter.emit('updateData');
+        this.isLoading = false;
         this.getCarts();
       });
     },
+    // 刪除品項
     deleteCart(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.axios.delete(api).then((res) => {
@@ -121,12 +123,33 @@ export default {
         this.emitter.emit('updateData');
       });
     },
+    // 清空購物車
     clearCart() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
-      this.axios.delete(api).then((res) => {
-        console.log('clearCart()', res);
-        this.getCarts();
-        this.emitter.emit('updateData');
+      this.$swal({
+        title: '確認清空購物車?',
+        text: '所有已加入購物車商品都將移除',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ec4079',
+        cancelButtonColor: '#bbb',
+        confirmButtonText: '確認',
+        cancelButtonText: '取消',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
+          this.axios.delete(api).then((res) => {
+            console.log('clearCart()', res);
+            this.emitter.emit('updateData');
+            this.getCarts();
+            this.$swal({
+              icon: 'success',
+              title: '購物車已清空!',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.cartOffcanvas.hide();
+          });
+        }
       });
     },
     goCartPage() {

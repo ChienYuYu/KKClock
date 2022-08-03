@@ -28,9 +28,6 @@
             <i class="bi bi-card-image me-2"></i>開啟前台&emsp;
             </router-link>
         </li>
-        <!-- <li class="">
-          <a href="#" class="menuItem text-decoration-none d-block p-4">登出</a>
-        </li> -->
       </ul>
       <a href="#"
       class="mt-auto menuItem text-decoration-none d-block text-center border-top p-4"
@@ -38,20 +35,33 @@
         <i class="bi bi-box-arrow-left me-2"></i>登出&emsp;</a>
 
   </aside>
-
+  <!-- ------------------- -->
   <main class="main bg-light">
     <router-view/>
   </main>
- </div>
+
+  <ToastArea class="ToastArea"></ToastArea>
+  </div>
+  <!-- ------------------- -->
+  <!-- <div class="position-absolute bottom-0 end-0 p-5">
+    <ToastArea></ToastArea>
+  </div> -->
+  <!-- ------------------- -->
 </template>
 
 <script>
 import currency from '@/methods/currency';
+import emitter from '@/methods/emitter';
+import ToastArea from '@/components/ToastArea.vue';
 
 export default {
+  components: {
+    ToastArea,
+  },
   provide() {
     return {
       currency,
+      emitter,
     };
   },
   methods: {
@@ -88,7 +98,6 @@ export default {
     transition: .3s;
     &:hover{
       color: #444;
-      // background: #FCC046;
       background: #eee;
     }
   }
@@ -100,5 +109,11 @@ export default {
 .router-link-exact-active{
   background:#fa0 !important;
   color: #111 !important;
+}
+.ToastArea{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
 }
 </style>

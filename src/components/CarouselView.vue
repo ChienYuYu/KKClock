@@ -44,7 +44,7 @@
         </div>
         <div class="carousel-item">
           <img
-            src="../assets/img/banner09.jpg"
+            src="../assets/img/banner05.jpg"
             class="banner d-block w-100"
             height="400"
             alt="banner3">
@@ -82,15 +82,13 @@ export default {
   mounted() {
     this.carousel = new Carousel(this.$refs.carousel, {
       interval: 3500,
-      // wrap: true,
     });
   },
 };
 </script>
 
-<style>
+<style scoped>
 .banner {
   object-fit: cover;
-  /* object-position: center; */
 }
 </style>

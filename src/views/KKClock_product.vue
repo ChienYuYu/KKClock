@@ -14,10 +14,10 @@
               @click.prevent="getCategory('全部商品')">全部商品</a>
             </li>
             <li>
-               <a href="#" class="list-item px-4 px-lg-5 py-2 d-block text-decoration-none
-               text-center"
-               :class="{'list-active': category === '特價'}"
-               @click.prevent="getCategory('特價')">特價</a>
+              <a href="#" class="list-item px-4 px-lg-5 py-2 d-block text-decoration-none
+              text-center"
+              :class="{'list-active': category === '特價'}"
+              @click.prevent="getCategory('特價')">特價</a>
             </li>
             <li>
               <a href="#" class="list-item px-4 px-lg-5 py-2 d-block text-decoration-none
@@ -51,17 +51,10 @@
             </li>
           </ul>
         </div>
-        <!-- ------------------------------- -->
+
         <div class="col-lg-10">
           <h3>{{category}}<hr></h3>
-          <div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 g-3">
-            <!-- --------------------- -->
-            <ProductCard
-            :products="products"
-            @get-product-data="getProductData"
-            ></ProductCard>
-            <!-- --------------------- -->
-          </div>
+          <ProductCard :products="products"></ProductCard>
         </div>
       </div>
     </div>
@@ -104,10 +97,6 @@ export default {
       this.$router.push(`${category}`);
       this.getProducts();
     },
-    // 取得單一產品
-    getProductData(id) {
-      this.$router.push(`product/${id}`);
-    },
   },
   created() {
     this.category = this.$route.params.category;
@@ -116,7 +105,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .list-item{
   color: #777;
   border-bottom: 1px solid #dee2e6;
@@ -132,6 +121,6 @@ export default {
 .product-list-group{
   @media (min-width: 992px) {
     position: fixed;
-   }
+  }
 }
 </style>

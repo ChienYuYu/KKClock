@@ -76,7 +76,7 @@ export default {
     DeleteOrderModal,
     Pagination,
   },
-  inject: ['currency'],
+  inject: ['currency', 'emitter'],
   data() {
     return {
       orders: [],
@@ -105,6 +105,10 @@ export default {
       this.axios.put(api, { data: item }).then((res) => {
         this.isLoading = false;
         console.log('updatePaid(item)', res);
+        this.emitter.emit('push-message', {
+          style: 'mygreen',
+          title: '付款狀態已更改',
+        });
       });
     },
     // 開啟檢視modal
@@ -125,6 +129,10 @@ export default {
         console.log('deleteOrder(item)', res);
         this.$refs.delOrderModal.hideModal();
         this.getOrders();
+        this.emitter.emit('push-message', {
+          style: 'mygreen',
+          title: '刪除成功',
+        });
       });
     },
   },

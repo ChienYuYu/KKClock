@@ -1,8 +1,9 @@
 <template>
+<div class="row row-cols-lg-5 row-cols-md-3 row-cols-2 g-3">
   <div class="col" v-for="item in products" :key="item.id">
     <div class="card product_card rounded-1 overflow-hidden h-100 border-0">
       <a href="#" class="text-decoration-none text-dark"
-        @click.prevent="$emit('get-product-data', item.id)">
+        @click.prevent="getProductData(item.id)">
         <img :src="item.imageUrl" class="card-img-top" alt="clock">
         <div class="card-body py-1">
           <h3 class="card-text fs-6">{{item.title}}</h3>
@@ -24,13 +25,12 @@
       </button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
-
 export default {
   props: ['products'],
-  emits: ['get-product-data'],
   data() {
     return {
       loadingItem: '',
@@ -50,13 +50,26 @@ export default {
         this.loadingItem = '';
         console.log('addCart()', res);
         this.emitter.emit('updateData');
+        // SweetAlert-----
+        this.$swal({
+          title: '加入成功',
+          position: 'top-end',
+          toast: true,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
+    },
+    // 取得單一產品
+    getProductData(id) {
+      this.$router.push(`product/${id}`);
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .product_card{
   box-shadow: 4px 4px 5px rgb(227, 227, 227);
   transition: .3s;

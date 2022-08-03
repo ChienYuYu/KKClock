@@ -1,30 +1,4 @@
 <template>
-  <!-- <div class="col" v-for="item in products" :key="item.id">
-    <div class="card product_card rounded-1 overflow-hidden h-100 border-0 position-relative">
-      <span class="flag text-white p-1">特價</span>
-      <a href="#" class="text-decoration-none text-dark"
-        @click.prevent="getProductData(item.id)">
-        <img :src="item.imageUrl" class="card-img-top" alt="clock">
-        <div class="card-body py-1">
-          <h3 class="card-text fs-6">{{item.title}}</h3>
-          <div class="d-flex align-items-center justify-content-between">
-            <p class="text-secondary mb-0 ogPrice">原價NT${{item.origin_price}}</p>
-            <p class="text-myred mb-0">NT${{item.price}}</p>
-          </div>
-        </div>
-      </a>
-      <button type="button"
-        :disabled="this.loadingItem == item.id"
-        class="btn btn-mygreen text-white m-2 py-0"
-        @click="addCart(item.id)">
-        <div class="spinner-border spinner-border-sm text-white"
-        role="status" v-if="this.loadingItem == item.id">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        加入購物車
-      </button>
-    </div>
-  </div> -->
   <!-- ----------------------------- -->
   <swiper
     :slidesPerView="this.slidesPerView"
@@ -71,17 +45,12 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-// eslint-disable-next-line import/extensions
-import 'swiper/css';
-// eslint-disable-next-line import/extensions
-import 'swiper/css/navigation';
-// eslint-disable-next-line import/no-unresolved
-// import './style.css';
-
 // import required modules
 import { Navigation } from 'swiper';
+// swiper的scss↓
+import '../assets/helpers/swiper-vars.scss';
+import '../assets/helpers/swiper.scss';
+import '../assets/helpers/navigation.scss';
 
 export default {
   components: {
@@ -122,11 +91,20 @@ export default {
         this.loadingItem = '';
         console.log('addCart()', res);
         this.emitter.emit('updateData');
+        // SweetAlert-----
+        this.$swal({
+          title: '加入成功',
+          position: 'top-end',
+          toast: true,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
     },
     // 設定swiper不同解析度顯示張數
     swiperNum() {
-      if (this.deviceWidth < 440) {
+      if (this.deviceWidth < 650) {
         this.slidesPerView = 1;
       } else if (this.deviceWidth < 960) {
         this.slidesPerView = 3;
@@ -176,7 +154,6 @@ export default {
   color: #fff;
   background: rgba(255, 112, 112, 0.5);
   padding: 26px 20px;
-  // border: 3px solid rgb(255, 255, 255);
   transform: scale(75%);
 }
 .swiper-button-prev{

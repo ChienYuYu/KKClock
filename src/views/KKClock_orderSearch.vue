@@ -20,7 +20,7 @@
     <div v-if="this.orderId !== this.tempOrderId" class="text-center">
       <h2 class= "text-mygreen py-4">請輸入訂單編號</h2>
       <p class="text-secondary">( 20碼數字+符號+英文大小寫 )</p>
-      <p class="text-secondary">範例: -N88-E0WeyNZ4iw-QbFt</p>
+      <p class="text-secondary">範例: -N8RgQpyakFeuOluP-o-</p>
     </div>
 
     <div class="row justify-content-center my-5" v-else>
@@ -33,7 +33,7 @@
             <th class="text-end">優惠價</th>
           </thead>
           <tbody>
-             <tr v-for="item in order.products" :key="item.id">
+            <tr v-for="item in order.products" :key="item.id">
               <td>{{item.product.title}}</td>
               <td>{{item.qty}}</td>
               <td class="text-end">${{currency(item.total)}}</td>
@@ -44,14 +44,14 @@
               </td>
               </tr>
           </tbody>
-           <tfoot>
+          <tfoot>
             <tr>
               <td></td>
               <td></td>
               <td colspan="2" class="text-end">
                 <p class="text-myred mb-0">
                   總計 ${{currency(Math.round(order.total))}}
-                 </p>
+                </p>
                   <span class="text-muted remind">(小數點四捨五入)</span>
               </td>
             </tr>
@@ -92,7 +92,7 @@
         <div class="text-end">
           <button class="btn btn-secondary disabled" v-if="order.is_paid">付款已完成</button>
           <button class="btn btn-danger" v-else
-           @click="checkout">付款</button>
+          @click="checkout">付款</button>
         </div>
       </form>
     </div>

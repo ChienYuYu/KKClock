@@ -70,6 +70,7 @@ export default {
     DeleteCouponModal,
     Pagination,
   },
+  inject: ['emitter'],
   data() {
     return {
       isLoading: false,
@@ -107,16 +108,40 @@ export default {
       if (this.isNew) {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
         this.axios.post(api, { data: item }).then((res) => {
-          console.log('updateCoupon()-新增', res);
+          // console.log('updateCoupon()-新增', res);
           this.$refs.couponModal.hideModal();
-          this.getCoupons();
+          if (res.data.success) {
+            this.getCoupons();
+            this.emitter.emit('push-message', {
+              style: 'mygreen',
+              title: '新增成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'myred',
+              title: '新增失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
       } else {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
         this.axios.put(api, { data: item }).then((res) => {
           console.log('updateCoupon()-編輯', res);
           this.$refs.couponModal.hideModal();
-          this.getCoupons();
+          if (res.data.success) {
+            this.getCoupons();
+            this.emitter.emit('push-message', {
+              style: 'mygreen',
+              title: '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'myred',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
       }
     },
@@ -130,6 +155,10 @@ export default {
         console.log('delCoupon(item)', res);
         this.$refs.delCouponModal.hideModal();
         this.getCoupons();
+        this.emitter.emit('push-message', {
+          style: 'mygreen',
+          title: '刪除成功',
+        });
       });
     },
   },

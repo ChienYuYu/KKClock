@@ -27,7 +27,7 @@
                   disabled>
               <button class="btn btn-sm btn-secondary rounded-0" type="button"
               @click="qty -=1" :disabled="qty === 1">
-               <i class="bi bi-dash"></i>
+              <i class="bi bi-dash"></i>
               </button>
             </div>
 
@@ -58,7 +58,7 @@
                     若遇缺貨、瑕疵等商品狀況，會以電話或 email 聯繫。
                     </p>
                   </li>
-                   <li class="d-flex">
+                  <li class="d-flex">
                     <i class="bi bi-caret-right-fill me-2"></i>
                     <p>
                       週末與國定假日訂購及配送：週四晚間 6 點
@@ -66,7 +66,7 @@
                     如遇國定假日，則會順延至正常上班日依序出貨，敬請見諒。
                     </p>
                   </li>
-                   <li class="d-flex">
+                  <li class="d-flex">
                     <i class="bi bi-caret-right-fill me-2"></i>
                     <p>
                       臺灣配送時程：臺北市地區於出貨後 1-2 日內即會送達；
@@ -93,7 +93,7 @@
                     若遇缺貨、瑕疵等商品狀況，會以電話或 email 聯繫。
                     </p>
                   </li>
-                   <li class="d-flex">
+                  <li class="d-flex">
                     <i class="bi bi-caret-right-fill me-2"></i>
                     <p>
                       週末與國定假日訂購及配送：週四晚間 6 點
@@ -101,7 +101,7 @@
                     如遇國定假日，則會順延至正常上班日依序出貨，敬請見諒。
                     </p>
                   </li>
-                   <li class="d-flex">
+                  <li class="d-flex">
                     <i class="bi bi-caret-right-fill me-2"></i>
                     <p>
                       臺灣配送時程：臺北市地區於出貨後 1-2 日內即會送達；
@@ -118,10 +118,10 @@
   </div>
 </section>
 <section class="container py-5 border-top">
-   <h2 class="text-secondary text-center text-myred mb-4">
-      你可能會喜歡
-      <i class="bi bi-caret-down-fill"></i>
-    </h2>
+  <h2 class="text-secondary text-center text-myred mb-4">
+    你可能會喜歡
+    <i class="bi bi-caret-down-fill"></i>
+  </h2>
   <DProductCard></DProductCard>
 </section>
 </template>
@@ -163,6 +163,14 @@ export default {
         console.log('addCart()', res);
         this.emitter.emit('updateData');
         this.loadingItem = '';
+        this.$swal({
+          title: '加入成功',
+          position: 'top-end',
+          toast: true,
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
       if (directPurchase) {
         this.$router.push('/kkClock/cart');
@@ -177,6 +185,7 @@ export default {
 
   // 下方產品卡
   // computed抓取新的$route.params.id
+  // 參考https://book.vue.tw/CH4/4-2-route-settings.html
   computed: {
     paramsId() {
       return this.$route.params.id;
@@ -194,7 +203,6 @@ export default {
 
 <style>
 .pdcard{
-  /* border: 15px solid #fff; */
   border: 1px solid #eee;
   box-shadow:  0 0 9px inset #ddd;
 }

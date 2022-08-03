@@ -69,7 +69,7 @@ import DeleteProductModal from '../components/DeleteProductModal.vue';
 import Pagination from '../components/PaginationView.vue';
 
 export default {
-  inject: ['currency'],
+  inject: ['currency', 'emitter'],
   data() {
     return {
       products: [],
@@ -110,17 +110,45 @@ export default {
       if (this.isNew) {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
         this.axios.post(api, { data: item }).then((res) => {
-          console.log('updateProduct(item)新增', res);
+          // console.log('updateProduct(item)新增', res);
+          // this.$refs.productModal.hideModal();
+          // this.getProducts();
           this.$refs.productModal.hideModal();
-          this.getProducts();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-message', {
+              style: 'success',
+              title: '新增成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'danger',
+              title: '新增失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
         // 編輯
       } else {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
         this.axios.put(api, { data: item }).then((res) => {
-          console.log('updateProduct(item)-編輯', res);
+          // console.log('updateProduct(item)-編輯', res);
+          // this.$refs.productModal.hideModal();
+          // this.getProducts();
           this.$refs.productModal.hideModal();
-          this.getProducts();
+          if (res.data.success) {
+            this.getProducts();
+            this.emitter.emit('push-message', {
+              style: 'mygreen',
+              title: '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'myred',
+              title: '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
         });
       }
     },
@@ -137,6 +165,10 @@ export default {
         console.log('deleteProduct(item)', res);
         this.$refs.deleteProductModal.hideModal();
         this.getProducts();
+        this.emitter.emit('push-message', {
+          style: 'mygreen',
+          title: '刪除成功',
+        });
       });
     },
   },
