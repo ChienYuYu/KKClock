@@ -1,0 +1,1 @@
+.sidebar{width:230px}.sidebar .menuItem{color:#fff;background:transparent;transition:.3s}.sidebar .menuItem:hover{color:#444;background:#eee}.main{width:calc(100% - 230px);margin-left:230px}.router-link-exact-active{background:#fa0!important;color:#111!important}.ToastArea{position:fixed;bottom:0;right:0;padding:20px}
