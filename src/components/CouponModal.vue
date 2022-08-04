@@ -58,7 +58,6 @@
 </template>
 
 <script>
-// import Modal from 'bootstrap/js/dist/modal';
 import modalMixin from '@/mixins/modalMixin';
 
 export default {
@@ -80,8 +79,6 @@ export default {
     due_date() {
       // getTime()轉成毫秒賦予tempCoupon.due_date
       this.tempCoupon.due_date = new Date(this.due_date).getTime(); // ss
-      // console.log('this.due_date', this.due_date);
-      // console.log('due_date()', this.tempCoupon.due_date);
     },
   },
 };

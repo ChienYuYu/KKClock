@@ -76,6 +76,9 @@ export default {
       });
     },
   },
+  beforeCreate() {
+    document.title = this.$route.meta.title;
+  },
   created() {
     // 從cookie取出token↓
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)kkclock\s*=\s*([^;]*).*$)|^.*$/, '$1');

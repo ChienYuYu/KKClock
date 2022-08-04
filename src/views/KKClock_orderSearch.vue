@@ -139,3 +139,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.remind {
+  font-size: 12px;
+}
+</style>

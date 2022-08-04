@@ -117,7 +117,7 @@ export default {
       this.isNew = isNew;
     },
     updateProduct(item) {
-      // this.tempProduct = item; // 這行刪掉應該沒影響
+      // this.tempProduct = item;//
       // 新增
       if (this.isNew) {
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;

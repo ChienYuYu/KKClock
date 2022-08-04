@@ -23,7 +23,6 @@
           <td scope="row">{{ item.title }}</td>
           <td>{{ item.code }}</td>
           <td>{{ item.percent }}%</td>
-          <!-- <td>{{new Date(item.due_date)}}</td> -->
           <td>{{ new Date(item.due_date).toLocaleDateString() }}</td>
           <td>
             <span class="text-success" v-if="item.is_enabled === 1">啟用</span>

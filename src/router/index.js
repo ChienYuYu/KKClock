@@ -4,10 +4,16 @@ const routes = [
   {
     path: '/kkClock_administrator/login',
     component: () => import('../views/LoginView.vue'),
+    meta: {
+      title: 'KKClock 管理員登入',
+    },
   },
   {
     path: '/backstage',
     component: () => import('../views/ManagementView.vue'),
+    meta: {
+      title: 'KKClock 後台管理',
+    },
     children: [
       {
         path: 'product_management',

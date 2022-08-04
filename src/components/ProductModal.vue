@@ -156,7 +156,7 @@ export default {
     return {
       modal: {},
       tempProduct: {},
-      isLoading: false, // 讀取效果插件
+      isLoading: false,
     };
   },
   watch: {
@@ -167,7 +167,6 @@ export default {
   methods: {
     uploadFile() {
       // 參考https://openhome.cc/Gossip/ECMAScript/FormData.html
-      // console.dir(this.$refs.fileInput.files[0]);
       const uploadImg = this.$refs.fileInput.files[0];
       const formData = new FormData();
       formData.append('file-to-upload', uploadImg);
@@ -176,7 +175,6 @@ export default {
       this.isLoading = true;
       this.axios.post(api, formData).then((res) => {
         this.isLoading = false;
-        console.log('uploadFile()', res);
         if (res.data.success) {
           this.tempProduct.imageUrl = res.data.imageUrl;
           this.$refs.fileInput.value = ''; // 完成後清空上傳圖片<input>
