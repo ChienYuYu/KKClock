@@ -15,7 +15,7 @@
       </a>
       <button type="button"
         :disabled="this.loadingItem == item.id"
-        class="btn btn-mygreen text-white m-2 py-0"
+        class="btn btn-mygreen text-white m-2 py-1"
         @click="addCart(item.id)">
         <div class="spinner-border spinner-border-sm text-white"
         role="status" v-if="this.loadingItem == item.id">
