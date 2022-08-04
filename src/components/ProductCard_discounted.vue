@@ -104,7 +104,7 @@ export default {
     swiperNum() {
       if (this.deviceWidth < 650) {
         this.slidesPerView = 1;
-      } else if (this.deviceWidth < 960) {
+      } else if (this.deviceWidth < 1050) {
         this.slidesPerView = 3;
       } else {
         this.slidesPerView = 5;
