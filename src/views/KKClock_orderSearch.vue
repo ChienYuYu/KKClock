@@ -2,7 +2,7 @@
 <LoadingPlugin :active="isLoading"></LoadingPlugin>
   <div class="container">
     <div class="row justify-content-center mt-5">
-      <div class="col-md-4">
+      <div class="col-md-5">
         <label for="order_search" class="form-label d-block text-center h4 mb-4">訂單查詢</label>
         <div class="input-group">
           <input type="text" class="form-control"

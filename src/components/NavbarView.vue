@@ -7,17 +7,19 @@
         </router-link>
       </h1>
       <button
+        ref="navbarBtn"
         class="navbar-toggler"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#navbarNav"
         aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+        :aria-expanded="navStatus"
+        @click="navStatusChange"
+        aria-label="Toggle navigation">
+
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav" ref="navbar">
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link to="/kkClock/home" class="nav-link">首頁</router-link>
@@ -58,6 +60,7 @@ export default {
   data() {
     return {
       cartQty: '',
+      navStatus: false,
     };
   },
   methods: {
@@ -70,6 +73,10 @@ export default {
       this.axios.get(api).then((res) => {
         this.cartQty = res.data.data.carts.length;
       });
+    },
+    // navStatusChange()與下方監聽搭配使用
+    navStatusChange() {
+      this.navStatus = !this.navStatus; // 切換布林
     },
   },
   inject: ['emitter'],
@@ -86,7 +93,9 @@ export default {
   watch: {
     $route() {
       if (document.body.offsetWidth < 992) {
-        this.$router.go(0);
+        if (this.navStatus === true) {
+          this.$refs.navbarBtn.click();
+        }
       }
     },
   },
