@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 shadow-sm fixed-top">
     <div class="container">
       <h1 class="m-0">
-        <router-link to="/kkClock/home" class="navbar-brand p-0 d-block">
+        <router-link to="/" class="navbar-brand p-0 d-block">
           <img src="../assets/img/fakeLogo05.png" alt="logo" height="40" />
         </router-link>
       </h1>
@@ -15,30 +15,30 @@
         aria-controls="navbarNav"
         :aria-expanded="navStatus"
         @click="navStatusChange"
-        aria-label="Toggle navigation">
-
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav" ref="navbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/kkClock/home" class="nav-link">首頁</router-link>
+            <router-link to="/" class="nav-link">首頁</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/kkClock/product_list/全部商品" class="nav-link">產品列表</router-link>
+            <router-link to="/product_list/全部商品" class="nav-link">產品列表</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/kkClock/order_search" class="nav-link">訂單查詢</router-link>
+            <router-link to="/order_search" class="nav-link">訂單查詢</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="openOffcanvas()">
               購物車
               <i class="bi bi-cart-fill position-relative">
                 <span
-                  class="position-absolute top-0 start-100
-                  translate-middle badge badge_txt rounded-circle bg-myorange"
-                  >{{ cartQty }}</span
-                >
+                  class="position-absolute top-0 start-100 translate-middle
+                  badge badge_txt rounded-circle bg-myorange"
+                  >{{ cartQty }}
+                </span>
               </i>
             </a>
           </li>
@@ -64,7 +64,6 @@ export default {
     };
   },
   methods: {
-    // 打開購物車
     openOffcanvas() {
       this.$refs.cartOffcanvas.showOffcanvas();
     },
@@ -109,7 +108,7 @@ export default {
 .nav-spacing {
   padding-bottom: 65px;
 }
-.router-link-active {
+.router-link-exact-active {
   color: #5fd0c3 !important;
 }
 </style>

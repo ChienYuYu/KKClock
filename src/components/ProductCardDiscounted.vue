@@ -1,5 +1,4 @@
 <template>
-  <!-- ----------------------------- -->
   <swiper
     :slidesPerView="this.slidesPerView"
     :spaceBetween="20"
@@ -12,8 +11,7 @@
     :navigation="true"
     :modules="modules"
     class="mySwiper p-3"
-    ref="myswiper"
-  >
+    ref="myswiper">
     <swiper-slide v-for="item in products" :key="item.id" class="">
       <div class="card product_card rounded-1 overflow-hidden h-100 border-0 position-relative">
         <span class="flag text-white p-1">特價</span>
@@ -21,10 +19,10 @@
           @click.prevent="getProductData(item.id)">
           <img :src="item.imageUrl" class="card-img-top" alt="clock">
           <div class="card-body py-1">
-            <h3 class="card-text fs-6">{{item.title}}</h3>
+            <h3 class="card-text fs-6">{{ item.title }}</h3>
             <div class="d-flex align-items-center justify-content-between">
-              <p class="text-secondary mb-0 ogPrice">原價NT${{currency(item.origin_price)}}</p>
-              <p class="text-myred mb-0">NT${{currency(item.price)}}</p>
+              <p class="text-secondary mb-0 ogPrice">原價NT${{ currency(item.origin_price) }}</p>
+              <p class="text-myred mb-0">NT${{ currency(item.price) }}</p>
             </div>
           </div>
         </a>
@@ -45,12 +43,10 @@
 
 <script>
 import { Swiper, SwiperSlide } from 'swiper/vue';
-// import required modules
 import { Navigation } from 'swiper';
-// swiper的scss↓
-import '../assets/helpers/swiper-vars.scss';
-import '../assets/helpers/swiper.scss';
-import '../assets/helpers/navigation.scss';
+import '../assets/scss/helpers/swiper-vars.scss';
+import '../assets/scss/helpers/swiper.scss';
+import '../assets/scss/helpers/navigation.scss';
 
 export default {
   components: {
@@ -76,7 +72,7 @@ export default {
       });
     },
     getProductData(id) {
-      this.$router.push(`/kkClock/product_list/product/${id}`);
+      this.$router.push(`/product_list/product/${id}`);
     },
     // 加入購物車
     addCart(id) {
@@ -127,7 +123,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .product_card{
+.product_card{
   box-shadow: 4px 4px 5px rgb(227, 227, 227);
   transition: .3s;
   &:hover{

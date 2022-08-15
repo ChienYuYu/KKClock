@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
+  <LoadingPlugin v-model:active="isLoading"/>
   <div class="container">
     <div class="my-4 d-flex justify-content-between">
       <h2>產品管理</h2>
@@ -33,15 +33,13 @@
               <button
                 type="button"
                 class="btn btn-primary text-white"
-                @click="openProductModal(false, item)"
-              >
+                @click="openProductModal(false, item)">
                 編輯
               </button>
               <button
                 type="button"
                 class="btn btn-danger text-white"
-                @click="openDeleteModal(item)"
-              >
+                @click="openDeleteModal(item)">
                 刪除
               </button>
             </div>
@@ -51,28 +49,23 @@
     </table>
   </div>
 
-  <!-- components-- -->
-
-  <!-- 新增/編輯 modal -->
   <ProductModal
     ref="productModal"
     :product="tempProduct"
-    @update-product="updateProduct"
-  ></ProductModal>
-  <!-- 刪除modal-- -->
+    @update-product="updateProduct">
+  </ProductModal>
   <DeleteProductModal
     ref="deleteProductModal"
     :product="tempProduct"
-    @delete-item="deleteProduct"
-  ></DeleteProductModal>
-  <!-- 分頁------ -->
+    @delete-item="deleteProduct">
+  </DeleteProductModal>
   <div class="container">
     <Pagination
       :pages="pagination"
       @page-num="getProducts"
       @pre-page="getProducts"
-      @next-page="getProducts"
-    ></Pagination>
+      @next-page="getProducts">
+    </Pagination>
   </div>
 </template>
 
@@ -86,10 +79,10 @@ export default {
   data() {
     return {
       products: [],
-      pagination: {}, // 分頁
+      pagination: {},
       tempProduct: {},
       isNew: false, // 用於判斷是新增還是編輯
-      isLoading: false, // 讀取效果插件
+      isLoading: false,
     };
   },
   methods: {
@@ -97,9 +90,9 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
       this.isLoading = true;
       this.axios.get(api).then((res) => {
-        this.isLoading = false;
         this.products = res.data.products;
         this.pagination = res.data.pagination;
+        this.isLoading = false;
       });
     },
     // 開啟新增/編輯modal
@@ -107,63 +100,42 @@ export default {
       if (isNew) {
         this.tempProduct = {};
       } else {
-        // this.tempProduct = item;
-        // 上面這樣寫會有bug↑，如果開啟編輯modal並改欄位的值，
-        // 按取消關閉modal後更改的值會套用，需重新整理才會消失。
-        // 用下面淺層拷貝寫法才不會有這個問題
         this.tempProduct = { ...item };
       }
       this.$refs.productModal.showModal();
       this.isNew = isNew;
     },
     updateProduct(item) {
-      // this.tempProduct = item;//
-      // 新增
-      if (this.isNew) {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
-        this.axios.post(api, { data: item }).then((res) => {
-          this.$refs.productModal.hideModal();
-          if (res.data.success) {
-            this.getProducts();
-            this.emitter.emit('push-message', {
-              style: 'success',
-              title: '新增成功',
-            });
-          } else {
-            this.emitter.emit('push-message', {
-              style: 'danger',
-              title: '新增失敗',
-              content: res.data.message.join('、'),
-            });
-          }
-        });
-        // 編輯
-      } else {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
-        this.axios.put(api, { data: item }).then((res) => {
-          this.$refs.productModal.hideModal();
-          if (res.data.success) {
-            this.getProducts();
-            this.emitter.emit('push-message', {
-              style: 'mygreen',
-              title: '更新成功',
-            });
-          } else {
-            this.emitter.emit('push-message', {
-              style: 'myred',
-              title: '更新失敗',
-              content: res.data.message.join('、'),
-            });
-          }
-        });
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+      let httpMethod = 'post';
+      if (this.isNew === false) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+        httpMethod = 'put';
       }
+      this.axios[httpMethod](api, { data: item }).then((res) => {
+        this.$refs.productModal.hideModal();
+        if (res.data.success) {
+          this.getProducts();
+          this.emitter.emit('push-message', {
+            style: 'mygreen',
+            title: (this.isNew ? '新增成功' : '更新成功'),
+          });
+        } else {
+          this.emitter.emit('push-message', {
+            style: 'myred',
+            title: (this.isNew ? '新增失敗' : '更新失敗'),
+            content: res.data.message.join('、'),
+          });
+        }
+      })
+        .catch((res) => {
+          console.log(res);
+        });
     },
-    // 開啟刪除modal
     openDeleteModal(item) {
       this.$refs.deleteProductModal.showModal();
       this.tempProduct = item;
     },
-    // 刪除api
     deleteProduct(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
       this.axios.delete(api).then(() => {

@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin :active="isLoading"></LoadingPlugin>
+  <LoadingPlugin :active="isLoading"/>
   <div class="container">
     <div class="my-4 d-flex justify-content-between">
       <h2>優惠券管理</h2>
@@ -33,8 +33,7 @@
               <button
                 type="button"
                 class="btn btn-primary text-white"
-                @click="openModal(false, item)"
-              >
+                @click="openModal(false, item)">
                 編輯
               </button>
               <button type="button" class="btn btn-danger text-white" @click="openDelModal(item)">
@@ -46,22 +45,18 @@
       </tbody>
     </table>
   </div>
-  <!-- components-- -->
   <CouponModal ref="couponModal" :coupon="tempCoupon" @update-coupon="updateCoupon"></CouponModal>
-  <!-- ------------------------ -->
   <DeleteCouponModal
     ref="delCouponModal"
     :coupon="tempCoupon"
-    @delete-coupon="delCoupon"
-  ></DeleteCouponModal>
-  <!-- ------------------------ -->
+    @delete-coupon="delCoupon">
+  </DeleteCouponModal>
   <Pagination
     :pages="pagination"
     @pre-page="getCoupons"
     @page-num="getCoupons"
-    @next-page="getCoupons"
-  ></Pagination>
-  <!-- ------------------------ -->
+    @next-page="getCoupons">
+  </Pagination>
 </template>
 
 <script>
@@ -90,9 +85,9 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`;
       this.isLoading = true;
       this.axios.get(api).then((res) => {
-        this.isLoading = false;
         this.coupons = res.data.coupons;
         this.pagination = res.data.pagination;
+        this.isLoading = false;
       });
     },
     openModal(isNew, item) {
@@ -108,44 +103,28 @@ export default {
       }
     },
     updateCoupon(item) {
-      // this.tempCoupon = item;
-      if (this.isNew) {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
-        this.axios.post(api, { data: item }).then((res) => {
-          this.$refs.couponModal.hideModal();
-          if (res.data.success) {
-            this.getCoupons();
-            this.emitter.emit('push-message', {
-              style: 'mygreen',
-              title: '新增成功',
-            });
-          } else {
-            this.emitter.emit('push-message', {
-              style: 'myred',
-              title: '新增失敗',
-              content: res.data.message.join('、'),
-            });
-          }
-        });
-      } else {
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
-        this.axios.put(api, { data: item }).then((res) => {
-          this.$refs.couponModal.hideModal();
-          if (res.data.success) {
-            this.getCoupons();
-            this.emitter.emit('push-message', {
-              style: 'mygreen',
-              title: '更新成功',
-            });
-          } else {
-            this.emitter.emit('push-message', {
-              style: 'myred',
-              title: '更新失敗',
-              content: res.data.message.join('、'),
-            });
-          }
-        });
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon`;
+      let httpMethod = 'post';
+      if (this.isNew === false) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
+        httpMethod = 'put';
       }
+      this.axios[httpMethod](api, { data: item }).then((res) => {
+        this.$refs.couponModal.hideModal();
+        if (res.data.success) {
+          this.getCoupons();
+          this.emitter.emit('push-message', {
+            style: 'mygreen',
+            title: (this.isNew ? '新增成功' : '更新成功'),
+          });
+        } else {
+          this.emitter.emit('push-message', {
+            style: 'myred',
+            title: (this.isNew ? '新增失敗' : '更新失敗'),
+            content: res.data.message.join('、'),
+          });
+        }
+      });
     },
     openDelModal(item) {
       this.$refs.delCouponModal.showModal();

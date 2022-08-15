@@ -6,10 +6,10 @@
         @click.prevent="getProductData(item.id)">
         <img :src="item.imageUrl" class="card-img-top" alt="clock">
         <div class="card-body py-1">
-          <h3 class="card-text fs-6">{{item.title}}</h3>
+          <h3 class="card-text fs-6">{{ item.title }}</h3>
           <div class="d-flex align-items-center justify-content-between">
-            <p class="text-secondary mb-0 ogPrice">原價NT${{currency(item.origin_price)}}</p>
-            <p class="text-myred mb-0">NT${{currency(item.price)}}</p>
+            <p class="text-secondary mb-0 ogPrice">原價NT${{ currency(item.origin_price) }}</p>
+            <p class="text-myred mb-0">NT${{ currency(item.price) }}</p>
           </div>
         </div>
       </a>
@@ -18,7 +18,7 @@
         class="btn btn-mygreen text-white m-2 py-1"
         @click="addCart(item.id)">
         <div class="spinner-border spinner-border-sm text-white"
-        role="status" v-if="this.loadingItem == item.id">
+          role="status" v-if="this.loadingItem == item.id">
           <span class="visually-hidden">Loading...</span>
         </div>
         加入購物車

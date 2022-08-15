@@ -1,5 +1,5 @@
 <template>
- <div class="modal" tabindex="-1" ref="modal">
+<div class="modal" tabindex="-1" ref="modal">
   <div class="modal-dialog">
     <div class="modal-content border-0">
       <div class="modal-header bg-danger text-white">
@@ -8,8 +8,8 @@
         data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>姓名: {{order.user.name}}</p>
-        <p>Email: {{order.user.email}}</p>
+        <p>姓名: {{ order.user.name }}</p>
+        <p>Email: {{ order.user.email }}</p>
         <p class="text-danger">※ 刪除後無法復原!</p>
       </div>
       <div class="modal-footer">

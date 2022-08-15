@@ -1,30 +1,26 @@
 <template>
-  <LoadingPlugin :active="isLoading"></LoadingPlugin>
+  <LoadingPlugin :active="isLoading"/>
   <div
     ref="cartOffcanvas"
     class="offcanvas offcanvas-start"
     tabindex="-1"
     id="offcanvasWithBackdrop"
     aria-labelledby="offcanvasWithBackdropLabel"
-    data-bs-backdrop="true"
-  >
+    data-bs-backdrop="true">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">購物車</h5>
       <button
         type="button"
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
+        aria-label="Close"></button>
     </div>
-    <!-- -------- -->
     <div v-if="this.carts.length === 0" class="position-relative h-100">
       <div class="position-absolute top-50 start-50 translate-middle">
         <p class="text-center h3 text-dark">購物車空空的</p>
       </div>
-      <img src="@/assets/img/nullcart.jpg" class="w-100 h-100 opacity-25" alt="" />
+      <img src="@/assets/img/nullcart.jpg" class="w-100 h-100 opacity-25" alt="空購物車" />
     </div>
-    <!-- -------- -->
     <div class="offcanvas-body" v-else>
       <table class="table">
         <thead>
@@ -49,8 +45,7 @@
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
-                  @click="updateCart(item, item.qty + 1)"
-                >
+                  @click="updateCart(item, item.qty + 1)">
                   <!-- 增加 -->
                   <i class="bi bi-plus"></i>
                 </button>
@@ -61,14 +56,12 @@
                   id="qty"
                   v-model="item.qty"
                   aria-label="qty"
-                  disabled
-                />
+                  disabled/>
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
                   @click="updateCart(item, item.qty - 1)"
-                  :disabled="item.qty === 1"
-                >
+                  :disabled="item.qty === 1">
                   <!-- 減少 -->
                   <i class="bi bi-dash"></i>
                 </button>
@@ -79,7 +72,7 @@
         </tbody>
         <tr>
           <td colspan="2">
-            <button class="btn btn-outline-danger btn-sm mt-2" @click="clearCart">
+            <button type="button" class="btn btn-outline-danger btn-sm mt-2" @click="clearCart">
               清空購物車
             </button>
           </td>
@@ -93,8 +86,7 @@
       <button
         type="button"
         class="btn btn-mybrown text-white w-100"
-        @click="this.cartOffcanvas.hide()"
-      >
+        @click="this.cartOffcanvas.hide()">
         繼續購物
       </button>
     </div>
@@ -175,7 +167,7 @@ export default {
       });
     },
     goCartPage() {
-      this.$router.push('/kkClock/cart');
+      this.$router.push('/cart');
       this.cartOffcanvas.hide();
     },
   },

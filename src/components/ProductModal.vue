@@ -1,5 +1,5 @@
 <template>
-<LoadingPlugin v-model:active="isLoading"></LoadingPlugin>
+<LoadingPlugin v-model:active="isLoading"/>
   <div class="modal" tabindex="-1" ref="modal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -9,8 +9,8 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+            aria-label="Close">
+          </button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -120,7 +120,7 @@
                   </label>
                 </div>
                 <div>
-                  <img :src="tempProduct.imageUrl" alt="" class="img-fluid">
+                  <img :src="tempProduct.imageUrl" alt="產品圖片" class="img-fluid">
                 </div>
                 <div class="col-12">
                   <div class="form-check">
@@ -151,7 +151,7 @@ import modalMixin from '@/mixins/modalMixin';
 
 export default {
   props: ['product'],
-  emits: ['update-product'], // 沒這句會有黃色警告
+  emits: ['update-product'],
   data() {
     return {
       modal: {},
@@ -170,7 +170,6 @@ export default {
       const uploadImg = this.$refs.fileInput.files[0];
       const formData = new FormData();
       formData.append('file-to-upload', uploadImg);
-      // ------------------
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
       this.isLoading = true;
       this.axios.post(api, formData).then((res) => {

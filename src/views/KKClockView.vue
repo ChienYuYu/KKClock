@@ -1,12 +1,12 @@
 <template>
- <div class="nav-spacing">
-    <Navbar></Navbar>
+  <div class="nav-spacing">
+    <Navbar/>
   </div>
   <div class="wrapper bg-light">
     <div>
-      <router-view></router-view>
+      <router-view/>
     </div>
-    <Footer></Footer>
+    <Footer/>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style>
-.wrapper{
+.wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;

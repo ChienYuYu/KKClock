@@ -85,7 +85,7 @@
           ></Field>
         </label>
       </div>
-      <button type="submit" class="btn btn-danger">送出訂單 & 付款去</button>
+      <input type="submit" value="送出訂單 & 付款去" class="btn btn-danger">
     </Form>
   </div>
 </template>
@@ -120,7 +120,6 @@ export default {
       const order = this.form;
       this.axios.post(api, { data: order }).then((res) => {
         if (res.data.success) {
-          console.log('createOrder', res);
           this.emitter.emit('updateData');
           this.orderId = res.data.orderId;
           this.$router.push(`checkout/${this.orderId}`);

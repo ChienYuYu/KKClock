@@ -1,6 +1,6 @@
 <template>
   <form class="bg d-flex justify-content-center align-items-center"
-  @submit.prevent="signIn()">
+    @submit.prevent="signIn()">
     <div class="login col-10 col-md-6 col-lg-3 p-4">
       <h2 class="mb-3 text-center text-white">後台登入</h2>
       <div class="mb-3 d-flex justify-content-center">
@@ -10,7 +10,7 @@
             class="form-control"
             id="email"
             placeholder="請輸入帳號"
-            v-model="this.user.username"
+            v-model="user.username"
           />
         </label>
       </div>
@@ -21,7 +21,7 @@
             class="form-control"
             id="password"
             placeholder="請輸入密碼"
-            v-model="this.user.password"
+            v-model="user.password"
           />
         </label>
       </div>
@@ -31,22 +31,6 @@
     </div>
   </form>
 </template>
-
-<style>
-.bg {
-  background-image: url(../assets/img/loginBG.jpg);
-  height: 100vh;
-  background-position: center;
-  background-size: cover;
-}
-.login {
-  backdrop-filter: blur(7px);
-  border-radius: 15px;
-  background: rgba(80, 80, 80, 0.4);
-  border: 1px solid #bbb;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-}
-</style>
 
 <script>
 export default {
@@ -67,8 +51,6 @@ export default {
           // 把token存到cookie裡↓
           document.cookie = `kkclock = ${token}; expires = ${new Date(expired)}`;
           this.$router.push('/backstage/product_management');
-        } else {
-          console.log('登入失敗');
         }
       });
     },
@@ -78,3 +60,19 @@ export default {
   },
 };
 </script>
+
+<style>
+.bg {
+  background-image: url(../assets/img/loginBG.jpg);
+  height: 100vh;
+  background-position: center;
+  background-size: cover;
+}
+.login {
+  backdrop-filter: blur(7px);
+  border-radius: 15px;
+  background: rgba(80, 80, 80, 0.4);
+  border: 1px solid #bbb;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+</style>

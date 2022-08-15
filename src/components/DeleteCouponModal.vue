@@ -1,5 +1,5 @@
 <template>
- <div class="modal" tabindex="-1" ref="modal">
+<div class="modal" tabindex="-1" ref="modal">
   <div class="modal-dialog">
     <div class="modal-content border-0">
       <div class="modal-header bg-danger">
@@ -7,7 +7,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p>刪除【{{coupon.title}}】此優惠券?</p>
+        <p>刪除【{{ coupon.title }}】此優惠券?</p>
         <p class="text-danger">※ 刪除後無法復原!</p>
       </div>
       <div class="modal-footer">

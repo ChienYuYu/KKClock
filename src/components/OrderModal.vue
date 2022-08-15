@@ -23,19 +23,19 @@
                 <tbody>
                   <tr>
                     <th scope="row">姓名</th>
-                    <td>{{order.user.name}}</td>
+                    <td>{{ order.user.name }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Email</th>
-                    <td>{{order.user.email}}</td>
+                    <td>{{ order.user.email }}</td>
                   </tr>
                   <tr>
                     <th scope="row">電話</th>
-                    <td>{{order.user.tel}}</td>
+                    <td>{{ order.user.tel }}</td>
                   </tr>
                   <tr>
                     <th scope="row">地址</th>
-                    <td>{{order.user.address}}</td>
+                    <td>{{ order.user.address }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -48,11 +48,11 @@
                 <tbody>
                   <tr>
                     <th scope="row">訂單編號</th>
-                    <td>{{order.id}}</td>
+                    <td>{{ order.id }}</td>
                   </tr>
                   <tr>
                     <th scope="row">下單時間</th>
-                    <td>{{new Date(order.create_at*1000).toLocaleDateString()}}</td>
+                    <td>{{ new Date(order.create_at*1000).toLocaleDateString() }}</td>
                   </tr>
                   <tr>
                     <th scope="row">付款狀態</th>
@@ -65,7 +65,7 @@
                     <th scope="row">付款時間</th>
                     <td>
                       <span v-if="order.paid_date" >
-                        {{new Date(order.paid_date*1000).toLocaleDateString()}}
+                        {{ new Date(order.paid_date*1000).toLocaleDateString() }}
                       </span>
                       <span v-else>尚未付款</span>
                     </td>
@@ -82,13 +82,13 @@
                 </thead>
                 <tbody>
                   <tr v-for="item in order.products" :key="item.id">
-                    <th scope="row">{{item.product.title}}</th>
-                    <td>數量:{{item.qty}}</td>
-                    <td>價格:NT${{currency(item.final_total)}}</td>
+                    <th scope="row">{{ item.product.title }}</th>
+                    <td>數量:{{ item.qty }}</td>
+                    <td>價格:NT${{ currency(item.final_total) }}</td>
                   </tr>
                   <tr>
                     <td colspan="3" class="text-end pe-4">
-                      <p class="mb-0 text-myred">總計 ${{currency(Math.round(order.total))}}</p>
+                      <p class="mb-0 text-myred">總計 ${{ currency(Math.round(order.total)) }}</p>
                       <span class="text-muted remind">(小數點四捨五入)</span>
                     </td>
                   </tr>

@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
   {
-    path: '/kkClock_administrator/login',
+    path: '/login',
     component: () => import('../views/LoginView.vue'),
     meta: {
       title: 'KKClock 管理員登入',
@@ -17,57 +17,58 @@ const routes = [
     children: [
       {
         path: 'product_management',
-        component: () => import('../views/Management_product.vue'),
+        component: () => import('../views/ManagementProduct.vue'),
       },
       {
         path: 'coupon_management',
-        component: () => import('../views/Management_coupon.vue'),
+        component: () => import('../views/ManagementCoupon.vue'),
       },
       {
         path: 'order_management',
-        component: () => import('../views/Management_order.vue'),
+        component: () => import('../views/ManagementOrder.vue'),
       },
     ],
   },
   {
-    path: '/kkClock',
+    path: '/',
     component: () => import('../views/KKClockView.vue'),
     children: [
       {
-        path: 'home',
-        component: () => import('../views/KKClock_home.vue'),
+        path: '',
+        name: 'home',
+        component: () => import('../views/KKClockHome.vue'),
         meta: {
           title: 'KKClock 時鐘專賣 送禮最佳選擇',
         },
       },
       {
         path: 'product_list/:category',
-        component: () => import('../views/KKClock_product.vue'),
+        component: () => import('../views/KKClockProduct.vue'),
         meta: {
           title: 'KKClock 產品',
         },
       },
       {
         path: 'product_list/product/:id',
-        component: () => import('../views/KKClock_productItem.vue'),
+        component: () => import('../views/KKClockProductItem.vue'),
       },
       {
         path: 'cart',
-        component: () => import('../views/KKClock_cart.vue'),
+        component: () => import('../views/KKClockCart.vue'),
         meta: {
           title: 'KKClock 填寫訂單資料',
         },
       },
       {
         path: 'checkout/:orderId',
-        component: () => import('../views/KKClock_checkout.vue'),
+        component: () => import('../views/KKClockCheckout.vue'),
         meta: {
           title: 'KKClock 訂單明細',
         },
       },
       {
         path: 'order_search',
-        component: () => import('../views/KKClock_orderSearch.vue'),
+        component: () => import('../views/KKClockOrderSearch.vue'),
         meta: {
           title: 'KKClock 訂單查詢',
         },
