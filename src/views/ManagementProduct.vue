@@ -127,10 +127,7 @@ export default {
             content: res.data.message.join('、'),
           });
         }
-      })
-        .catch((res) => {
-          console.log(res);
-        });
+      });
     },
     openDeleteModal(item) {
       this.$refs.deleteProductModal.showModal();
