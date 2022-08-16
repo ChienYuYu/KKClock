@@ -77,7 +77,7 @@
         <div class="col-lg-10">
           <h3>
             {{ category }}
-            <hr/>
+            <hr class="ms-lg-2" />
           </h3>
           <ProductCard :products="products"></ProductCard>
         </div>
