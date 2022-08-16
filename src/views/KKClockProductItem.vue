@@ -1,7 +1,7 @@
 <template>
-  <section class="bg-light py-5">
+  <section class="bg-white py-5">
     <div class="container">
-      <div class="card p-3 p-md-4 pdcard">
+      <div class="card p-3 p-md-4 border-0">
         <div class="row g-0">
           <div class="col-md-6">
             <img :src="product.imageUrl" class="img-fluid rounded-3 shadow" alt="clock" />
@@ -45,7 +45,7 @@
                   <div
                     class="spinner-border spinner-border-sm text-white"
                     role="status"
-                    v-if="this.loadingItem == product.id">
+                    v-if="loadingItem == product.id">
                     <span class="visually-hidden">Loading...</span>
                   </div>
                   加入購物車
@@ -125,7 +125,7 @@
       </div>
     </div>
   </section>
-  <section class="container py-5 border-top">
+  <section class="container py-5">
     <h2 class="text-secondary text-center text-myred mb-4">
       你可能會喜歡
       <i class="bi bi-caret-down-fill"></i>
@@ -203,10 +203,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.pdcard {
-  border: 1px solid #eee;
-  box-shadow: 0 0 9px inset #ddd;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <swiper
-    :slidesPerView="this.slidesPerView"
+    :slidesPerView="slidesPerView"
     :spaceBetween="20"
     :slidesPerGroup="1"
     :loop="true"
@@ -27,11 +27,11 @@
           </div>
         </a>
         <button type="button"
-          :disabled="this.loadingItem == item.id"
+          :disabled="loadingItem == item.id"
           class="btn btn-mygreen text-white m-2 py-1"
           @click="addCart(item.id)">
           <div class="spinner-border spinner-border-sm text-white"
-            role="status" v-if="this.loadingItem == item.id">
+            role="status" v-if="loadingItem == item.id">
             <span class="visually-hidden">Loading...</span>
           </div>
           加入購物車

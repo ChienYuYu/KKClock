@@ -1,5 +1,5 @@
 <template>
-<div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-3 row-cols-2 g-3 ms-1">
+<div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-3 row-cols-2 g-3">
   <div class="col" v-for="item in products" :key="item.id">
     <div class="card product_card rounded-1 overflow-hidden h-100 border-0">
       <a href="#" class="text-decoration-none text-dark"
@@ -14,11 +14,11 @@
         </div>
       </a>
       <button type="button"
-        :disabled="this.loadingItem == item.id"
+        :disabled="loadingItem == item.id"
         class="btn btn-mygreen text-white m-2 py-1"
         @click="addCart(item.id)">
         <div class="spinner-border spinner-border-sm text-white"
-          role="status" v-if="this.loadingItem == item.id">
+          role="status" v-if="loadingItem == item.id">
           <span class="visually-hidden">Loading...</span>
         </div>
         加入購物車

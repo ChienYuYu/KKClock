@@ -25,7 +25,7 @@
             <router-link to="/" class="nav-link">首頁</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/product_list/全部商品" class="nav-link">產品列表</router-link>
+            <router-link to="/product_list/全部商品" class="nav-link">購物</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/order_search" class="nav-link">訂單查詢</router-link>
@@ -37,6 +37,7 @@
                 <span
                   class="position-absolute top-0 start-100 translate-middle
                   badge badge_txt rounded-circle bg-myorange"
+                  :class="cartQty == 0 ? 'd-none' : 'd-block'"
                   >{{ cartQty }}
                 </span>
               </i>

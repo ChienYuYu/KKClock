@@ -33,7 +33,6 @@
             </tr>
           </tfoot>
         </table>
-
         <table class="table">
           <tbody>
             <tr>
@@ -72,6 +71,12 @@
         </div>
       </form>
     </div>
+    <div v-if="goShopping === true"
+      class="col text-center pb-5">
+      <router-link to="/product_list/全部商品" class="btn btn-outline-secondary px-5">
+          繼續購物<i class="bi bi-caret-right-fill"></i>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -86,6 +91,7 @@ export default {
       orderId: '',
       finalPrice: 0,
       isLoading: false,
+      goShopping: false,
     };
   },
   methods: {
@@ -102,6 +108,7 @@ export default {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
       this.axios.post(api).then(() => {
         this.getOrder();
+        this.goShopping = true;
       });
     },
   },

@@ -13,9 +13,9 @@
         </thead>
         <tbody>
           <tr v-for="item in carts" :key="item.id">
-            <td>{{ item.product.title }}</td>
+            <td class="text-nowrap small-font ps-1 pe-0">{{ item.product.title }}</td>
             <td>
-              <div class="d-flex col-10 col-md-6 col-lg-3">
+              <div class="d-flex col-12 col-md-6 col-lg-3">
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
@@ -25,7 +25,7 @@
                 </button>
                 <input
                   type="number"
-                  class="form-control rounded-0 px-0 text-center bg-white"
+                  class="form-control rounded-0 px-1 text-center bg-white"
                   min="1"
                   id="qty"
                   v-model="item.qty"
@@ -42,7 +42,7 @@
                 </button>
               </div>
             </td>
-            <td>${{ currency(item.total) }}</td>
+            <td class="small-font">${{ currency(item.total) }}</td>
             <td>
               <button type="button" class="btn btn-danger btn-sm" @click="deleteCart(item.id)">
                 <i class="bi bi-trash"></i>
@@ -56,7 +56,8 @@
             <td colspan="4">
               <div class="col-md-8 col-lg-4">
                 <div class="input-group mb-3">
-                  <button class="btn btn-outline-secondary" type="button" @click="useCouponCode">
+                  <button class="btn btn-outline-secondary" type="button" @click="useCouponCode"
+                  :disabled="discount > 0">
                     套用優惠碼
                   </button>
                   <input
@@ -68,6 +69,9 @@
                     v-model="couponCode"
                   />
                 </div>
+                  <p class="text-myorange text-center" v-if="couponStatus === true">優惠碼套用成功!</p>
+                  <p class="text-myred text-center" v-else-if="couponStatus === false">
+                  優惠碼無效 請重新輸入!</p>
               </div>
             </td>
           </tr>
@@ -75,7 +79,7 @@
             <td colspan="4">
               <p class="text-mygreen text-end px-5">合計 ${{ currency(totalPrice) }}</p>
               <p class="text-myorange text-end px-5">
-                優惠券折扣 ${{ currency(Math.round(totalPrice - finalPrice)) }}
+                優惠券折扣 ${{ currency(Math.round(discount)) }}
               </p>
               <p class="text-myred text-end px-5">總計 ${{ currency(Math.round(finalPrice)) }}</p>
             </td>
@@ -99,7 +103,9 @@ export default {
       carts: [],
       totalPrice: 0,
       finalPrice: 0,
+      discount: 0,
       couponCode: '',
+      couponStatus: '',
       isLoading: false,
     };
   },
@@ -112,6 +118,7 @@ export default {
         this.carts = res.data.data.carts;
         this.totalPrice = res.data.data.total;
         this.finalPrice = res.data.data.final_total;
+        this.discount = this.totalPrice - this.finalPrice;
         this.isLoading = false;
       });
     },
@@ -131,8 +138,13 @@ export default {
     },
     useCouponCode() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`;
-      this.axios.post(api, { data: { code: this.couponCode } }).then(() => {
+      this.axios.post(api, { data: { code: this.couponCode } }).then((res) => {
         this.getCarts();
+        if (res.data.success) {
+          this.couponStatus = true;
+        } else {
+          this.couponStatus = false;
+        }
       });
     },
   },
@@ -149,3 +161,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+@media (max-width: 575.98px) {
+  .small-font{
+    font-size: 14px;
+  }
+}
+</style>

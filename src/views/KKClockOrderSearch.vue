@@ -19,13 +19,13 @@
         </div>
         <p
           class="text-myred text-center mb-0 mt-2 py-2"
-          :class="{ 'd-none': this.tempOrderId !== 'error' }"
+          :class="{ 'd-none': tempOrderId !== 'error' }"
         >
           訂單編號輸入錯誤，請確認是否輸入正確!
         </p>
       </div>
     </div>
-    <div v-if="this.orderId !== this.tempOrderId" class="text-center">
+    <div v-if="orderId !== tempOrderId" class="text-center">
       <h2 class="text-mygreen py-4">請輸入訂單編號</h2>
       <p class="text-secondary">( 20碼數字+符號+英文大小寫 )</p>
       <p class="text-secondary">範例: -N8RgQpyakFeuOluP-o-</p>
@@ -118,17 +118,21 @@ export default {
   },
   methods: {
     searchOrder() {
-      this.isLoading = true;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
-      this.axios.get(api).then((res) => {
-        if (res.data.order !== null) {
-          this.order = res.data.order;
-          this.tempOrderId = res.data.order.id;
-        } else {
-          this.tempOrderId = 'error';
-        }
-        this.isLoading = false;
-      });
+      if (this.orderId.trim() !== '') {
+        this.isLoading = true;
+        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
+        this.axios.get(api).then((res) => {
+          if (res.data.order !== null) {
+            this.order = res.data.order;
+            this.tempOrderId = res.data.order.id;
+          } else {
+            this.tempOrderId = 'error';
+          }
+          this.isLoading = false;
+        });
+      } else {
+        this.tempOrderId = 'error';
+      }
     },
     checkout() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;

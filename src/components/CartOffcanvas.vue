@@ -15,7 +15,15 @@
         data-bs-dismiss="offcanvas"
         aria-label="Close"></button>
     </div>
-    <div v-if="this.carts.length === 0" class="position-relative h-100">
+    <div v-if="carts.length === 0" class="position-relative h-100">
+      <button
+        type="button"
+        class="btn btn-mygreen text-white rounded-0 w-100"
+        @click="goProductPage">
+        前往購物
+        <i class="bi bi-caret-right-fill"></i>
+        <i class="bi bi-caret-right-fill"></i>
+      </button>
       <div class="position-absolute top-50 start-50 translate-middle">
         <p class="text-center h3 text-dark">購物車空空的</p>
       </div>
@@ -24,7 +32,7 @@
     <div class="offcanvas-body" v-else>
       <table class="table">
         <thead>
-          <tr class="text-nowrap">
+          <tr class="text-nowrap text-center">
             <th scope="col"></th>
             <th scope="col">品名</th>
             <th scope="col">數量</th>
@@ -33,14 +41,14 @@
         </thead>
         <tbody>
           <tr v-for="item in carts" :key="item.id">
-            <th scope="row">
+            <th scope="row" class="px-0">
               <!-- 刪除 -->
               <button type="button" class="btn btn-danger btn-sm" @click="deleteCart(item.id)">
                 <i class="bi bi-trash"></i>
               </button>
             </th>
-            <td class="text-nowrap">{{ item.product.title }}</td>
-            <td>
+            <td class="text-nowrap fs-14">{{ item.product.title }}</td>
+            <td class="px-0">
               <div class="d-flex">
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
@@ -51,7 +59,7 @@
                 </button>
                 <input
                   type="number"
-                  class="form-control rounded-0 px-0 text-center bg-white"
+                  class="form-control rounded-0 bg-white text-center fs-14 px-1"
                   min="1"
                   id="qty"
                   v-model="item.qty"
@@ -67,7 +75,7 @@
                 </button>
               </div>
             </td>
-            <td>{{ currency(item.total) }}</td>
+            <td class="text-center fs-14 px-0">{{ currency(item.total) }}</td>
           </tr>
         </tbody>
         <tr>
@@ -86,7 +94,7 @@
       <button
         type="button"
         class="btn btn-mybrown text-white w-100"
-        @click="this.cartOffcanvas.hide()">
+        @click="cartOffcanvas.hide()">
         繼續購物
       </button>
     </div>
@@ -170,6 +178,10 @@ export default {
       this.$router.push('/cart');
       this.cartOffcanvas.hide();
     },
+    goProductPage() {
+      this.$router.push('/product_list/全部商品');
+      this.cartOffcanvas.hide();
+    },
   },
   mounted() {
     this.cartOffcanvas = new Offcanvas(this.$refs.cartOffcanvas);
@@ -191,5 +203,8 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
+}
+.fs-14{
+  font-size: 14px;
 }
 </style>
