@@ -79,7 +79,7 @@
             {{ category }}
             <hr class="ms-lg-2" />
           </h3>
-          <ProductCard :products="products" />
+          <ProductCard :filterCategory="filterCategory" />
         </div>
       </div>
     </div>
@@ -110,11 +110,7 @@ export default {
       this.axios
         .get(api)
         .then((res) => {
-          if (this.category !== '全部商品') {
-            this.products = res.data.products.filter((item) => item.category === this.category);
-          } else {
-            this.products = res.data.products;
-          }
+          this.products = res.data.products;
           this.isLoading = false;
         })
         .catch(() => {
@@ -132,12 +128,19 @@ export default {
     getCategory(category) {
       this.category = category;
       this.$router.push(`${category}`);
-      this.getProducts();
     },
   },
   created() {
     this.category = this.$route.params.category;
     this.getProducts();
+  },
+  computed: {
+    filterCategory() {
+      if (this.category === '全部商品') {
+        return this.products;
+      }
+      return this.products.filter((item) => item.category === this.category);
+    },
   },
 };
 </script>

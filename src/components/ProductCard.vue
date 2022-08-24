@@ -1,6 +1,6 @@
 <template>
   <div class="row row-cols-xl-5 row-cols-lg-3 row-cols-md-3 row-cols-2 g-3 ms-lg-2">
-    <div class="col" v-for="item in products" :key="item.id">
+    <div class="col" v-for="item in filterCategory" :key="item.id">
       <div class="card product_card rounded-1 overflow-hidden h-100 border-0">
         <a href="#" class="text-decoration-none text-dark" @click.prevent="getProductData(item.id)">
           <img :src="item.imageUrl" class="card-img-top" alt="clock" />
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  props: ['products'],
+  props: ['filterCategory'],
   data() {
     return {
       loadingItem: '',
