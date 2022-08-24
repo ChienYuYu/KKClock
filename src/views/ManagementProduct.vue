@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin v-model:active="isLoading"/>
+  <LoadingPlugin v-model:active="isLoading" />
   <div class="container">
     <div class="my-4 d-flex justify-content-between">
       <h2>產品管理</h2>
@@ -33,13 +33,15 @@
               <button
                 type="button"
                 class="btn btn-primary text-white"
-                @click="openProductModal(false, item)">
+                @click="openProductModal(false, item)"
+              >
                 編輯
               </button>
               <button
                 type="button"
                 class="btn btn-danger text-white"
-                @click="openDeleteModal(item)">
+                @click="openDeleteModal(item)"
+              >
                 刪除
               </button>
             </div>
@@ -49,23 +51,19 @@
     </table>
   </div>
 
-  <ProductModal
-    ref="productModal"
-    :product="tempProduct"
-    @update-product="updateProduct">
-  </ProductModal>
+  <ProductModal ref="productModal" :product="tempProduct" @update-product="updateProduct" />
   <DeleteProductModal
     ref="deleteProductModal"
     :product="tempProduct"
-    @delete-item="deleteProduct">
-  </DeleteProductModal>
+    @delete-item="deleteProduct"
+  />
   <div class="container">
     <Pagination
       :pages="pagination"
       @page-num="getProducts"
       @pre-page="getProducts"
-      @next-page="getProducts">
-    </Pagination>
+      @next-page="getProducts"
+    />
   </div>
 </template>
 
@@ -89,11 +87,22 @@ export default {
     getProducts(page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        this.products = res.data.products;
-        this.pagination = res.data.pagination;
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.products = res.data.products;
+          this.pagination = res.data.pagination;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.isLoading = false;
+        });
     },
     // 開啟新增/編輯modal
     openProductModal(isNew, item) {
@@ -118,15 +127,22 @@ export default {
           this.getProducts();
           this.emitter.emit('push-message', {
             style: 'mygreen',
-            title: (this.isNew ? '新增成功' : '更新成功'),
+            title: this.isNew ? '新增成功' : '更新成功',
           });
         } else {
           this.emitter.emit('push-message', {
             style: 'myred',
-            title: (this.isNew ? '新增失敗' : '更新失敗'),
+            title: this.isNew ? '新增失敗' : '更新失敗',
             content: res.data.message.join('、'),
           });
         }
+      }).catch(() => {
+        this.$swal({
+          title: '似乎有些問題 請稍後再嘗試',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
       });
     },
     openDeleteModal(item) {
@@ -141,6 +157,13 @@ export default {
         this.emitter.emit('push-message', {
           style: 'mygreen',
           title: '刪除成功',
+        });
+      }).catch(() => {
+        this.$swal({
+          title: '似乎有些問題 請稍後再嘗試',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
         });
       });
     },

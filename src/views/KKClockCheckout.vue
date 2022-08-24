@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin :active="isLoading"/>
+  <LoadingPlugin :active="isLoading" />
   <div class="container">
     <div class="row justify-content-center my-5">
       <form class="col-md-10 col-lg-6" @submit.prevent="checkout">
@@ -65,16 +65,19 @@
           </tbody>
         </table>
         <div class="text-end">
-          <input type="button" value="付款已完成" class="btn btn-secondary disabled"
-          v-if="order.is_paid">
-          <input type="submit" value="付款" class="btn btn-danger" v-else>
+          <input
+            type="button"
+            value="付款已完成"
+            class="btn btn-secondary disabled"
+            v-if="order.is_paid"
+          />
+          <input type="submit" value="付款" class="btn btn-danger" v-else />
         </div>
       </form>
     </div>
-    <div v-if="goShopping === true"
-      class="col text-center pb-5">
+    <div v-if="goShopping === true" class="col text-center pb-5">
       <router-link to="/product_list/全部商品" class="btn btn-outline-secondary px-5">
-          繼續購物<i class="bi bi-caret-right-fill" />
+        繼續購物<i class="bi bi-caret-right-fill" />
       </router-link>
     </div>
   </div>
@@ -101,18 +104,41 @@ export default {
     getOrder() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        this.order = res.data.order;
-        this.finalPrice = Math.round(res.data.order.total);
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.order = res.data.order;
+          this.finalPrice = Math.round(res.data.order.total);
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/');
+        });
     },
     checkout() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios.post(api).then(() => {
-        this.getOrder();
-        this.goShopping = true;
-      });
+      this.axios
+        .post(api)
+        .then(() => {
+          this.getOrder();
+          this.goShopping = true;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/');
+        });
     },
   },
   created() {

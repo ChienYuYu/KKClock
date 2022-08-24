@@ -72,9 +72,19 @@ export default {
     // 先取得產品再filter篩選
     getDiscountedProduct() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      this.axios.get(api).then((res) => {
-        this.products = res.data.products.filter((item) => item.category === '特價');
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.products = res.data.products.filter((item) => item.category === '特價');
+        })
+        .catch(() => {
+          this.$swal({
+            title: '網頁似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     getProductData(id) {
       this.$router.push(`/product_list/product/${id}`);
@@ -87,19 +97,30 @@ export default {
         product_id: id,
         qty: 1,
       };
-      this.axios.post(api, { data: cart }).then(() => {
-        this.loadingItem = '';
-        this.emitter.emit('updateData');
-        // SweetAlert-----
-        this.$swal({
-          title: '加入成功',
-          position: 'top-end',
-          toast: true,
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
+      this.axios
+        .post(api, { data: cart })
+        .then(() => {
+          this.loadingItem = '';
+          this.emitter.emit('updateData');
+          // SweetAlert-----
+          this.$swal({
+            title: '加入成功',
+            position: 'top-end',
+            toast: true,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .catch(() => {
+          this.loadingItem = '';
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      });
     },
     // 設定swiper不同解析度顯示張數
     swiperNum() {

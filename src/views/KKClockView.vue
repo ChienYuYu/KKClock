@@ -1,12 +1,12 @@
 <template>
   <div class="nav-spacing">
-    <Navbar/>
+    <Navbar />
   </div>
   <div class="wrapper bg-light">
     <div>
-      <router-view/>
+      <router-view />
     </div>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 

@@ -50,19 +50,30 @@ export default {
         product_id: id,
         qty: 1,
       };
-      this.axios.post(api, { data: cart }).then(() => {
-        this.loadingItem = '';
-        this.emitter.emit('updateData');
-        // SweetAlert-----
-        this.$swal({
-          title: '加入成功',
-          position: 'top-end',
-          toast: true,
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
+      this.axios
+        .post(api, { data: cart })
+        .then(() => {
+          this.loadingItem = '';
+          this.emitter.emit('updateData');
+          // SweetAlert-----
+          this.$swal({
+            title: '加入成功',
+            position: 'top-end',
+            toast: true,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .catch(() => {
+          this.loadingItem = '';
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      });
     },
     // 取得單一產品
     getProductData(id) {

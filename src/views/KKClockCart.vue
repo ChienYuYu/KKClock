@@ -56,8 +56,12 @@
             <td colspan="4">
               <div class="col-md-8 col-lg-4">
                 <div class="input-group mb-3">
-                  <button class="btn btn-outline-secondary" type="button" @click="useCouponCode"
-                  :disabled="discount > 0">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="useCouponCode"
+                    :disabled="discount > 0"
+                  >
                     套用優惠碼
                   </button>
                   <input
@@ -69,9 +73,12 @@
                     v-model="couponCode"
                   />
                 </div>
-                  <p class="text-myorange text-center" v-if="couponStatus === true">優惠碼套用成功!</p>
-                  <p class="text-myred text-center" v-else-if="couponStatus === false">
-                  優惠碼無效 請重新輸入!</p>
+                <p class="text-myorange text-center" v-if="couponStatus === true">
+                  優惠碼套用成功!
+                </p>
+                <p class="text-myred text-center" v-else-if="couponStatus === false">
+                  優惠碼無效 請重新輸入!
+                </p>
               </div>
             </td>
           </tr>
@@ -116,38 +123,81 @@ export default {
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        this.carts = res.data.data.carts;
-        this.totalPrice = res.data.data.total;
-        this.finalPrice = res.data.data.final_total;
-        this.discount = this.totalPrice - this.finalPrice;
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.carts = res.data.data.carts;
+          this.totalPrice = res.data.data.total;
+          this.finalPrice = res.data.data.final_total;
+          this.discount = this.totalPrice - this.finalPrice;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/');
+        });
     },
     updateCart(id, num) {
       const cart = { data: { product_id: id, qty: num } };
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.put(api, cart).then(() => {
-        this.getCarts();
-      });
+      const api = `${process.env.VUE_APP_API}ap123/${process.env.VUE_APP_PATH}/cart/${id}`;
+      this.axios
+        .put(api, cart)
+        .then(() => {
+          this.getCarts();
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     deleteCart(id) {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.delete(api).then(() => {
-        this.getCarts();
-        this.emitter.emit('updateData');
-      });
+      const api = `${process.env.VUE_APP_API}api123/${process.env.VUE_APP_PATH}/cart/${id}`;
+      this.axios
+        .delete(api)
+        .then(() => {
+          this.getCarts();
+          this.emitter.emit('updateData');
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     useCouponCode() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`;
-      this.axios.post(api, { data: { code: this.couponCode } }).then((res) => {
-        this.getCarts();
-        if (res.data.success) {
-          this.couponStatus = true;
-        } else {
-          this.couponStatus = false;
-        }
-      });
+      this.axios
+        .post(api, { data: { code: this.couponCode } })
+        .then((res) => {
+          this.getCarts();
+          if (res.data.success) {
+            this.couponStatus = true;
+          } else {
+            this.couponStatus = false;
+          }
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
   },
   created() {
@@ -163,7 +213,7 @@ export default {
 
 <style scoped>
 @media (max-width: 575.98px) {
-  .small-font{
+  .small-font {
     font-size: 14px;
   }
 }

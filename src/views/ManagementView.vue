@@ -6,29 +6,29 @@
         <li>
           <router-link
             to="/backstage/product_management"
-            class="menuItem text-decoration-none d-block p-4">
+            class="menuItem text-decoration-none d-block p-4"
+          >
             <i class="bi bi-basket-fill me-2" />產品管理&emsp;
           </router-link>
         </li>
         <li>
           <router-link
             to="/backstage/order_management"
-            class="menuItem text-decoration-none d-block p-4">
+            class="menuItem text-decoration-none d-block p-4"
+          >
             <i class="bi bi-list-ul me-2" />訂單管理&emsp;
           </router-link>
         </li>
         <li>
           <router-link
             to="/backstage/coupon_management"
-            class="menuItem text-decoration-none d-block p-4">
+            class="menuItem text-decoration-none d-block p-4"
+          >
             <i class="bi bi-ticket me-2" />優惠券管理&emsp;
           </router-link>
         </li>
         <li>
-          <router-link
-            to="/"
-            target="_blank"
-            class="menuItem text-decoration-none d-block p-4">
+          <router-link to="/" target="_blank" class="menuItem text-decoration-none d-block p-4">
             <i class="bi bi-card-image me-2" />開啟前台&emsp;
           </router-link>
         </li>
@@ -36,13 +36,15 @@
       <a
         href="#"
         class="mt-auto menuItem text-decoration-none d-block text-center border-top p-4"
-        @click.prevent="logout">
-        <i class="bi bi-box-arrow-left me-2" />登出&emsp;</a>
+        @click.prevent="logout"
+      >
+        <i class="bi bi-box-arrow-left me-2" />登出&emsp;</a
+      >
     </aside>
     <main class="main bg-light">
       <router-view />
     </main>
-    <ToastArea class="ToastArea"/>
+    <ToastArea class="ToastArea" />
   </div>
 </template>
 
@@ -66,9 +68,19 @@ export default {
   methods: {
     logout() {
       const api = `${process.env.VUE_APP_API}logout`;
-      this.axios.post(api).then(() => {
-        this.$router.push('/login');
-      });
+      this.axios
+        .post(api)
+        .then(() => {
+          this.$router.push('/login');
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
   },
   created() {
@@ -77,11 +89,22 @@ export default {
     // axios全域設定，之後發送api自動夾帶token在header裡
     this.axios.defaults.headers.common.Authorization = token;
     const api = `${process.env.VUE_APP_API}api/user/check`;
-    this.axios.post(api).then((res) => {
-      if (!res.data.success) {
+    this.axios
+      .post(api)
+      .then((res) => {
+        if (!res.data.success) {
+          this.$router.push('/login');
+        }
+      })
+      .catch(() => {
+        this.$swal({
+          title: '似乎有些問題 請稍後再嘗試',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
         this.$router.push('/login');
-      }
-    });
+      });
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin :active="isLoading"/>
+  <LoadingPlugin :active="isLoading" />
   <div class="container">
     <div class="my-4 d-flex justify-content-between">
       <h2>訂單管理</h2>
@@ -47,7 +47,8 @@
               <button
                 type="button"
                 class="btn btn-primary text-white"
-                @click="openOrderModal(item)">
+                @click="openOrderModal(item)"
+              >
                 檢視
               </button>
               <button type="button" class="btn btn-danger text-white" @click="openDelModal(item)">
@@ -60,17 +61,13 @@
     </table>
   </div>
   <OrderModal ref="orderModal" :order="tempOrder" />
-  <DeleteOrderModal
-    ref="delOrderModal"
-    @delete-order="deleteOrder"
-    :order="tempOrder">
-  </DeleteOrderModal>
+  <DeleteOrderModal ref="delOrderModal" @delete-order="deleteOrder" :order="tempOrder" />
   <Pagination
     :pages="pagination"
     @pre-page="getOrders"
     @page-num="getOrders"
-    @next-page="getOrders">
-  </Pagination>
+    @next-page="getOrders"
+  />
 </template>
 
 <script>
@@ -99,22 +96,47 @@ export default {
     getOrders(page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/orders?page=${page}`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        this.orders = res.data.orders;
-        this.pagination = res.data.pagination;
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.orders = res.data.orders;
+          this.pagination = res.data.pagination;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.isLoading = false;
+        });
     },
     updatePaid(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
       this.isLoading = true;
-      this.axios.put(api, { data: item }).then(() => {
-        this.emitter.emit('push-message', {
-          style: 'mygreen',
-          title: '付款狀態已更改',
+      this.axios
+        .put(api, { data: item })
+        .then(() => {
+          this.emitter.emit('push-message', {
+            style: 'mygreen',
+            title: '付款狀態已更改',
+          });
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          setTimeout(() => {
+            this.$router.go(0);
+          }, 2000);
         });
-        this.isLoading = false;
-      });
     },
     openOrderModal(item) {
       this.$refs.orderModal.showModal();
@@ -126,14 +148,24 @@ export default {
     },
     deleteOrder(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/order/${item.id}`;
-      this.axios.delete(api).then(() => {
-        this.$refs.delOrderModal.hideModal();
-        this.getOrders();
-        this.emitter.emit('push-message', {
-          style: 'mygreen',
-          title: '刪除成功',
+      this.axios
+        .delete(api)
+        .then(() => {
+          this.$refs.delOrderModal.hideModal();
+          this.getOrders();
+          this.emitter.emit('push-message', {
+            style: 'mygreen',
+            title: '刪除成功',
+          });
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      });
     },
   },
   created() {

@@ -6,8 +6,8 @@
       <div class="row">
         <div class="col-lg-2 pt-md-5">
           <ul
-            class="list-unstyled d-flex flex-lg-column
-            text-nowrap overflow-auto product-list-group">
+            class="list-unstyled d-flex flex-lg-column text-nowrap overflow-auto product-list-group"
+          >
             <li>
               <a
                 href="#"
@@ -107,14 +107,26 @@ export default {
     getProducts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        if (this.category !== '全部商品') {
-          this.products = res.data.products.filter((item) => item.category === this.category);
-        } else {
-          this.products = res.data.products;
-        }
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          if (this.category !== '全部商品') {
+            this.products = res.data.products.filter((item) => item.category === this.category);
+          } else {
+            this.products = res.data.products;
+          }
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/');
+        });
     },
     // 取得類別
     getCategory(category) {
@@ -123,9 +135,6 @@ export default {
       this.getProducts();
     },
   },
-  // beforeCreate() {
-  //   document.title = this.$route.meta.title;
-  // },
   created() {
     this.category = this.$route.params.category;
     this.getProducts();

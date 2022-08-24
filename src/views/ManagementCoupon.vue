@@ -1,5 +1,5 @@
 <template>
-  <LoadingPlugin :active="isLoading"/>
+  <LoadingPlugin :active="isLoading" />
   <div class="container">
     <div class="my-4 d-flex justify-content-between">
       <h2>優惠券管理</h2>
@@ -33,7 +33,8 @@
               <button
                 type="button"
                 class="btn btn-primary text-white"
-                @click="openModal(false, item)">
+                @click="openModal(false, item)"
+              >
                 編輯
               </button>
               <button type="button" class="btn btn-danger text-white" @click="openDelModal(item)">
@@ -46,17 +47,13 @@
     </table>
   </div>
   <CouponModal ref="couponModal" :coupon="tempCoupon" @update-coupon="updateCoupon" />
-  <DeleteCouponModal
-    ref="delCouponModal"
-    :coupon="tempCoupon"
-    @delete-coupon="delCoupon">
-  </DeleteCouponModal>
+  <DeleteCouponModal ref="delCouponModal" :coupon="tempCoupon" @delete-coupon="delCoupon" />
   <Pagination
     :pages="pagination"
     @pre-page="getCoupons"
     @page-num="getCoupons"
-    @next-page="getCoupons">
-  </Pagination>
+    @next-page="getCoupons"
+  />
 </template>
 
 <script>
@@ -84,11 +81,22 @@ export default {
     getCoupons(page = 1) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupons?page=${page}`;
       this.isLoading = true;
-      this.axios.get(api).then((res) => {
-        this.coupons = res.data.coupons;
-        this.pagination = res.data.pagination;
-        this.isLoading = false;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.coupons = res.data.coupons;
+          this.pagination = res.data.pagination;
+          this.isLoading = false;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.isLoading = false;
+        });
     },
     openModal(isNew, item) {
       this.$refs.couponModal.showModal();
@@ -109,22 +117,31 @@ export default {
         api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
         httpMethod = 'put';
       }
-      this.axios[httpMethod](api, { data: item }).then((res) => {
-        this.$refs.couponModal.hideModal();
-        if (res.data.success) {
-          this.getCoupons();
-          this.emitter.emit('push-message', {
-            style: 'mygreen',
-            title: (this.isNew ? '新增成功' : '更新成功'),
+      this.axios[httpMethod](api, { data: item })
+        .then((res) => {
+          this.$refs.couponModal.hideModal();
+          if (res.data.success) {
+            this.getCoupons();
+            this.emitter.emit('push-message', {
+              style: 'mygreen',
+              title: this.isNew ? '新增成功' : '更新成功',
+            });
+          } else {
+            this.emitter.emit('push-message', {
+              style: 'myred',
+              title: this.isNew ? '新增失敗' : '更新失敗',
+              content: res.data.message.join('、'),
+            });
+          }
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
           });
-        } else {
-          this.emitter.emit('push-message', {
-            style: 'myred',
-            title: (this.isNew ? '新增失敗' : '更新失敗'),
-            content: res.data.message.join('、'),
-          });
-        }
-      });
+        });
     },
     openDelModal(item) {
       this.$refs.delCouponModal.showModal();
@@ -132,14 +149,24 @@ export default {
     },
     delCoupon(item) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/coupon/${item.id}`;
-      this.axios.delete(api).then(() => {
-        this.$refs.delCouponModal.hideModal();
-        this.getCoupons();
-        this.emitter.emit('push-message', {
-          style: 'mygreen',
-          title: '刪除成功',
+      this.axios
+        .delete(api)
+        .then(() => {
+          this.$refs.delCouponModal.hideModal();
+          this.getCoupons();
+          this.emitter.emit('push-message', {
+            style: 'mygreen',
+            title: '刪除成功',
+          });
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      });
     },
   },
   created() {

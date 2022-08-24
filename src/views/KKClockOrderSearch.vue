@@ -94,9 +94,13 @@
           </tbody>
         </table>
         <div class="text-end">
-          <input type="button" value="付款已完成" class="btn btn-secondary disabled"
-          v-if="order.is_paid">
-          <input type="submit" value="付款" class="btn btn-danger" v-else>
+          <input
+            type="button"
+            value="付款已完成"
+            class="btn btn-secondary disabled"
+            v-if="order.is_paid"
+          />
+          <input type="submit" value="付款" class="btn btn-danger" v-else />
         </div>
       </form>
     </div>
@@ -124,24 +128,45 @@ export default {
       if (this.orderId.trim() !== '') {
         this.isLoading = true;
         const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
-        this.axios.get(api).then((res) => {
-          if (res.data.order !== null) {
-            this.order = res.data.order;
-            this.tempOrderId = res.data.order.id;
-          } else {
-            this.tempOrderId = 'error';
-          }
-          this.isLoading = false;
-        });
+        this.axios
+          .get(api)
+          .then((res) => {
+            if (res.data.order !== null) {
+              this.order = res.data.order;
+              this.tempOrderId = res.data.order.id;
+            } else {
+              this.tempOrderId = 'error';
+            }
+            this.isLoading = false;
+          })
+          .catch(() => {
+            this.isLoading = false;
+            this.$swal({
+              title: '似乎有些問題 請稍後再嘗試',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          });
       } else {
         this.tempOrderId = 'error';
       }
     },
     checkout() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios.post(api).then(() => {
-        this.searchOrder();
-      });
+      this.axios
+        .post(api)
+        .then(() => {
+          this.searchOrder();
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
   },
 };

@@ -109,13 +109,23 @@ export default {
     createOrder() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order`;
       const order = this.form;
-      this.axios.post(api, { data: order }).then((res) => {
-        if (res.data.success) {
-          this.emitter.emit('updateData');
-          this.orderId = res.data.orderId;
-          this.$router.push(`checkout/${this.orderId}`);
-        }
-      });
+      this.axios
+        .post(api, { data: order })
+        .then((res) => {
+          if (res.data.success) {
+            this.emitter.emit('updateData');
+            this.orderId = res.data.orderId;
+            this.$router.push(`checkout/${this.orderId}`);
+          }
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     // 表單驗證規則----------------
     validateEmail(value) {

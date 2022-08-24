@@ -6,22 +6,26 @@
           class="page-link link-dark"
           href="#"
           @click.prevent="$emit('pre-page', pages.current_page - 1)"
-          >Prev</a>
+          >Prev</a
+        >
       </li>
       <li
         class="page-item"
         :class="{ active: page === pages.current_page }"
         v-for="page in pages.total_pages"
-        :key="page">
+        :key="page"
+      >
         <a class="page-link link-dark" href="#" @click.prevent="$emit('page-num', page)">
-          {{ page }}</a>
+          {{ page }}</a
+        >
       </li>
       <li class="page-item" :class="{ disabled: pages.has_next === false }">
         <a
           class="page-link link-dark"
           href="#"
           @click.prevent="$emit('next-page', pages.current_page + 1)"
-          >Next</a>
+          >Next</a
+        >
       </li>
     </ul>
   </nav>

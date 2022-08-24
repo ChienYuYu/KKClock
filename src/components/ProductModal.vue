@@ -1,16 +1,11 @@
 <template>
-<LoadingPlugin v-model:active="isLoading"/>
+  <LoadingPlugin v-model:active="isLoading" />
   <div class="modal" tabindex="-1" ref="modal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header bg-light">
           <h5 class="modal-title">產品管理</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close">
-          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div class="modal-body">
           <div class="row">
@@ -24,7 +19,8 @@
                       class="form-control"
                       id="productName"
                       placeholder="請輸入產品名稱"
-                      v-model="tempProduct.title">
+                      v-model="tempProduct.title"
+                    />
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -35,7 +31,8 @@
                       class="form-control"
                       id="productCategory"
                       placeholder="請輸入分類名稱"
-                      v-model="tempProduct.category">
+                      v-model="tempProduct.category"
+                    />
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -46,7 +43,8 @@
                       class="form-control"
                       id="productUnit"
                       placeholder="請輸入單位名稱"
-                      v-model="tempProduct.unit">
+                      v-model="tempProduct.unit"
+                    />
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -57,7 +55,8 @@
                       class="form-control"
                       id="originalPrice"
                       placeholder="請輸入原價"
-                      v-model="tempProduct.origin_price">
+                      v-model="tempProduct.origin_price"
+                    />
                   </label>
                 </div>
                 <div class="col-6 mb-3">
@@ -68,7 +67,8 @@
                       class="form-control"
                       id="productPrice"
                       placeholder="請輸入售價"
-                      v-model="tempProduct.price">
+                      v-model="tempProduct.price"
+                    />
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -79,7 +79,8 @@
                       class="form-control"
                       id="productDescription"
                       placeholder="請輸入產品描述"
-                      v-model="tempProduct.description">
+                      v-model="tempProduct.description"
+                    />
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -90,7 +91,8 @@
                       class="form-control"
                       id="productContent"
                       placeholder="請輸入產品內容"
-                      v-model="tempProduct.content">
+                      v-model="tempProduct.content"
+                    />
                   </label>
                 </div>
               </div>
@@ -105,7 +107,8 @@
                       class="form-control"
                       id="productUrl"
                       placeholder="輸入圖片網址"
-                      v-model="tempProduct.imageUrl">
+                      v-model="tempProduct.imageUrl"
+                    />
                   </label>
                 </div>
                 <div class="col-12 mb-3">
@@ -116,19 +119,23 @@
                       class="form-control"
                       id="uploadImg"
                       ref="fileInput"
-                      @change="uploadFile">
+                      @change="uploadFile"
+                    />
                   </label>
                 </div>
                 <div>
-                  <img :src="tempProduct.imageUrl" alt="產品圖片" class="img-fluid">
+                  <img :src="tempProduct.imageUrl" alt="產品圖片" class="img-fluid" />
                 </div>
                 <div class="col-12">
                   <div class="form-check">
                     <label class="form-check-label" for="enableProduct">
                       啟用
-                      <input class="form-check-input" type="checkbox"
-                      id="enableProduct"
-                      v-model="tempProduct.is_enabled">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="enableProduct"
+                        v-model="tempProduct.is_enabled"
+                      />
                     </label>
                   </div>
                 </div>
@@ -138,8 +145,13 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary text-white"
-          @click="$emit('update-product', tempProduct)">確認</button>
+          <button
+            type="button"
+            class="btn btn-primary text-white"
+            @click="$emit('update-product', tempProduct)"
+          >
+            確認
+          </button>
         </div>
       </div>
     </div>
@@ -172,13 +184,24 @@ export default {
       formData.append('file-to-upload', uploadImg);
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/upload`;
       this.isLoading = true;
-      this.axios.post(api, formData).then((res) => {
-        this.isLoading = false;
-        if (res.data.success) {
-          this.tempProduct.imageUrl = res.data.imageUrl;
-          this.$refs.fileInput.value = ''; // 完成後清空上傳圖片<input>
-        }
-      });
+      this.axios
+        .post(api, formData)
+        .then((res) => {
+          this.isLoading = false;
+          if (res.data.success) {
+            this.tempProduct.imageUrl = res.data.imageUrl;
+            this.$refs.fileInput.value = ''; // 完成後清空上傳圖片<input>
+          }
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
   },
   mixins: [modalMixin],

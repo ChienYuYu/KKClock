@@ -33,7 +33,8 @@
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
                   @click="qty -= 1"
-                  :disabled="qty === 1">
+                  :disabled="qty === 1"
+                >
                   <i class="bi bi-dash" />
                 </button>
               </div>
@@ -41,11 +42,13 @@
                 <button
                   type="button"
                   class="btn btn-outline-secondary p-2 col-12 col-lg-5 me-2 mb-3"
-                  @click="addCart(product.id, false)">
+                  @click="addCart(product.id, false)"
+                >
                   <div
                     class="spinner-border spinner-border-sm text-white"
                     role="status"
-                    v-if="loadingItem == product.id">
+                    v-if="loadingItem == product.id"
+                  >
                     <span class="visually-hidden">Loading...</span>
                   </div>
                   加入購物車
@@ -53,7 +56,8 @@
                 <button
                   type="button"
                   class="btn btn-outline-myorange p-2 col-12 col-lg-5 mb-3"
-                  @click="addCart(product.id, true)">
+                  @click="addCart(product.id, true)"
+                >
                   直接購買
                 </button>
               </div>
@@ -153,9 +157,20 @@ export default {
   methods: {
     getProductDetail() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${this.id}`;
-      this.axios.get(api).then((res) => {
-        this.product = res.data.product;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.product = res.data.product;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '網頁似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          this.$router.push('/');
+        });
     },
     addCart(id, directPurchase) {
       this.loadingItem = id;
@@ -166,18 +181,29 @@ export default {
           qty: this.qty,
         },
       };
-      this.axios.post(api, cart).then(() => {
-        this.emitter.emit('updateData');
-        this.loadingItem = '';
-        this.$swal({
-          title: '加入成功',
-          position: 'top-end',
-          toast: true,
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500,
+      this.axios
+        .post(api, cart)
+        .then(() => {
+          this.emitter.emit('updateData');
+          this.loadingItem = '';
+          this.$swal({
+            title: '加入成功',
+            position: 'top-end',
+            toast: true,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .catch(() => {
+          this.loadingItem = '';
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      });
       if (directPurchase) {
         this.$router.push('/cart');
       }

@@ -1,25 +1,28 @@
 <template>
-  <LoadingPlugin :active="isLoading"/>
+  <LoadingPlugin :active="isLoading" />
   <div
     ref="cartOffcanvas"
     class="offcanvas offcanvas-start"
     tabindex="-1"
     id="offcanvasWithBackdrop"
     aria-labelledby="offcanvasWithBackdropLabel"
-    data-bs-backdrop="true">
+    data-bs-backdrop="true"
+  >
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">購物車</h5>
       <button
         type="button"
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
-        aria-label="Close" />
+        aria-label="Close"
+      />
     </div>
     <div v-if="carts.length === 0" class="position-relative h-100">
       <button
         type="button"
         class="btn btn-mygreen text-white rounded-0 w-100"
-        @click="goProductPage">
+        @click="goProductPage"
+      >
         前往購物
         <i class="bi bi-caret-right-fill" />
         <i class="bi bi-caret-right-fill" />
@@ -53,7 +56,8 @@
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
-                  @click="updateCart(item, item.qty + 1)">
+                  @click="updateCart(item, item.qty + 1)"
+                >
                   <!-- 增加 -->
                   <i class="bi bi-plus" />
                 </button>
@@ -64,12 +68,14 @@
                   id="qty"
                   v-model="item.qty"
                   aria-label="qty"
-                  disabled/>
+                  disabled
+                />
                 <button
                   class="btn btn-sm btn-secondary rounded-0"
                   type="button"
                   @click="updateCart(item, item.qty - 1)"
-                  :disabled="item.qty === 1">
+                  :disabled="item.qty === 1"
+                >
                   <!-- 減少 -->
                   <i class="bi bi-dash" />
                 </button>
@@ -91,10 +97,7 @@
       <button type="button" class="btn btn-myorange text-white w-100 mb-3" @click="goCartPage">
         前往結帳
       </button>
-      <button
-        type="button"
-        class="btn btn-mybrown text-white w-100"
-        @click="cartOffcanvas.hide()">
+      <button type="button" class="btn btn-mybrown text-white w-100" @click="cartOffcanvas.hide()">
         繼續購物
       </button>
     </div>
@@ -122,29 +125,60 @@ export default {
     },
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.get(api).then((res) => {
-        this.carts = res.data.data.carts;
-        this.totalPrice = res.data.data.total;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.carts = res.data.data.carts;
+          this.totalPrice = res.data.data.total;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '網頁似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     // 變更數量
     updateCart(item, num) {
       const cart = { data: { product_id: item.id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
       this.isLoading = true;
-      this.axios.put(api, cart).then(() => {
-        this.emitter.emit('updateData');
-        this.isLoading = false;
-        this.getCarts();
-      });
+      this.axios
+        .put(api, cart)
+        .then(() => {
+          this.emitter.emit('updateData');
+          this.isLoading = false;
+          this.getCarts();
+        })
+        .catch(() => {
+          this.isLoading = false;
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     // 刪除品項
     deleteCart(id) {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios.delete(api).then(() => {
-        this.getCarts();
-        this.emitter.emit('updateData');
-      });
+      this.axios
+        .delete(api)
+        .then(() => {
+          this.getCarts();
+          this.emitter.emit('updateData');
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     // 清空購物車
     clearCart() {
@@ -160,17 +194,27 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
-          this.axios.delete(api).then(() => {
-            this.emitter.emit('updateData');
-            this.getCarts();
-            this.$swal({
-              icon: 'success',
-              title: '購物車已清空!',
-              showConfirmButton: false,
-              timer: 1500,
+          this.axios
+            .delete(api)
+            .then(() => {
+              this.emitter.emit('updateData');
+              this.getCarts();
+              this.$swal({
+                icon: 'success',
+                title: '購物車已清空!',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              this.cartOffcanvas.hide();
+            })
+            .catch(() => {
+              this.$swal({
+                title: '似乎有些問題 請稍後再嘗試',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 2000,
+              });
             });
-            this.cartOffcanvas.hide();
-          });
         }
       });
     },
@@ -204,7 +248,7 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-.fs-14{
+.fs-14 {
   font-size: 14px;
 }
 </style>

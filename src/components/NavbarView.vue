@@ -70,9 +70,19 @@ export default {
     },
     getCarts() {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios.get(api).then((res) => {
-        this.cartQty = res.data.data.carts.length;
-      });
+      this.axios
+        .get(api)
+        .then((res) => {
+          this.cartQty = res.data.data.carts.length;
+        })
+        .catch(() => {
+          this.$swal({
+            title: '網頁似乎有些問題 請稍後再來訪',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
     // navStatusChange()與下方監聽搭配使用
     navStatusChange() {

@@ -1,6 +1,5 @@
 <template>
-  <form class="bg d-flex justify-content-center align-items-center"
-    @submit.prevent="signIn">
+  <form class="bg d-flex justify-content-center align-items-center" @submit.prevent="signIn">
     <div class="login col-10 col-md-6 col-lg-3 p-4">
       <h2 class="mb-3 text-center text-white">後台登入</h2>
       <div class="mb-3 d-flex justify-content-center">
@@ -48,14 +47,24 @@ export default {
   methods: {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;
-      this.axios.post(api, this.user).then((res) => {
-        if (res.data.success === true) {
-          const { token, expired } = res.data;
-          // 把token存到cookie裡↓
-          document.cookie = `kkclock = ${token}; expires = ${new Date(expired)}`;
-          this.$router.push('/backstage/product_management');
-        }
-      });
+      this.axios
+        .post(api, this.user)
+        .then((res) => {
+          if (res.data.success === true) {
+            const { token, expired } = res.data;
+            // 把token存到cookie裡↓
+            document.cookie = `kkclock = ${token}; expires = ${new Date(expired)}`;
+            this.$router.push('/backstage/product_management');
+          }
+        })
+        .catch(() => {
+          this.$swal({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        });
     },
   },
 };

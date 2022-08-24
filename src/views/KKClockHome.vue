@@ -34,7 +34,6 @@
       <div class="pb-5">
         <DProductCard />
       </div>
-
       <div class="text-center">
         <router-link to="product_list/全部商品" class="btn btn-secondary px-5">
           查看更多商品<i class="bi bi-caret-right-fill" />
