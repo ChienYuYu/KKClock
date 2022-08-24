@@ -79,7 +79,7 @@
             {{ category }}
             <hr class="ms-lg-2" />
           </h3>
-          <ProductCard :products="products"></ProductCard>
+          <ProductCard :products="products" />
         </div>
       </div>
     </div>
@@ -88,6 +88,7 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue';
+import titleMixin from '../mixins/titleMixin';
 
 export default {
   data() {
@@ -100,6 +101,7 @@ export default {
   components: {
     ProductCard,
   },
+  mixins: [titleMixin],
   methods: {
     // 取得產品
     getProducts() {
@@ -121,9 +123,9 @@ export default {
       this.getProducts();
     },
   },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
-  },
+  // beforeCreate() {
+  //   document.title = this.$route.meta.title;
+  // },
   created() {
     this.category = this.$route.params.category;
     this.getProducts();

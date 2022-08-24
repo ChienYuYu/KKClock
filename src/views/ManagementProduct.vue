@@ -4,7 +4,7 @@
     <div class="my-4 d-flex justify-content-between">
       <h2>產品管理</h2>
       <button type="button" class="btn btn-dark text-warning" @click="openProductModal(true)">
-        <i class="bi bi-bag-plus-fill me-2"></i>新增產品&ensp;
+        <i class="bi bi-bag-plus-fill me-2" />新增產品&ensp;
       </button>
     </div>
     <table class="table">

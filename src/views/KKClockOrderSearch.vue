@@ -53,8 +53,8 @@
           </tbody>
           <tfoot>
             <tr>
-              <td></td>
-              <td></td>
+              <td />
+              <td />
               <td colspan="2" class="text-end">
                 <p class="text-myred mb-0">總計 ${{ currency(Math.round(order.total)) }}</p>
                 <span class="text-muted remind">(小數點四捨五入)</span>
@@ -104,6 +104,8 @@
 </template>
 
 <script>
+import titleMixin from '../mixins/titleMixin';
+
 export default {
   inject: ['currency'],
   data() {
@@ -116,6 +118,7 @@ export default {
       isLoading: false,
     };
   },
+  mixins: [titleMixin],
   methods: {
     searchOrder() {
       if (this.orderId.trim() !== '') {
@@ -140,9 +143,6 @@ export default {
         this.searchOrder();
       });
     },
-  },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
   },
 };
 </script>

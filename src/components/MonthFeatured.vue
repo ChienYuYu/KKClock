@@ -7,8 +7,8 @@
           <div class="card-img-overlay p-0">
             <p class="card-text bg-danger bg-opacity-75 d-inline h4 position-absolute bottom-0 p-2">
               購物去
-              <i class="bi bi-caret-right-fill"></i>
-              <i class="bi bi-caret-right-fill"></i>
+              <i class="bi bi-caret-right-fill" />
+              <i class="bi bi-caret-right-fill" />
             </p>
           </div>
         </div>
@@ -21,8 +21,8 @@
           <div class="card-img-overlay p-0">
             <p class="card-text bg-danger bg-opacity-75 d-inline h4 position-absolute bottom-0 p-2">
               購物去
-              <i class="bi bi-caret-right-fill"></i>
-              <i class="bi bi-caret-right-fill"></i>
+              <i class="bi bi-caret-right-fill" />
+              <i class="bi bi-caret-right-fill" />
             </p>
           </div>
         </div>
@@ -35,8 +35,8 @@
           <div class="card-img-overlay p-0">
             <p class="card-text bg-danger bg-opacity-75 d-inline h4 position-absolute bottom-0 p-2">
               購物去
-              <i class="bi bi-caret-right-fill"></i>
-              <i class="bi bi-caret-right-fill"></i>
+              <i class="bi bi-caret-right-fill" />
+              <i class="bi bi-caret-right-fill" />
             </p>
           </div>
         </div>

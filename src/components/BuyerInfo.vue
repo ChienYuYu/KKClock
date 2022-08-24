@@ -15,8 +15,7 @@
             aria-describedby="emailHelp"
             placeholder="請輸入Email"
             v-model="form.user.email"
-          >
-          </Field>
+          />
           <ErrorMessage name="email" class="text-danger" />
         </label>
       </div>
@@ -33,8 +32,7 @@
             aria-describedby="emailHelp"
             placeholder="請輸入收件人姓名"
             v-model="form.user.name"
-          >
-          </Field>
+          />
           <ErrorMessage name="name" class="text-danger" />
         </label>
       </div>
@@ -51,8 +49,7 @@
             aria-describedby="emailHelp"
             placeholder="請輸入手機ex 0912345678"
             v-model="form.user.tel"
-          >
-          </Field>
+          />
           <ErrorMessage name="phone" class="text-danger" />
         </label>
       </div>
@@ -69,23 +66,17 @@
             aria-describedby="emailHelp"
             placeholder="請輸入收件人地址"
             v-model="form.user.address"
-          >
-          </Field>
+          />
           <ErrorMessage name="address" class="text-danger" />
         </label>
       </div>
       <div class="mb-3">
         <label for="message" class="form-label w-100">
           留言
-          <Field
-            name="message"
-            id="message"
-            class="form-control mt-2"
-            v-model="form.message"
-          ></Field>
+          <Field name="message" id="message" class="form-control mt-2" v-model="form.message" />
         </label>
       </div>
-      <input type="submit" value="送出訂單 & 付款去" class="btn btn-danger">
+      <input type="submit" value="送出訂單 & 付款去" class="btn btn-danger" />
     </Form>
   </div>
 </template>

@@ -13,7 +13,7 @@
         type="button"
         class="btn-close text-reset"
         data-bs-dismiss="offcanvas"
-        aria-label="Close"></button>
+        aria-label="Close" />
     </div>
     <div v-if="carts.length === 0" class="position-relative h-100">
       <button
@@ -21,8 +21,8 @@
         class="btn btn-mygreen text-white rounded-0 w-100"
         @click="goProductPage">
         前往購物
-        <i class="bi bi-caret-right-fill"></i>
-        <i class="bi bi-caret-right-fill"></i>
+        <i class="bi bi-caret-right-fill" />
+        <i class="bi bi-caret-right-fill" />
       </button>
       <div class="position-absolute top-50 start-50 translate-middle">
         <p class="text-center h3 text-dark">購物車空空的</p>
@@ -33,7 +33,7 @@
       <table class="table">
         <thead>
           <tr class="text-nowrap text-center">
-            <th scope="col"></th>
+            <th scope="col" />
             <th scope="col">品名</th>
             <th scope="col">數量</th>
             <th scope="col">金額</th>
@@ -44,7 +44,7 @@
             <th scope="row" class="px-0">
               <!-- 刪除 -->
               <button type="button" class="btn btn-danger btn-sm" @click="deleteCart(item.id)">
-                <i class="bi bi-trash"></i>
+                <i class="bi bi-trash" />
               </button>
             </th>
             <td class="text-nowrap fs-14">{{ item.product.title }}</td>
@@ -55,7 +55,7 @@
                   type="button"
                   @click="updateCart(item, item.qty + 1)">
                   <!-- 增加 -->
-                  <i class="bi bi-plus"></i>
+                  <i class="bi bi-plus" />
                 </button>
                 <input
                   type="number"
@@ -71,7 +71,7 @@
                   @click="updateCart(item, item.qty - 1)"
                   :disabled="item.qty === 1">
                   <!-- 減少 -->
-                  <i class="bi bi-dash"></i>
+                  <i class="bi bi-dash" />
                 </button>
               </div>
             </td>

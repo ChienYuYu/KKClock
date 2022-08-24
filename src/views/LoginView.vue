@@ -1,6 +1,6 @@
 <template>
   <form class="bg d-flex justify-content-center align-items-center"
-    @submit.prevent="signIn()">
+    @submit.prevent="signIn">
     <div class="login col-10 col-md-6 col-lg-3 p-4">
       <h2 class="mb-3 text-center text-white">後台登入</h2>
       <div class="mb-3 d-flex justify-content-center">
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import titleMixin from '../mixins/titleMixin';
+
 export default {
   data() {
     return {
@@ -42,6 +44,7 @@ export default {
       },
     };
   },
+  mixins: [titleMixin],
   methods: {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;
@@ -54,9 +57,6 @@ export default {
         }
       });
     },
-  },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
   },
 };
 </script>

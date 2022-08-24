@@ -37,7 +37,7 @@
 
       <div class="text-center">
         <router-link to="product_list/全部商品" class="btn btn-secondary px-5">
-          查看更多商品<i class="bi bi-caret-right-fill"></i>
+          查看更多商品<i class="bi bi-caret-right-fill" />
         </router-link>
       </div>
     </div>
@@ -50,6 +50,7 @@ import CouponBanner from '../components/CouponBanner.vue';
 import HotProduct from '../components/HotProduct.vue';
 import MonthFeatured from '../components/MonthFeatured.vue';
 import DProductCard from '../components/ProductCardDiscounted.vue';
+import titleMixin from '../mixins/titleMixin';
 
 export default {
   components: {
@@ -59,8 +60,6 @@ export default {
     MonthFeatured,
     DProductCard,
   },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
-  },
+  mixins: [titleMixin],
 };
 </script>

@@ -8,7 +8,7 @@
             <th scope="col">品名</th>
             <th scope="col">數量</th>
             <th scope="col">合計</th>
-            <th scope="col"></th>
+            <th scope="col" />
           </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@
                   type="button"
                   @click="updateCart(item.id, item.qty + 1)"
                 >
-                  <i class="bi bi-plus"></i>
+                  <i class="bi bi-plus" />
                 </button>
                 <input
                   type="number"
@@ -38,19 +38,19 @@
                   @click="updateCart(item.id, item.qty - 1)"
                   :disabled="item.qty === 1"
                 >
-                  <i class="bi bi-dash"></i>
+                  <i class="bi bi-dash" />
                 </button>
               </div>
             </td>
             <td class="small-font">${{ currency(item.total) }}</td>
             <td>
               <button type="button" class="btn btn-danger btn-sm" @click="deleteCart(item.id)">
-                <i class="bi bi-trash"></i>
+                <i class="bi bi-trash" />
               </button>
             </td>
           </tr>
           <tr>
-            <td class="border-0" colspan=""></td>
+            <td class="border-0" />
           </tr>
           <tr>
             <td colspan="4">
@@ -93,11 +93,13 @@
 
 <script>
 import BuyerInfo from '../components/BuyerInfo.vue';
+import titleMixin from '../mixins/titleMixin';
 
 export default {
   components: {
     BuyerInfo,
   },
+  mixins: [titleMixin],
   data() {
     return {
       carts: [],
@@ -147,9 +149,6 @@ export default {
         }
       });
     },
-  },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
   },
   created() {
     this.getCarts();

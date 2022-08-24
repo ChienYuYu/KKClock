@@ -4,12 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">訂單資料</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div class="modal-body">
           <div class="row">
@@ -52,7 +47,7 @@
                   </tr>
                   <tr>
                     <th scope="row">下單時間</th>
-                    <td>{{ new Date(order.create_at*1000).toLocaleDateString() }}</td>
+                    <td>{{ new Date(order.create_at * 1000).toLocaleDateString() }}</td>
                   </tr>
                   <tr>
                     <th scope="row">付款狀態</th>
@@ -64,8 +59,8 @@
                   <tr>
                     <th scope="row">付款時間</th>
                     <td>
-                      <span v-if="order.paid_date" >
-                        {{ new Date(order.paid_date*1000).toLocaleDateString() }}
+                      <span v-if="order.paid_date">
+                        {{ new Date(order.paid_date * 1000).toLocaleDateString() }}
                       </span>
                       <span v-else>尚未付款</span>
                     </td>

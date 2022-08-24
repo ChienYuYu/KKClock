@@ -17,7 +17,7 @@
         @click="navStatusChange"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" />
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav" ref="navbar">
         <ul class="navbar-nav">
@@ -31,7 +31,7 @@
             <router-link to="/order_search" class="nav-link">訂單查詢</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" @click.prevent="openOffcanvas()">
+            <a class="nav-link" href="#" @click.prevent="openOffcanvas">
               購物車
               <i class="bi bi-cart-fill position-relative">
                 <span
@@ -48,7 +48,7 @@
     </div>
   </nav>
 
-  <CartOffcanvas ref="cartOffcanvas"></CartOffcanvas>
+  <CartOffcanvas ref="cartOffcanvas" />
 </template>
 
 <script>

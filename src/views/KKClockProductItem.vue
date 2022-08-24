@@ -18,7 +18,7 @@
               </div>
               <div class="d-flex col-10 col-md-6 col-lg-3 mb-4">
                 <button class="btn btn-sm btn-secondary rounded-0" type="button" @click="qty += 1">
-                  <i class="bi bi-plus"></i>
+                  <i class="bi bi-plus" />
                 </button>
                 <input
                   type="number"
@@ -34,7 +34,7 @@
                   type="button"
                   @click="qty -= 1"
                   :disabled="qty === 1">
-                  <i class="bi bi-dash"></i>
+                  <i class="bi bi-dash" />
                 </button>
               </div>
               <div>
@@ -62,7 +62,7 @@
                   <h3 class="py-3">購物須知</h3>
                   <ul class="list-unstyled">
                     <li class="d-flex">
-                      <i class="bi bi-caret-right-fill me-2"></i>
+                      <i class="bi bi-caret-right-fill me-2" />
                       <p>
                         訂購與配送：完成訂購流程後，商品將依訂單順序於 3-5 日工作天內出貨， 出貨後的
                         3-5 日工作天可送達指定地址。出貨工作日為週一至週五，週末不出貨，
@@ -70,7 +70,7 @@
                       </p>
                     </li>
                     <li class="d-flex">
-                      <i class="bi bi-caret-right-fill me-2"></i>
+                      <i class="bi bi-caret-right-fill me-2" />
                       <p>
                         週末與國定假日訂購及配送：週四晚間 6 點
                         至週日全天之間完成訂購之訂單，我們會在下個星期一起依訂購順序為您處理包裝出貨。
@@ -78,7 +78,7 @@
                       </p>
                     </li>
                     <li class="d-flex">
-                      <i class="bi bi-caret-right-fill me-2"></i>
+                      <i class="bi bi-caret-right-fill me-2" />
                       <p>
                         臺灣配送時程：臺北市地區於出貨後 1-2 日內即會送達；
                         臺灣其他地區（不含偏遠與離島）則於出貨後的 1-3 日內送達；
@@ -95,7 +95,7 @@
               <h3 class="py-3 text-center">購物須知</h3>
               <ul class="list-unstyled">
                 <li class="d-flex">
-                  <i class="bi bi-caret-right-fill me-2"></i>
+                  <i class="bi bi-caret-right-fill me-2" />
                   <p>
                     訂購與配送：完成訂購流程後，商品將依訂單順序於 3-5 日工作天內出貨， 出貨後的 3-5
                     日工作天可送達指定地址。出貨工作日為週一至週五，週末不出貨，
@@ -103,7 +103,7 @@
                   </p>
                 </li>
                 <li class="d-flex">
-                  <i class="bi bi-caret-right-fill me-2"></i>
+                  <i class="bi bi-caret-right-fill me-2" />
                   <p>
                     週末與國定假日訂購及配送：週四晚間 6 點
                     至週日全天之間完成訂購之訂單，我們會在下個星期一起依訂購順序為您處理包裝出貨。
@@ -111,7 +111,7 @@
                   </p>
                 </li>
                 <li class="d-flex">
-                  <i class="bi bi-caret-right-fill me-2"></i>
+                  <i class="bi bi-caret-right-fill me-2" />
                   <p>
                     臺灣配送時程：臺北市地區於出貨後 1-2 日內即會送達；
                     臺灣其他地區（不含偏遠與離島）則於出貨後的 1-3 日內送達；
@@ -128,7 +128,7 @@
   <section class="container py-5">
     <h2 class="text-secondary text-center text-myred mb-4">
       你可能會喜歡
-      <i class="bi bi-caret-down-fill"></i>
+      <i class="bi bi-caret-down-fill" />
     </h2>
     <DProductCard />
   </section>

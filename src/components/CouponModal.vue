@@ -4,12 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">優惠券管理</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
         </div>
         <div class="modal-body">
           <div class="input-group mb-3">
@@ -53,7 +48,6 @@
               <input
                 class="form-check-input"
                 type="checkbox"
-                value=""
                 id="enableCoupon"
                 :true-value="1"
                 :false-value="0"

@@ -24,8 +24,8 @@
           </tbody>
           <tfoot>
             <tr>
-              <td></td>
-              <td></td>
+              <td />
+              <td />
               <td colspan="2" class="text-end">
                 <p class="text-myred mb-0">總計 ${{ currency(finalPrice) }}</p>
                 <span class="text-muted remind">(小數點四捨五入)</span>
@@ -74,15 +74,18 @@
     <div v-if="goShopping === true"
       class="col text-center pb-5">
       <router-link to="/product_list/全部商品" class="btn btn-outline-secondary px-5">
-          繼續購物<i class="bi bi-caret-right-fill"></i>
+          繼續購物<i class="bi bi-caret-right-fill" />
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import titleMixin from '../mixins/titleMixin';
+
 export default {
   inject: ['currency'],
+  mixins: [titleMixin],
   data() {
     return {
       order: {
@@ -111,9 +114,6 @@ export default {
         this.goShopping = true;
       });
     },
-  },
-  beforeCreate() {
-    document.title = this.$route.meta.title;
   },
   created() {
     this.orderId = this.$route.params.orderId;

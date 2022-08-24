@@ -43,10 +43,10 @@
     </div>
     <div class="text-center">
       <router-link to="product_list/全部商品" class="go-buy btn px-5">
-        <i class="bi bi-cart me-1"></i>
+        <i class="bi bi-cart me-1" />
         購物去
-        <i class="bi bi-caret-right"></i>
-        <i class="bi bi-caret-right"></i>
+        <i class="bi bi-caret-right" />
+        <i class="bi bi-caret-right" />
       </router-link>
     </div>
 </template>

@@ -59,7 +59,7 @@
       </tbody>
     </table>
   </div>
-  <OrderModal ref="orderModal" :order="tempOrder"></OrderModal>
+  <OrderModal ref="orderModal" :order="tempOrder" />
   <DeleteOrderModal
     ref="delOrderModal"
     @delete-order="deleteOrder"

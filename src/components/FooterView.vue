@@ -1,7 +1,7 @@
 <template>
   <footer class="footer text-center">
     <router-link to="/login" class="text-decoration-none text-white">
-      <i class="bi bi-person-fill me-1"></i>後台管理登入&ensp;
+      <i class="bi bi-person-fill me-1" />後台管理登入&ensp;
     </router-link>
     <p class="text-light pt-2">© 2022 by Chen Chien Yu</p>
   </footer>

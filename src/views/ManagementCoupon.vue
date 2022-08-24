@@ -4,7 +4,7 @@
     <div class="my-4 d-flex justify-content-between">
       <h2>優惠券管理</h2>
       <button type="button" class="btn btn-dark text-warning" @click="openModal(true)">
-        <i class="bi bi-bag-plus-fill me-2"></i>新增優惠券&ensp;
+        <i class="bi bi-bag-plus-fill me-2" />新增優惠券&ensp;
       </button>
     </div>
     <table class="table">
@@ -45,7 +45,7 @@
       </tbody>
     </table>
   </div>
-  <CouponModal ref="couponModal" :coupon="tempCoupon" @update-coupon="updateCoupon"></CouponModal>
+  <CouponModal ref="couponModal" :coupon="tempCoupon" @update-coupon="updateCoupon" />
   <DeleteCouponModal
     ref="delCouponModal"
     :coupon="tempCoupon"
