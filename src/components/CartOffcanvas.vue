@@ -20,7 +20,7 @@
     <div v-if="carts.length === 0" class="position-relative h-100">
       <button
         type="button"
-        class="btn btn-mygreen text-white rounded-0 w-100"
+        class="btn btn-myorange text-white rounded-0 w-100"
         @click="goProductPage"
       >
         前往購物
