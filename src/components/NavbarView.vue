@@ -137,6 +137,7 @@ export default {
   padding-bottom: 65px;
 }
 .item-active{
-  color: #5fd0c3 !important;
+  /* color: #5fd0c3 !important; */
+  color: #ff953d !important;
 }
 </style>

@@ -150,12 +150,12 @@ export default {
   color: #777;
   border-bottom: 1px solid #dee2e6;
   &:hover {
-    background: #59d2c8;
+    background: #ddd;
     color: #fff;
   }
 }
 .list-active {
-  background: #59d2c8;
+  background: #ccc;
   color: #fff;
 }
 .product-list-group {

@@ -29,11 +29,11 @@
         <button
           type="button"
           :disabled="loadingItem == item.id"
-          class="btn btn-mygreen text-white m-2 py-1"
+          class="btn btn-outline-secondary m-2 py-1"
           @click="addCart(item.id)"
         >
           <div
-            class="spinner-border spinner-border-sm text-white"
+            class="spinner-border spinner-border-sm text-mygreey"
             role="status"
             v-if="loadingItem == item.id"
           >
@@ -126,7 +126,7 @@ export default {
     swiperNum() {
       if (this.deviceWidth < 650) {
         this.slidesPerView = 1;
-      } else if (this.deviceWidth < 1050) {
+      } else if (this.deviceWidth < 1200) {
         this.slidesPerView = 3;
       } else {
         this.slidesPerView = 5;
@@ -150,7 +150,6 @@ export default {
 
 <style lang="scss">
 .product_card {
-  box-shadow: 4px 4px 5px rgb(227, 227, 227);
   transition: 0.3s;
   &:hover {
     transform: scale(105%);
@@ -171,8 +170,8 @@ export default {
 }
 .swiper-button-prev,
 .swiper-button-next {
-  color: #fff;
-  background: rgba(255, 112, 112, 0.5);
+  color: #eee;
+  background: rgba(75, 75, 75, 0.3);
   padding: 26px 20px;
   transform: scale(75%);
 }

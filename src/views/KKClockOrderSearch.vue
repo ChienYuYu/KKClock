@@ -13,7 +13,7 @@
             required
             v-model="orderId"
           />
-          <button type="button" class="btn btn-mygreen text-white" @click="searchOrder">
+          <button type="button" class="btn btn-myorange text-white" @click="searchOrder">
             查詢
           </button>
         </div>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div v-if="orderId !== tempOrderId" class="text-center">
-      <h2 class="text-mygreen py-4">請輸入訂單編號</h2>
+      <h2 class="text-myorange py-4">請輸入訂單編號</h2>
       <p class="text-secondary">( 20碼數字+符號+英文大小寫 )</p>
       <p class="text-secondary">範例: -N8RgQpyakFeuOluP-o-</p>
     </div>

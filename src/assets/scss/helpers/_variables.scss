@@ -87,10 +87,11 @@ $theme-colors: (
   "danger":     $danger,//#db2b66,//$danger,
   "light":      $light,
   "dark":       $dark,
-  "myorange":   #ff953d,//新增
-  "mybrown":   #e47922,//新增
+  "myorange":   #ff953d, //新增
+  "mybrown":   #e47922, //新增
   "mygreen" :   #59d2c8, //新增
-  "myred":      #ec4079
+  "myred":      #ec4079, //新增
+  "mygrey":      #607371 //新增
 ) !default;
 // scss-docs-end theme-colors-map
 

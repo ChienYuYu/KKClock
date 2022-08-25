@@ -15,11 +15,11 @@
         <button
           type="button"
           :disabled="loadingItem == item.id"
-          class="btn btn-mygreen text-white m-2 py-1"
+          class="btn btn-outline-secondary m-2 py-1 mt-auto"
           @click="addCart(item.id)"
         >
           <div
-            class="spinner-border spinner-border-sm text-white"
+            class="spinner-border spinner-border-sm text-mygrey"
             role="status"
             v-if="loadingItem == item.id"
           >
@@ -85,7 +85,6 @@ export default {
 
 <style lang="scss" scoped>
 .product_card {
-  box-shadow: 4px 4px 5px rgb(227, 227, 227);
   transition: 0.3s;
   &:hover {
     transform: scale(105%);
