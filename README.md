@@ -1,24 +1,11 @@
-# kkclock
+虛構品牌kkClock 時鐘專賣電商網站
 
-## Project setup
-```
-npm install
-```
+自己進行前端畫面設計切版、圖片後製
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+並使用vue做出相對應功能
 
-### Compiles and minifies for production
-```
-npm run build
-```
+後端API由六角學院提供
 
-### Lints and fixes files
-```
-npm run lint
-```
+圖片素材均來自cc0免版權圖庫
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Unsplash、Pexels、Pixabay
