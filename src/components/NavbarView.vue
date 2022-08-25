@@ -22,21 +22,34 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav" ref="navbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link">首頁</router-link>
+            <router-link to="/" class="nav-link"
+            @click.prevent="getNavItem('首頁')"
+            :class="{ 'item-active': navItem === '首頁' }">
+              首頁</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/product_list/全部商品" class="nav-link">購物</router-link>
+            <router-link
+              to="/product_list/全部商品"
+              class="nav-link"
+              @click.prevent="getNavItem('購物')"
+              :class="{ 'item-active': navItem === '購物' }">
+              購物</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/order_search" class="nav-link">訂單查詢</router-link>
+            <router-link
+              to="/order_search"
+              class="nav-link"
+              @click.prevent="getNavItem('訂單查詢')"
+              :class="{ 'item-active': navItem === '訂單查詢' }">
+              訂單查詢</router-link>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="openOffcanvas">
               購物車
               <i class="bi bi-cart-fill position-relative">
                 <span
-                  class="position-absolute top-0 start-100 translate-middle
-                  badge badge_txt rounded-circle bg-myorange"
+                  class="position-absolute top-0 start-100
+                  translate-middle badge badge_txt rounded-circle bg-myorange"
                   :class="cartQty == 0 ? 'd-none' : 'd-block'"
                   >{{ cartQty }}
                 </span>
@@ -62,6 +75,7 @@ export default {
     return {
       cartQty: '',
       navStatus: false,
+      navItem: '',
     };
   },
   methods: {
@@ -83,6 +97,9 @@ export default {
             timer: 2000,
           });
         });
+    },
+    getNavItem(item) {
+      this.navItem = item;
     },
     // navStatusChange()與下方監聽搭配使用
     navStatusChange() {
@@ -119,7 +136,7 @@ export default {
 .nav-spacing {
   padding-bottom: 65px;
 }
-.router-link-exact-active {
+.item-active{
   color: #5fd0c3 !important;
 }
 </style>

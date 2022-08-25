@@ -162,7 +162,7 @@ export default {
         });
     },
     deleteCart(id) {
-      const api = `${process.env.VUE_APP_API}api123/${process.env.VUE_APP_PATH}/cart/${id}`;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.axios
         .delete(api)
         .then(() => {
