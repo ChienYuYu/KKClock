@@ -1,5 +1,6 @@
 <template>
   <LoadingPlugin :active="isLoading" />
+  <ProgressBar />
   <div class="container mt-5">
     <div class="col-12 col-md-10 mx-auto">
       <table class="table">
@@ -93,20 +94,25 @@
           </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-center p-5">
+        <button type="button" class="btn btn-danger"
+        @click="this.$router.push('/buyer_info')">
+          下一步
+        </button>
+      </div>
     </div>
-    <BuyerInfo />
   </div>
 </template>
 
 <script>
-import BuyerInfo from '../components/BuyerInfo.vue';
+import ProgressBar from '@/components/ProgressBar.vue';
 import titleMixin from '../mixins/titleMixin';
 
 export default {
-  components: {
-    BuyerInfo,
-  },
   mixins: [titleMixin],
+  components: {
+    ProgressBar,
+  },
   data() {
     return {
       carts: [],
@@ -145,7 +151,7 @@ export default {
     },
     updateCart(id, num) {
       const cart = { data: { product_id: id, qty: num } };
-      const api = `${process.env.VUE_APP_API}ap123/${process.env.VUE_APP_PATH}/cart/${id}`;
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
       this.axios
         .put(api, cart)
         .then(() => {

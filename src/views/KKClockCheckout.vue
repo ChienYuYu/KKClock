@@ -1,5 +1,6 @@
 <template>
   <LoadingPlugin :active="isLoading" />
+  <ProgressBar />
   <div class="container">
     <div class="row justify-content-center my-5">
       <form class="col-md-10 col-lg-6" @submit.prevent="checkout">
@@ -84,11 +85,15 @@
 </template>
 
 <script>
+import ProgressBar from '@/components/ProgressBar.vue';
 import titleMixin from '../mixins/titleMixin';
 
 export default {
   inject: ['currency'],
   mixins: [titleMixin],
+  components: {
+    ProgressBar,
+  },
   data() {
     return {
       order: {

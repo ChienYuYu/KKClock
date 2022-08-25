@@ -56,6 +56,13 @@ const routes = [
         path: 'cart',
         component: () => import('../views/KKClockCart.vue'),
         meta: {
+          title: 'KKClock 確認訂單',
+        },
+      },
+      {
+        path: 'buyer_info',
+        component: () => import('../views/kkClockBuyerInfo.vue'),
+        meta: {
           title: 'KKClock 填寫訂單資料',
         },
       },
@@ -63,7 +70,7 @@ const routes = [
         path: 'checkout/:orderId',
         component: () => import('../views/KKClockCheckout.vue'),
         meta: {
-          title: 'KKClock 訂單明細',
+          title: 'KKClock 付款',
         },
       },
       {
