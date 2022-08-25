@@ -75,7 +75,7 @@ export default {
     return {
       cartQty: '',
       navStatus: false,
-      navItem: '',
+      navItem: '首頁',
     };
   },
   methods: {
@@ -115,14 +115,21 @@ export default {
   created() {
     this.getCarts();
   },
-  // 監聽$route解決nav收闔問題
-  // 參考 https://ithelp.ithome.com.tw/m/articles/10284730
   watch: {
     $route() {
+      // 監聽$route解決nav收闔問題
+      // 參考 https://ithelp.ithome.com.tw/m/articles/10284730
       if (document.body.offsetWidth < 992) {
         if (this.navStatus === true) {
           this.$refs.navbarBtn.click();
         }
+      }
+      // 避免active效果失效
+      if ((this.$route.path !== '/') && (this.$route.path !== '/order_search')) {
+        this.navItem = '購物';
+      }
+      if (this.$route.path === '/') {
+        this.$router.go(0);
       }
     },
   },
