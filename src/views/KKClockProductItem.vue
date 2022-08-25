@@ -55,7 +55,7 @@
                 </button>
                 <button
                   type="button"
-                  class="btn btn-outline-myorange p-2 col-12 col-lg-5 mb-3"
+                  class="direct-buy btn p-2 col-12 col-lg-5 mb-3"
                   @click="addCart(product.id, true)"
                 >
                   直接購買
@@ -229,3 +229,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.direct-buy{
+  border: 1px solid #ff953d;
+  color: #ff953d;
+    &:hover{
+    background: #ff953d;
+    color: #fff;
+  }
+}
+</style>
