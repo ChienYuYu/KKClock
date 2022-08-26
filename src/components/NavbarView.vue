@@ -122,15 +122,15 @@ export default {
   },
   created() {
     this.getCarts();
-    // 避免active效果失效
+    // 避免active效果失效 watch也要寫
     if (this.$route.path === '/') {
       this.navItem = '首頁';
     }
-    if (this.$route.path === '/product_list/全部商品') {
-      this.navItem = '購物';
-    }
     if (this.$route.path === '/order_search') {
       this.navItem = '訂單查詢';
+    }
+    if ((this.$route.path !== '/') && (this.$route.path !== '/order_search')) {
+      this.navItem = '購物';
     }
   },
   watch: {
@@ -141,6 +141,16 @@ export default {
         if (this.navStatus === true) {
           this.$refs.navbarBtn.click();
         }
+      }
+      // 避免active效果失效
+      if (this.$route.path === '/') {
+        this.navItem = '首頁';
+      }
+      if (this.$route.path === '/order_search') {
+        this.navItem = '訂單查詢';
+      }
+      if (this.$route.path !== '/' && this.$route.path !== '/order_search') {
+        this.navItem = '購物';
       }
     },
   },
@@ -155,7 +165,6 @@ export default {
   padding-bottom: 65px;
 }
 .item-active {
-  /* color: #5fd0c3 !important; */
   color: #ff953d !important;
 }
 </style>
