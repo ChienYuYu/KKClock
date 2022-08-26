@@ -9,3 +9,7 @@
 圖片素材均來自cc0免版權圖庫
 
 Unsplash、Pexels、Pixabay
+
+所有內容純屬虛構
+
+所有商品均無實際販售
