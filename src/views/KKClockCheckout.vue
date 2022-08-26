@@ -63,6 +63,10 @@
               <th>訂單編號</th>
               <td>{{ orderId }}</td>
             </tr>
+            <tr>
+              <th>留言</th>
+              <td>{{ order.message }}</td>
+            </tr>
           </tbody>
         </table>
         <div class="text-end">

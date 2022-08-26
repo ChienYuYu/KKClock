@@ -28,7 +28,7 @@
     <div v-if="orderId !== tempOrderId" class="text-center">
       <h2 class="text-myorange py-4">請輸入訂單編號</h2>
       <p class="text-secondary">( 20碼數字+符號+英文大小寫 )</p>
-      <p class="text-secondary">範例: -N8RgQpyakFeuOluP-o-</p>
+      <p class="text-secondary">範例: -NANgXsFQqCED1tUrEIz</p>
     </div>
     <div class="row justify-content-center my-5" v-else>
       <form class="col-md-10 col-lg-6" @submit.prevent="checkout">
@@ -65,31 +65,35 @@
         <table class="table">
           <tbody>
             <tr>
-              <th>Email</th>
+              <th class="text-nowrap">Email</th>
               <td>{{ order.user.email }}</td>
             </tr>
             <tr>
-              <th>姓名</th>
+              <th class="text-nowrap">姓名</th>
               <td>{{ order.user.name }}</td>
             </tr>
             <tr>
-              <th>收件人電話</th>
+              <th class="text-nowrap">收件人電話</th>
               <td>{{ order.user.tel }}</td>
             </tr>
             <tr>
-              <th>收件人地址</th>
+              <th class="text-nowrap">收件人地址</th>
               <td>{{ order.user.address }}</td>
             </tr>
             <tr>
-              <th>付款狀態</th>
+              <th class="text-nowrap">付款狀態</th>
               <td>
                 <span class="text-success" v-if="order.is_paid">付款完成</span>
                 <span class="v-else text-myred" v-else>尚未付款</span>
               </td>
             </tr>
             <tr>
-              <th>訂單編號</th>
+              <th class="text-nowrap">訂單編號</th>
               <td>{{ orderId }}</td>
+            </tr>
+            <tr>
+              <th class="text-nowrap">留言</th>
+              <td>{{ order.message }}</td>
             </tr>
           </tbody>
         </table>
