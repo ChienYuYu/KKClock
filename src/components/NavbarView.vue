@@ -22,26 +22,34 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav" ref="navbar">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <router-link to="/" class="nav-link"
-            @click.prevent="getNavItem('首頁')"
-            :class="{ 'item-active': navItem === '首頁' }">
-              首頁</router-link>
+            <router-link
+              to="/"
+              class="nav-link"
+              @click.prevent="getNavItem('首頁')"
+              :class="{ 'item-active': navItem === '首頁' }"
+            >
+              首頁</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link
               to="/product_list/全部商品"
               class="nav-link"
               @click.prevent="getNavItem('購物')"
-              :class="{ 'item-active': navItem === '購物' }">
-              購物</router-link>
+              :class="{ 'item-active': navItem === '購物' }"
+            >
+              購物</router-link
+            >
           </li>
           <li class="nav-item">
             <router-link
               to="/order_search"
               class="nav-link"
               @click.prevent="getNavItem('訂單查詢')"
-              :class="{ 'item-active': navItem === '訂單查詢' }">
-              訂單查詢</router-link>
+              :class="{ 'item-active': navItem === '訂單查詢' }"
+            >
+              訂單查詢</router-link
+            >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click.prevent="openOffcanvas">
@@ -75,7 +83,7 @@ export default {
     return {
       cartQty: '',
       navStatus: false,
-      navItem: '首頁',
+      navItem: '',
     };
   },
   methods: {
@@ -114,6 +122,16 @@ export default {
   },
   created() {
     this.getCarts();
+    // 避免active效果失效
+    if (this.$route.path === '/') {
+      this.navItem = '首頁';
+    }
+    if (this.$route.path === '/product_list/全部商品') {
+      this.navItem = '購物';
+    }
+    if (this.$route.path === '/order_search') {
+      this.navItem = '訂單查詢';
+    }
   },
   watch: {
     $route() {
@@ -123,13 +141,6 @@ export default {
         if (this.navStatus === true) {
           this.$refs.navbarBtn.click();
         }
-      }
-      // 避免active效果失效
-      if ((this.$route.path !== '/') && (this.$route.path !== '/order_search')) {
-        this.navItem = '購物';
-      }
-      if (this.$route.path === '/') {
-        this.$router.go(0);
       }
     },
   },
@@ -143,7 +154,7 @@ export default {
 .nav-spacing {
   padding-bottom: 65px;
 }
-.item-active{
+.item-active {
   /* color: #5fd0c3 !important; */
   color: #ff953d !important;
 }
