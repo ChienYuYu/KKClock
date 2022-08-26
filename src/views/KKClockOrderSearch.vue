@@ -157,7 +157,7 @@ export default {
       this.axios
         .post(api)
         .then(() => {
-          this.searchOrder();
+          this.$router.push(`/pay_completed/${this.orderId}`);
         })
         .catch(() => {
           this.$swal({

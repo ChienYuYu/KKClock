@@ -61,7 +61,7 @@ const routes = [
       },
       {
         path: 'buyer_info',
-        component: () => import('../views/kkClockBuyerInfo.vue'),
+        component: () => import('../views/KKClockBuyerInfo.vue'),
         meta: {
           title: 'KKClock 填寫訂單資料',
         },
@@ -71,6 +71,13 @@ const routes = [
         component: () => import('../views/KKClockCheckout.vue'),
         meta: {
           title: 'KKClock 付款',
+        },
+      },
+      {
+        path: 'pay_completed/:orderId',
+        component: () => import('../views/KKClockPayCompleted.vue'),
+        meta: {
+          title: 'KKClock 付款已完成',
         },
       },
       {

@@ -76,11 +76,6 @@
         </div>
       </form>
     </div>
-    <div v-if="goShopping === true" class="col text-center pb-5">
-      <router-link to="/product_list/全部商品" class="btn btn-outline-secondary px-5">
-        繼續購物<i class="bi bi-caret-right-fill" />
-      </router-link>
-    </div>
   </div>
 </template>
 
@@ -102,7 +97,6 @@ export default {
       orderId: '',
       finalPrice: 0,
       isLoading: false,
-      goShopping: false,
     };
   },
   methods: {
@@ -124,7 +118,6 @@ export default {
             showConfirmButton: false,
             timer: 2000,
           });
-          this.$router.push('/');
         });
     },
     checkout() {
@@ -133,16 +126,15 @@ export default {
         .post(api)
         .then(() => {
           this.getOrder();
-          this.goShopping = true;
+          this.$router.push(`/pay_completed/${this.orderId}`);
         })
         .catch(() => {
           this.$swal({
-            title: '似乎有些問題 請稍後再來訪',
+            title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
-          this.$router.push('/');
         });
     },
   },
