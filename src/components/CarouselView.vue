@@ -123,12 +123,13 @@ export default {
     line-height: 1.5;
   }
   .go-buy {
-    background: rgb(238, 123, 123);
+    // background: rgb(238, 123, 123);
+    background: #CF4900;
     color: #fff;
     font-weight: bolder;
     margin-top: 5px;
     &:hover {
-      background: rgb(239, 173, 173);
+      background: #da723a;
     }
   }
 }

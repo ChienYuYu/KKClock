@@ -165,6 +165,6 @@ export default {
   padding-bottom: 65px;
 }
 .item-active {
-  color: #ff953d !important;
+  color: #CF4900 !important;
 }
 </style>

@@ -162,7 +162,8 @@ export default {
 .flag {
   position: absolute;
   border-radius: 0 0 10px 10px;
-  background: #fda35a;
+  // background: #fda35a;
+  background: #CF4900;
   border: 3px solid #fff;
   box-shadow: 3px 3px #333;
   left: 3%;

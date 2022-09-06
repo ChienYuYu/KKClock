@@ -77,11 +77,12 @@
   transform: translateX(-50%) translateY(-50%);
 }
 .go-buy {
-  border: 1px solid #40d5ef;
-  color: #40d5ef;
-  &:hover {
-    background: #40d5ef;
+  // border: 1px solid #40d5ef;
+  // color: #40d5ef;
+  background: #CF4900;
     color: #fff;
+  &:hover {
+    background: #da723a;
   }
 }
 </style>

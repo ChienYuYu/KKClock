@@ -35,7 +35,7 @@
         <DProductCard />
       </div>
       <div class="text-center">
-        <router-link to="product_list/全部商品" class="btn btn-myorange text-white view-more px-5">
+        <router-link to="product_list/全部商品" class="btn btn-myorange2 text-white view-more px-5">
           查看更多商品<i class="bi bi-caret-right-fill" />
         </router-link>
       </div>

@@ -3,7 +3,7 @@
   <ProgressBar />
   <div class="container mt-5">
     <div class="col-12 col-md-10 mx-auto">
-      <table class="table">
+      <table class="table align-middle">
         <thead>
           <tr>
             <th scope="col">品名</th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="item in carts" :key="item.id">
-            <td class="text-nowrap small-font ps-1 pe-0">{{ item.product.title }}</td>
+            <td class=" text-nowrap small-font ps-1 pe-0">{{ item.product.title }}</td>
             <td>
               <div class="d-flex col-12 col-md-6 col-lg-3">
                 <button
@@ -45,7 +45,7 @@
             </td>
             <td class="small-font">${{ currency(item.total) }}</td>
             <td>
-              <button type="button" class="btn btn-danger btn-sm" @click="deleteCart(item.id)">
+              <button type="button" class="btn btn-danger btn" @click="deleteCart(item.id)">
                 <i class="bi bi-trash" />
               </button>
             </td>
@@ -96,7 +96,7 @@
       </table>
       <div class="d-flex justify-content-center p-5">
         <button type="button" class="btn btn-danger"
-        @click="this.$router.push('/buyer_info')">
+        @click="$router.push('/buyer_info')">
           下一步
         </button>
       </div>
