@@ -1,49 +1,54 @@
 <template>
-  <swiper
-    :slidesPerView="slidesPerView"
-    :spaceBetween="20"
-    :slidesPerGroup="1"
-    :loop="true"
-    :loopFillGroupWithBlank="true"
-    :pagination="{
-      clickable: true,
-    }"
-    :navigation="true"
-    :modules="modules"
-    class="mySwiper p-3"
-    ref="myswiper"
-  >
-    <swiper-slide v-for="item in products" :key="item.id">
-      <div class="card product_card rounded-1 overflow-hidden h-100 border-0 position-relative">
-        <span class="flag text-white p-1">特價</span>
-        <a href="#" class="text-decoration-none text-dark" @click.prevent="getProductData(item.id)">
-          <img :src="item.imageUrl" class="card-img-top" alt="clock" />
-          <div class="card-body py-1">
-            <h3 class="card-text fs-6">{{ item.title }}</h3>
-            <div class="d-flex align-items-center justify-content-between">
-              <p class="text-secondary mb-0 ogPrice">原價NT${{ currency(item.origin_price) }}</p>
-              <p class="text-myred mb-0">NT${{ currency(item.price) }}</p>
+  <section class="bg-white py-5">
+    <div class="container">
+      <h2 class="text-secondary mb-4">
+        特價商品
+        <hr />
+      </h2>
+      <div class="pb-5">
+
+        <swiper :slidesPerView="slidesPerView" :spaceBetween="20" :slidesPerGroup="1" :loop="true"
+          :loopFillGroupWithBlank="true" :pagination="{
+            clickable: true,
+          }" :navigation="true" :modules="modules" class="mySwiper p-3" ref="myswiper">
+          <swiper-slide v-for="item in products" :key="item.id">
+            <div class="card product_card rounded-1
+            overflow-hidden h-100 border-0 position-relative">
+              <span class="flag text-white p-1">特價</span>
+              <a href="#" class="text-decoration-none
+              text-dark" @click.prevent="getProductData(item.id)">
+                <img :src="item.imageUrl" class="card-img-top" alt="clock" />
+                <div class="card-body py-1">
+                  <h3 class="card-text fs-6">{{ item.title }}</h3>
+                  <div class="d-flex align-items-center justify-content-between">
+                    <p class="text-secondary mb-0 ogPrice">
+                      原價NT${{ currency(item.origin_price) }}
+                    </p>
+                    <p class="text-myred mb-0">NT${{ currency(item.price) }}</p>
+                  </div>
+                </div>
+              </a>
+              <button type="button" :disabled="loadingItem == item.id"
+              class="btn btn-outline-secondary m-2 py-1"
+                @click="addCart(item.id)">
+                <div class="spinner-border spinner-border-sm text-mygreey"
+                role="status" v-if="loadingItem == item.id">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                加入購物車
+              </button>
             </div>
-          </div>
-        </a>
-        <button
-          type="button"
-          :disabled="loadingItem == item.id"
-          class="btn btn-outline-secondary m-2 py-1"
-          @click="addCart(item.id)"
-        >
-          <div
-            class="spinner-border spinner-border-sm text-mygreey"
-            role="status"
-            v-if="loadingItem == item.id"
-          >
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          加入購物車
-        </button>
+          </swiper-slide>
+        </swiper>
+
       </div>
-    </swiper-slide>
-  </swiper>
+      <div class="text-center">
+        <router-link to="product_list/全部商品" class="btn btn-myorange2 text-white view-more px-5">
+          查看更多商品<i class="bi bi-caret-right-fill" />
+        </router-link>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -151,14 +156,17 @@ export default {
 <style lang="scss">
 .product_card {
   transition: 0.3s;
+
   &:hover {
     transform: scale(105%);
   }
 }
+
 .ogPrice {
   font-size: 12px;
   text-decoration: line-through;
 }
+
 .flag {
   position: absolute;
   border-radius: 0 0 10px 10px;
@@ -169,6 +177,7 @@ export default {
   left: 3%;
   top: 2%;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   color: #eee;
@@ -176,10 +185,12 @@ export default {
   padding: 26px 20px;
   transform: scale(75%);
 }
+
 .swiper-button-prev {
   border-radius: 10px 0 0 10px;
   margin-left: -15px;
 }
+
 .swiper-button-next {
   border-radius: 0 10px 10px 0;
   margin-right: -15px;
