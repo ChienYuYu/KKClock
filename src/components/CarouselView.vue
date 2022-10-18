@@ -8,13 +8,13 @@
           <h5 class="mb-0 slogan rounded-3">
             kkClock<br />鐘的專家 最專業時鐘專賣<br />
           </h5>
-          <button class="btn go-buy">
+          <router-link to="product_list/全部商品" class="btn go-buy">
             &ensp;
             <i class="bi bi-cart me-1" />
             <span>來去逛逛</span>
             <i class="bi bi-caret-right" />
             <i class="bi bi-caret-right" />
-          </button>
+          </router-link>
         </div>
         <router-link to="product_list/全部商品" class="carousel-item active">
           <img src="../assets/img/banner04.jpg"
