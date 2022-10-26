@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import titleMixin from '../mixins/titleMixin';
 
 export default {
   data() {
@@ -43,7 +42,6 @@ export default {
       },
     };
   },
-  mixins: [titleMixin],
   methods: {
     signIn() {
       const api = `${process.env.VUE_APP_API}admin/signin`;

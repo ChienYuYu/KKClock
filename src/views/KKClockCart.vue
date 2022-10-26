@@ -106,10 +106,8 @@
 
 <script>
 import ProgressBar from '@/components/ProgressBar.vue';
-import titleMixin from '../mixins/titleMixin';
 
 export default {
-  mixins: [titleMixin],
   components: {
     ProgressBar,
   },

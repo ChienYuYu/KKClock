@@ -52,13 +52,11 @@
 import currency from '@/methods/currency';
 import emitter from '@/methods/emitter';
 import ToastArea from '@/components/ToastArea.vue';
-import titleMixin from '../mixins/titleMixin';
 
 export default {
   components: {
     ToastArea,
   },
-  mixins: [titleMixin],
   provide() {
     return {
       currency,

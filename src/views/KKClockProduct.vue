@@ -88,7 +88,6 @@
 
 <script>
 import ProductCard from '../components/ProductCard.vue';
-import titleMixin from '../mixins/titleMixin';
 
 export default {
   data() {
@@ -101,7 +100,6 @@ export default {
   components: {
     ProductCard,
   },
-  mixins: [titleMixin],
   methods: {
     // 取得產品
     getProducts() {

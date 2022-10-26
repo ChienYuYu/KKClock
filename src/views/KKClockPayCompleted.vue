@@ -46,10 +46,8 @@
 </template>
 
 <script>
-import titleMixin from '../mixins/titleMixin';
 
 export default {
-  mixins: [titleMixin],
   data() {
     return {
       orderId: '',

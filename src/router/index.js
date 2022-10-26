@@ -4,28 +4,27 @@ const routes = [
   {
     path: '/login',
     component: () => import('../views/LoginView.vue'),
-    meta: {
-      title: 'KKClock 管理員登入',
-    },
+    meta: { title: 'KKClock 管理員登入' },
   },
   {
     path: '/backstage',
     component: () => import('../views/ManagementView.vue'),
-    meta: {
-      title: 'KKClock 後台管理',
-    },
+    meta: { title: 'KKClock 後台管理' },
     children: [
       {
         path: 'product_management',
         component: () => import('../views/ManagementProduct.vue'),
+        meta: { title: 'KKClock 產品管理' },
       },
       {
         path: 'coupon_management',
         component: () => import('../views/ManagementCoupon.vue'),
+        meta: { title: 'KKClock 優惠券管理' },
       },
       {
         path: 'order_management',
         component: () => import('../views/ManagementOrder.vue'),
+        meta: { title: 'KKClock 訂單管理' },
       },
     ],
   },
@@ -37,55 +36,42 @@ const routes = [
         path: '',
         name: 'home',
         component: () => import('../views/KKClockHome.vue'),
-        meta: {
-          title: 'KKClock 時鐘專賣 送禮最佳選擇',
-        },
+        meta: { title: 'KKClock 時鐘專賣 送禮最佳選擇' },
       },
       {
         path: 'product_list/:category',
         component: () => import('../views/KKClockProduct.vue'),
-        meta: {
-          title: 'KKClock 產品',
-        },
+        meta: { title: 'KKClock 購物' },
       },
       {
         path: 'product_list/product/:id',
         component: () => import('../views/KKClockProductItem.vue'),
+        meta: { title: 'KKClock 購物' },
       },
       {
         path: 'cart',
         component: () => import('../views/KKClockCart.vue'),
-        meta: {
-          title: 'KKClock 確認訂單',
-        },
+        meta: { title: 'KKClock 確認訂單' },
       },
       {
         path: 'buyer_info',
         component: () => import('../views/KKClockBuyerInfo.vue'),
-        meta: {
-          title: 'KKClock 填寫訂單資料',
-        },
+        meta: { title: 'KKClock 填寫訂單資料' },
       },
       {
         path: 'checkout/:orderId',
         component: () => import('../views/KKClockCheckout.vue'),
-        meta: {
-          title: 'KKClock 付款',
-        },
+        meta: { title: 'KKClock 付款' },
       },
       {
         path: 'pay_completed/:orderId',
         component: () => import('../views/KKClockPayCompleted.vue'),
-        meta: {
-          title: 'KKClock 付款已完成',
-        },
+        meta: { title: 'KKClock 付款已完成' },
       },
       {
         path: 'order_search',
         component: () => import('../views/KKClockOrderSearch.vue'),
-        meta: {
-          title: 'KKClock 訂單查詢',
-        },
+        meta: { title: 'KKClock 訂單查詢' },
       },
     ],
   },
@@ -100,6 +86,10 @@ const router = createRouter({
     };
   },
 
+});
+
+router.beforeEach((to) => {
+  document.title = to.meta.title;
 });
 
 export default router;

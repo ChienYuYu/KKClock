@@ -12,7 +12,6 @@ import CouponBanner from '../components/CouponBanner.vue';
 import HotProduct from '../components/HotProduct.vue';
 import MonthFeatured from '../components/MonthFeatured.vue';
 import DProductCard from '../components/ProductCardDiscounted.vue';
-import titleMixin from '../mixins/titleMixin';
 
 export default {
   components: {
@@ -22,6 +21,5 @@ export default {
     MonthFeatured,
     DProductCard,
   },
-  mixins: [titleMixin],
 };
 </script>

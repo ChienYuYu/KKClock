@@ -112,7 +112,6 @@
 </template>
 
 <script>
-import titleMixin from '../mixins/titleMixin';
 
 export default {
   inject: ['currency'],
@@ -126,7 +125,6 @@ export default {
       isLoading: false,
     };
   },
-  mixins: [titleMixin],
   methods: {
     searchOrder() {
       if (this.orderId.trim() !== '') {
