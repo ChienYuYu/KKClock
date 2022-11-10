@@ -8,18 +8,23 @@
 
 ![image](demo/CPT2210281029-720x355.gif)
 
+
+## DEMO
 https://chienyuyu.github.io/kkclock/#/
 
 ***
 
 自己進行前端畫面設計切版、圖片後製
 
-並使用vue做出相對應功能
+根據API vue出相對應功能
 
 使用Axios串接後端
 
 後端API由六角學院提供
+https://github.com/hexschool/vue3-course-api-wiki/wiki
 
 圖片素材均來自cc0免版權圖庫 Unsplash、Pexels、Pixabay
 
-所有內容純屬虛構、所有商品均無實際販售
+所有內容純屬虛構、所有商品均無實際販售。
+
+***
