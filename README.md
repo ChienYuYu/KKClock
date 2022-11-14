@@ -1,30 +1,46 @@
 # 虛構品牌kkClock 時鐘專賣電商網站
 
-![image](demo/CPT2210281029-720x353.gif)
+【DEMO : https://chienyuyu.github.io/kkclock/#/ 】
 
-
-![image](demo/CPT2210281028-720x352.gif)
-
-
-![image](demo/CPT2210281029-720x355.gif)
-
-
-## DEMO
-https://chienyuyu.github.io/kkclock/#/
-
-***
-
-自己進行前端畫面設計切版、圖片後製
-
-根據API vue出相對應功能
+<br>
 
 使用Axios串接後端
 
 後端API由六角學院提供
 https://github.com/hexschool/vue3-course-api-wiki/wiki
+******************
+## 使用技術、套件
+
+|  技術/套件   | 簡述  |
+| :----- | :----- |
+| Vue Cli 3  | 以 Vue.js 開發 SPA 網站 |
+| VueRouter  | 設定路由 |
+| Bootstrap 5  | 開發 UI 介面 |
+| Vue-axios  | 串接 API |
+| Swiper  | 特價商品輪播 |
+| vue-sweetalert2  | 彈出提示窗 |
+****
+
+<br>
+
+![image](demo/CPT2210281029-720x353.gif)
+
+<br>
+
+![image](demo/CPT2210281028-720x352.gif)
+
+<br>
+
+![image](demo/CPT2210281029-720x355.gif)
+
+
+
+*****************
+
+<br>
 
 圖片素材均來自cc0免版權圖庫 Unsplash、Pexels、Pixabay
 
 所有內容純屬虛構、所有商品均無實際販售。
 
-***
+
