@@ -1,3 +1,0 @@
-10/26
-改用router.beforeEach()修改標題
-刪除mixins資料夾下的titleMixin.js
