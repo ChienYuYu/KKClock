@@ -87,58 +87,65 @@
 </template>
 
 <script>
+import { ref, inject, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 import ProductCard from '../components/ProductCard.vue';
 
 export default {
-  data() {
-    return {
-      products: [],
-      category: '全部商品',
-      isLoading: false,
-    };
-  },
   components: {
     ProductCard,
   },
-  methods: {
-    // 取得產品
-    getProducts() {
+  setup() {
+    const products = ref([]);
+    const category = ref('全部商品');
+    const isLoading = ref(false);
+    const route = useRoute();
+    const router = useRouter();
+    const axios = inject('axios'); // inject axios
+
+    category.value = route.params.category;
+    const getProducts = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      this.isLoading = true;
-      this.axios
-        .get(api)
+      isLoading.value = true;
+      axios.get(api)
         .then((res) => {
-          this.products = res.data.products;
-          this.isLoading = false;
+          products.value = res.data.products;
+          isLoading.value = false;
         })
         .catch(() => {
-          this.isLoading = false;
-          this.$swal({
+          isLoading.value = false;
+          Swal.fire({
             title: '似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
-          this.$router.push('/');
+          router.push('/');
         });
-    },
-    // 取得類別
-    getCategory(category) {
-      this.category = category;
-      this.$router.push(`${category}`);
-    },
-  },
-  created() {
-    this.category = this.$route.params.category;
-    this.getProducts();
-  },
-  computed: {
-    filterCategory() {
-      if (this.category === '全部商品') {
-        return this.products;
+    };
+    getProducts();
+
+    const filterCategory = computed(() => {
+      if (category.value === '全部商品') {
+        return products.value;
       }
-      return this.products.filter((item) => item.category === this.category);
-    },
+      return products.value.filter((item) => item.category === category.value);
+    });
+
+    const getCategory = (txt) => {
+      category.value = txt;
+      router.push(`${txt}`);
+    };
+
+    return {
+      products,
+      category,
+      isLoading,
+      getProducts,
+      filterCategory,
+      getCategory,
+    };
   },
 };
 </script>

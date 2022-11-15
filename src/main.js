@@ -12,7 +12,9 @@ import 'bootstrap';
 
 const app = createApp(App);
 app.use(VueSweetalert2);
+window.Swal = app.config.globalProperties.$swal;
 app.use(VueAxios, axios);
+app.provide('axios', app.config.globalProperties.axios); // provide 'axios'
 app.use(router);
 app.component('LoadingPlugin', Loading);
 app.mount('#app');
