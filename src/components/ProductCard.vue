@@ -33,30 +33,35 @@
 </template>
 
 <script>
+import { ref, toRefs, inject } from 'vue';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
+
 export default {
-  props: ['filterCategory'],
-  data() {
-    return {
-      loadingItem: '',
-    };
-  },
   inject: ['emitter', 'currency'],
-  methods: {
+  props: ['filterCategory'],
+  setup(props) {
+    const router = useRouter();
+    const axios = inject('axios'); // inject axios
+    const emitter = inject('emitter');// inject emitter ( KKClockView.vue 裡 provide )
+    const { filterCategory } = toRefs(props);
+    console.log(filterCategory);
+    const loadingItem = ref('');
+
     // 加入購物車
-    addCart(id) {
+    const addCart = (id) => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.loadingItem = id;
+      loadingItem.value = id;
       const cart = {
         product_id: id,
         qty: 1,
       };
-      this.axios
-        .post(api, { data: cart })
+      axios.post(api, { data: cart })
         .then(() => {
-          this.loadingItem = '';
-          this.emitter.emit('updateData');
+          loadingItem.value = '';
+          emitter.emit('updateData');
           // SweetAlert-----
-          this.$swal({
+          Swal.fire({
             title: '加入成功',
             position: 'top-end',
             toast: true,
@@ -66,19 +71,24 @@ export default {
           });
         })
         .catch(() => {
-          this.loadingItem = '';
-          this.$swal({
+          loadingItem.value = '';
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
     // 取得單一產品
-    getProductData(id) {
-      this.$router.push(`product/${id}`);
-    },
+    const getProductData = (id) => {
+      router.push(`product/${id}`);
+    };
+
+    return {
+      loadingItem, addCart, getProductData,
+    };
   },
 };
 </script>
