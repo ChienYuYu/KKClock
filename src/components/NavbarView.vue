@@ -70,78 +70,91 @@
 </template>
 
 <script>
+import {
+  ref, inject, onMounted, watch,
+} from 'vue';
+import { useRoute } from 'vue-router';
+import Swal from 'sweetalert2';
+import emitter from '@/methods/emitter';
 import CartOffcanvas from './CartOffcanvas.vue';
 
 export default {
   components: {
     CartOffcanvas,
   },
-  data() {
-    return {
-      cartQty: '',
-      navStatus: false,
-      navItem: '',
-    };
-  },
-  methods: {
-    openOffcanvas() {
-      this.$refs.cartOffcanvas.showOffcanvas();
-    },
-    getCarts() {
+  setup() {
+    const route = useRoute();
+    const axios = inject('axios');
+    const cartQty = ref('');
+    const navStatus = ref(false);
+    const navItem = ref('');
+    const navbarBtn = ref(null);
+    const cartOffcanvas = ref(null);
+
+    const getCarts = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios
-        .get(api)
+      axios.get(api)
         .then((res) => {
-          this.cartQty = res.data.data.carts.length;
+          cartQty.value = res.data.data.carts.length;
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '網頁似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    checkUrl() {
-      if (this.$route.path === '/') {
-        this.navItem = '首頁';
+    };
+    const checkUrl = () => {
+      if (route.path === '/') {
+        navItem.value = '首頁';
       }
-      if (this.$route.path === '/order_search') {
-        this.navItem = '訂單查詢';
+      if (route.path === '/order_search') {
+        navItem.value = '訂單查詢';
       }
-      if ((this.$route.path !== '/') && (this.$route.path !== '/order_search')) {
-        this.navItem = '購物';
+      if ((route.path !== '/') && (route.path !== '/order_search')) {
+        navItem.value = '購物';
       }
-    },
-    // navStatusChange()與下方監聽搭配使用
-    navStatusChange() {
-      this.navStatus = !this.navStatus; // 切換布林
-    },
-  },
-  inject: ['emitter'],
-  mounted() {
-    this.emitter.on('updateData', () => {
-      this.getCarts();
+    };
+    getCarts();
+    checkUrl();
+    onMounted(() => {
+      emitter.on('updateData', () => { // mitt 監聽(接收)
+        getCarts();
+      });
     });
-  },
-  created() {
-    this.getCarts();
-    this.checkUrl();
-  },
-  watch: {
-    $route() {
-      // 監聽$route解決nav收闔問題
-      // 參考 https://ithelp.ithome.com.tw/m/articles/10284730
+
+    const openOffcanvas = () => {
+      cartOffcanvas.value.showOffcanvas();
+    };
+    const navStatusChange = () => {
+      navStatus.value = !navStatus.value;
+    };
+
+    watch(route, () => {
       if (document.body.offsetWidth < 992) {
-        if (this.navStatus === true) {
-          this.$refs.navbarBtn.click();
+        if (navStatus.value === true) {
+          navbarBtn.value.click();
         }
       }
       // ↓避免沒有從navbar進入 active效果沒切換
-      this.checkUrl();
-    },
+      checkUrl();
+    });
+
+    return {
+      cartQty,
+      navStatus,
+      navItem,
+      navbarBtn,
+      cartOffcanvas,
+      openOffcanvas,
+      getCarts,
+      checkUrl,
+      navStatusChange,
+    };
   },
+
 };
 </script>
 

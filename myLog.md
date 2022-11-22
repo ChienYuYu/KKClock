@@ -8,5 +8,9 @@
 
 ***
 ### 已改寫
+#### 【page】
 KKClockProduct.vue <br>
+KKClockOrderSearch.vue <br>
+#### 【component】
+NavbarView.vue <br>
 ProductCard.vue <br>

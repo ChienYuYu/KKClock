@@ -112,38 +112,37 @@
 </template>
 
 <script>
+import { ref, inject } from 'vue';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
 
 export default {
   inject: ['currency'],
-  data() {
-    return {
-      tempOrderId: 'xyz',
-      orderId: '',
-      order: {
-        user: {},
-      },
-      isLoading: false,
-    };
-  },
-  methods: {
-    searchOrder() {
-      if (this.orderId.trim() !== '') {
-        this.isLoading = true;
-        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
-        this.axios
-          .get(api)
+  setup() {
+    const router = useRouter();
+    const axios = inject('axios');
+    const tempOrderId = ref('xyz');
+    const orderId = ref('');
+    const order = ref({ user: {} });
+    const isLoading = ref(false);
+
+    const searchOrder = () => {
+      if (orderId.value.trim() !== '') {
+        isLoading.value = true;
+        const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${orderId.value}`;
+        axios.get(api)
           .then((res) => {
             if (res.data.order !== null) {
-              this.order = res.data.order;
-              this.tempOrderId = res.data.order.id;
+              order.value = res.data.order;
+              tempOrderId.value = res.data.order.id;
             } else {
-              this.tempOrderId = 'error';
+              tempOrderId.value = 'error';
             }
-            this.isLoading = false;
+            isLoading.value = false;
           })
           .catch(() => {
-            this.isLoading = false;
-            this.$swal({
+            isLoading.value = false;
+            Swal.fire({
               title: '似乎有些問題 請稍後再嘗試',
               icon: 'error',
               showConfirmButton: false,
@@ -151,25 +150,28 @@ export default {
             });
           });
       } else {
-        this.tempOrderId = 'error';
+        tempOrderId.value = 'error';
       }
-    },
-    checkout() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios
-        .post(api)
+    };
+    const checkout = () => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${orderId.value}`;
+      axios.post(api)
         .then(() => {
-          this.$router.push(`/pay_completed/${this.orderId}`);
+          router.push(`/pay_completed/${orderId.value}`);
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
+    return {
+      tempOrderId, orderId, order, isLoading, searchOrder, checkout,
+    };
   },
 };
 </script>

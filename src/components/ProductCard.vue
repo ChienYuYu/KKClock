@@ -35,6 +35,7 @@
 <script>
 import { ref, toRefs, inject } from 'vue';
 import { useRouter } from 'vue-router';
+import emitter from '@/methods/emitter'; // 引入mitt
 import Swal from 'sweetalert2';
 
 export default {
@@ -43,7 +44,6 @@ export default {
   setup(props) {
     const router = useRouter();
     const axios = inject('axios'); // inject axios
-    const emitter = inject('emitter');// inject emitter ( KKClockView.vue 裡 provide )
     const { filterCategory } = toRefs(props);
     console.log(filterCategory);
     const loadingItem = ref('');
@@ -59,7 +59,7 @@ export default {
       axios.post(api, { data: cart })
         .then(() => {
           loadingItem.value = '';
-          emitter.emit('updateData');
+          emitter.emit('updateData'); // 觸發 / 請參考mitt套件說明
           // SweetAlert-----
           Swal.fire({
             title: '加入成功',

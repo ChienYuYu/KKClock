@@ -17,16 +17,13 @@ import Navbar from '../components/NavbarView.vue';
 import Footer from '../components/FooterView.vue';
 
 export default {
-  data() {
-    return {};
-  },
   components: {
     Navbar,
     Footer,
   },
   provide() {
     return {
-      emitter,
+      emitter, // 待刪除 直接在要用的vue檔內 import，用provide inject有點多餘
       currency,
     };
   },
