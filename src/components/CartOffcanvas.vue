@@ -1,7 +1,7 @@
 <template>
   <LoadingPlugin :active="isLoading" />
   <div
-    ref="cartOffcanvas"
+    ref="cOffcanvas"
     class="offcanvas offcanvas-start"
     tabindex="-1"
     id="offcanvasWithBackdrop"
@@ -105,84 +105,93 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
+import Swal from 'sweetalert2';
+import { ref, inject, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import Offcanvas from 'bootstrap/js/dist/offcanvas';
 
 export default {
-  data() {
-    return {
-      cartOffcanvas: {},
-      carts: [],
-      totalPrice: 0,
-      qty: 1,
-      isLoading: false,
-    };
-  },
-  inject: ['emitter', 'currency'],
-  methods: {
-    showOffcanvas() {
-      this.cartOffcanvas.show();
-      this.getCarts();
-    },
-    getCarts() {
+  setup() {
+    const axios = inject('axios');
+    const router = useRouter();
+    const cartOffcanvas = ref({});
+    const carts = ref([]);
+    const totalPrice = ref(0);
+    const qty = ref(1);
+    const isLoading = ref(false);
+    const cOffcanvas = ref(null);
+
+    const getCarts = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.axios
-        .get(api)
+      axios.get(api)
         .then((res) => {
-          this.carts = res.data.data.carts;
-          this.totalPrice = res.data.data.total;
+          carts.value = res.data.data.carts;
+          totalPrice.value = res.data.data.total;
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '網頁似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    // 變更數量
-    updateCart(item, num) {
+    };
+    getCarts(); // 原 created
+
+    onMounted(() => {
+      cartOffcanvas.value = new Offcanvas(cOffcanvas.value);
+    });
+
+    const showOffcanvas = () => {
+      cartOffcanvas.value.show();
+      getCarts();
+    };
+
+    const updateCart = (item, num) => {
       const cart = { data: { product_id: item.id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${item.id}`;
-      this.isLoading = true;
-      this.axios
-        .put(api, cart)
+      isLoading.value = true;
+      axios.put(api, cart)
         .then(() => {
-          this.emitter.emit('updateData');
-          this.isLoading = false;
-          this.getCarts();
+          emitter.emit('updateData');
+          isLoading.value = false;
+          getCarts();
         })
         .catch(() => {
-          this.isLoading = false;
-          this.$swal({
+          isLoading.value = false;
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
     // 刪除品項
-    deleteCart(id) {
+    const deleteCart = (id) => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios
-        .delete(api)
+      axios.delete(api)
         .then(() => {
-          this.getCarts();
-          this.emitter.emit('updateData');
+          getCarts();
+          emitter.emit('updateData');
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
     // 清空購物車
-    clearCart() {
-      this.$swal({
+    const clearCart = () => {
+      Swal.fire({
         title: '確認清空購物車?',
         text: '所有已加入購物車商品都將移除',
         icon: 'warning',
@@ -191,47 +200,60 @@ export default {
         cancelButtonColor: '#bbb',
         confirmButtonText: '確認',
         cancelButtonText: '取消',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
-          this.axios
-            .delete(api)
-            .then(() => {
-              this.emitter.emit('updateData');
-              this.getCarts();
-              this.$swal({
-                icon: 'success',
-                title: '購物車已清空!',
-                showConfirmButton: false,
-                timer: 1500,
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/carts`;
+            axios.delete(api)
+              .then(() => {
+                emitter.emit('updateData');
+                getCarts();
+                Swal.fire({
+                  icon: 'success',
+                  title: '購物車已清空!',
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                cartOffcanvas.value.hide();
+              })
+              .catch(() => {
+                Swal.fire({
+                  title: '似乎有些問題 請稍後再嘗試',
+                  icon: 'error',
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
               });
-              this.cartOffcanvas.hide();
-            })
-            .catch(() => {
-              this.$swal({
-                title: '似乎有些問題 請稍後再嘗試',
-                icon: 'error',
-                showConfirmButton: false,
-                timer: 2000,
-              });
-            });
-        }
-      });
-    },
-    goCartPage() {
-      this.$router.push('/cart');
-      this.cartOffcanvas.hide();
-    },
-    goProductPage() {
-      this.$router.push('/product_list/全部商品');
-      this.cartOffcanvas.hide();
-    },
-  },
-  mounted() {
-    this.cartOffcanvas = new Offcanvas(this.$refs.cartOffcanvas);
-  },
-  created() {
-    this.getCarts();
+          }
+        });
+    };
+
+    const goCartPage = () => {
+      router.push('/cart');
+      cartOffcanvas.value.hide();
+    };
+
+    const goProductPage = () => {
+      router.push('/product_list/全部商品');
+      cartOffcanvas.value.hide();
+    };
+
+    return {
+      cartOffcanvas,
+      carts,
+      totalPrice,
+      qty,
+      isLoading,
+      getCarts,
+      showOffcanvas,
+      updateCart,
+      deleteCart,
+      clearCart,
+      goCartPage,
+      goProductPage,
+      cOffcanvas,
+      currency, // @/methods/currency
+    };
   },
 };
 </script>

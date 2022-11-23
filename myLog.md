@@ -17,3 +17,4 @@ KKClockOrderSearch.vue <br>
 #### 【component】
 NavbarView.vue <br>
 ProductCard.vue <br>
+CartOffcanvas.vue <br>

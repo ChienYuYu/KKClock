@@ -112,12 +112,12 @@
 </template>
 
 <script>
-import { ref, inject } from 'vue';
 import Swal from 'sweetalert2';
+import currency from '@/methods/currency';
+import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
-  inject: ['currency'],
   setup() {
     const router = useRouter();
     const axios = inject('axios');
@@ -170,7 +170,7 @@ export default {
     };
 
     return {
-      tempOrderId, orderId, order, isLoading, searchOrder, checkout,
+      tempOrderId, orderId, order, isLoading, searchOrder, checkout, currency,
     };
   },
 };

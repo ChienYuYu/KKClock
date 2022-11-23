@@ -35,11 +35,11 @@
 <script>
 import { ref, toRefs, inject } from 'vue';
 import { useRouter } from 'vue-router';
-import emitter from '@/methods/emitter'; // 引入mitt
+import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
 import Swal from 'sweetalert2';
 
 export default {
-  inject: ['emitter', 'currency'],
   props: ['filterCategory'],
   setup(props) {
     const router = useRouter();
@@ -87,7 +87,7 @@ export default {
     };
 
     return {
-      loadingItem, addCart, getProductData,
+      loadingItem, addCart, getProductData, currency,
     };
   },
 };
