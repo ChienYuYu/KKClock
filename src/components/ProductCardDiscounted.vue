@@ -52,6 +52,11 @@
 </template>
 
 <script>
+import { ref, onMounted, inject } from 'vue';
+import { useRouter } from 'vue-router';
+import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
+import Swal from 'sweetalert2';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper';
 import '../assets/scss/helpers/swiper-vars.scss';
@@ -63,52 +68,49 @@ export default {
     Swiper,
     SwiperSlide,
   },
-  data() {
-    return {
-      loadingItem: '',
-      products: [],
-      modules: [Navigation],
-      deviceWidth: 0,
-      slidesPerView: 5,
-    };
-  },
-  inject: ['emitter', 'currency'],
-  methods: {
-    // 先取得產品再filter篩選
-    getDiscountedProduct() {
+  setup() {
+    const axios = inject('axios');
+    const router = useRouter();
+    const loadingItem = ref('');
+    const products = ref([]);
+    const modules = ref([Navigation]);
+    const deviceWidth = ref(0);
+    const slidesPerView = ref(5);
+
+    const getDiscountedProduct = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      this.axios
-        .get(api)
+      axios.get(api)
         .then((res) => {
-          this.products = res.data.products.filter((item) => item.category === '特價');
+          products.value = res.data.products.filter((item) => item.category === '特價');
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '網頁似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    getProductData(id) {
-      this.$router.push(`/product_list/product/${id}`);
-    },
-    // 加入購物車
-    addCart(id) {
+    };
+    getDiscountedProduct(); // 原created 執行
+
+    const getProductData = (id) => {
+      router.push(`/product_list/product/${id}`);
+    };
+
+    const addCart = (id) => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.loadingItem = id;
+      loadingItem.value = id;
       const cart = {
         product_id: id,
         qty: 1,
       };
-      this.axios
-        .post(api, { data: cart })
+      axios.post(api, { data: cart })
         .then(() => {
-          this.loadingItem = '';
-          this.emitter.emit('updateData');
+          loadingItem.value = '';
+          emitter.emit('updateData');
           // SweetAlert-----
-          this.$swal({
+          Swal.fire({
             title: '加入成功',
             position: 'top-end',
             toast: true,
@@ -118,36 +120,47 @@ export default {
           });
         })
         .catch(() => {
-          this.loadingItem = '';
-          this.$swal({
+          loadingItem.value = '';
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
     // 設定swiper不同解析度顯示張數
-    swiperNum() {
-      if (this.deviceWidth < 650) {
-        this.slidesPerView = 1;
-      } else if (this.deviceWidth < 1200) {
-        this.slidesPerView = 3;
+    const swiperNum = () => {
+      if (deviceWidth.value < 650) {
+        slidesPerView.value = 1;
+      } else if (deviceWidth.value < 1200) {
+        slidesPerView.value = 3;
       } else {
-        this.slidesPerView = 5;
+        slidesPerView.value = 5;
       }
-    },
-  },
-  created() {
-    this.getDiscountedProduct();
-  },
-  // 參考 https://reurl.cc/oQdvE5
-  mounted() {
-    this.deviceWidth = window.innerWidth;
-    this.swiperNum();
-    window.onresize = () => {
-      this.deviceWidth = window.innerWidth;
-      this.swiperNum();
+    };
+
+    onMounted(() => {
+      deviceWidth.value = window.innerWidth;
+      swiperNum();
+      window.onresize = () => {
+        deviceWidth.value = window.innerWidth;
+        swiperNum();
+      };
+    });
+
+    return {
+      currency,
+      loadingItem,
+      products,
+      modules,
+      deviceWidth,
+      slidesPerView,
+      getDiscountedProduct,
+      getProductData,
+      addCart,
+      swiperNum,
     };
   },
 };

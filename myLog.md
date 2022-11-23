@@ -14,7 +14,10 @@
 #### 【page】
 KKClockProduct.vue <br>
 KKClockOrderSearch.vue <br>
+KKClockProductItem.vue <br>
+
 #### 【component】
 NavbarView.vue <br>
 ProductCard.vue <br>
 CartOffcanvas.vue <br>
+ProductCardDiscounted.vue <br>

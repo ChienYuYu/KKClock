@@ -139,54 +139,68 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
+import {
+  ref, inject, computed, watch,
+} from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 import DProductCard from '../components/ProductCardDiscounted.vue';
 
 export default {
-  inject: ['emitter', 'currency'],
   components: {
     DProductCard,
   },
-  data() {
-    return {
-      id: '',
-      product: {},
-      qty: 1,
-      loadingItem: '',
-    };
-  },
-  methods: {
-    getProductDetail() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${this.id}`;
-      this.axios
-        .get(api)
+  setup() {
+    const axios = inject('axios');
+    const route = useRoute();
+    const router = useRouter();
+    const id = ref('');
+    const product = ref({});
+    const qty = ref(1);
+    const loadingItem = ref('');
+
+    const getProductDetail = () => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id.value}`;
+      axios.get(api)
         .then((res) => {
-          this.product = res.data.product;
+          product.value = res.data.product;
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '網頁似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
-          this.$router.push('/');
+          router.push('/');
         });
-    },
-    addCart(id, directPurchase) {
-      this.loadingItem = id;
+    };
+
+    id.value = route.params.id; // 原created
+    getProductDetail(); // 原created
+
+    const paramsId = computed(() => route.params.id);
+    watch(paramsId, () => {
+      id.value = paramsId.value; // !!! .value
+      getProductDetail();
+    });
+
+    const addCart = (productId, directPurchase) => {
+      loadingItem.value = productId;
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
       const cart = {
         data: {
-          product_id: id,
-          qty: this.qty,
+          product_id: productId,
+          qty: qty.value,
         },
       };
-      this.axios
-        .post(api, cart)
+      axios.post(api, cart)
         .then(() => {
-          this.emitter.emit('updateData');
-          this.loadingItem = '';
-          this.$swal({
+          emitter.emit('updateData');
+          loadingItem.value = '';
+          Swal.fire({
             title: '加入成功',
             position: 'top-end',
             toast: true,
@@ -196,8 +210,8 @@ export default {
           });
         })
         .catch(() => {
-          this.loadingItem = '';
-          this.$swal({
+          loadingItem.value = '';
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
@@ -205,27 +219,20 @@ export default {
           });
         });
       if (directPurchase) {
-        this.$router.push('/cart');
+        router.push('/cart');
       }
-    },
-  },
-  created() {
-    this.id = this.$route.params.id;
-    this.getProductDetail();
-  },
+    };
 
-  // 下方產品卡
-  // 參考https://book.vue.tw/CH4/4-2-route-settings.html
-  computed: {
-    paramsId() {
-      return this.$route.params.id;
-    },
-  },
-  watch: {
-    paramsId() {
-      this.id = this.paramsId;
-      this.getProductDetail();
-    },
+    return {
+      currency,
+      id,
+      product,
+      qty,
+      loadingItem,
+      getProductDetail,
+      addCart,
+      paramsId,
+    };
   },
 };
 </script>
