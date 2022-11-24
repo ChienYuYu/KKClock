@@ -105,112 +105,128 @@
 </template>
 
 <script>
+import { ref, inject, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import emitter from '@/methods/emitter';
+import currency from '@/methods/currency';
+import Swal from 'sweetalert2';
 import ProgressBar from '@/components/ProgressBar.vue';
 
 export default {
   components: {
     ProgressBar,
   },
-  data() {
-    return {
-      carts: [],
-      totalPrice: 0,
-      finalPrice: 0,
-      discount: 0,
-      couponCode: '',
-      couponStatus: '',
-      isLoading: false,
-    };
-  },
-  inject: ['emitter', 'currency'],
-  methods: {
-    getCarts() {
+  setup() {
+    const axios = inject('axios');
+    const router = useRouter();
+    const carts = ref([]);
+    const totalPrice = ref(0);
+    const finalPrice = ref(0);
+    const discount = ref(0);
+    const couponCode = ref('');
+    const couponStatus = ref('');
+    const isLoading = ref(false);
+
+    const getCarts = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      this.isLoading = true;
-      this.axios
-        .get(api)
+      isLoading.value = true;
+      axios.get(api)
         .then((res) => {
-          this.carts = res.data.data.carts;
-          this.totalPrice = res.data.data.total;
-          this.finalPrice = res.data.data.final_total;
-          this.discount = this.totalPrice - this.finalPrice;
-          this.isLoading = false;
+          carts.value = res.data.data.carts;
+          totalPrice.value = res.data.data.total;
+          finalPrice.value = res.data.data.final_total;
+          discount.value = totalPrice.value - finalPrice.value;
+          isLoading.value = false;
         })
         .catch(() => {
-          this.isLoading = false;
-          this.$swal({
+          isLoading.value = false;
+          Swal.fire({
             title: '似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
-          this.$router.push('/');
+          router.push('/');
         });
-    },
-    updateCart(id, num) {
+    };
+
+    getCarts(); // created
+    onMounted(() => {
+      emitter.on('updateData', () => {
+        getCarts();
+      });
+    });
+
+    const updateCart = (id, num) => {
       const cart = { data: { product_id: id, qty: num } };
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios
-        .put(api, cart)
+      axios.put(api, cart)
         .then(() => {
-          this.getCarts();
+          getCarts();
         })
         .catch(() => {
-          this.isLoading = false;
-          this.$swal({
+          isLoading.value = false;
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    deleteCart(id) {
+    };
+
+    const deleteCart = (id) => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart/${id}`;
-      this.axios
-        .delete(api)
+      axios.delete(api)
         .then(() => {
-          this.getCarts();
-          this.emitter.emit('updateData');
+          getCarts();
+          emitter.emit('updateData');
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    useCouponCode() {
+    };
+
+    const useCouponCode = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/coupon`;
-      this.axios
-        .post(api, { data: { code: this.couponCode } })
+      axios.post(api, { data: { code: couponCode.value } })
         .then((res) => {
-          this.getCarts();
+          getCarts();
           if (res.data.success) {
-            this.couponStatus = true;
+            couponStatus.value = true;
           } else {
-            this.couponStatus = false;
+            couponStatus.value = false;
           }
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-  },
-  created() {
-    this.getCarts();
-  },
-  mounted() {
-    this.emitter.on('updateData', () => {
-      this.getCarts();
-    });
+    };
+
+    return {
+      currency,
+      carts,
+      totalPrice,
+      finalPrice,
+      discount,
+      couponCode,
+      couponStatus,
+      isLoading,
+      getCarts,
+      updateCart,
+      deleteCart,
+      useCouponCode,
+    };
   },
 };
 </script>

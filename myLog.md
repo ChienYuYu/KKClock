@@ -10,11 +10,12 @@
 待研究 - 按產品卡片會跳黃色警告
 
 ***
-### 已改寫
+### 已改寫composition api :
 #### 【page】
 KKClockProduct.vue <br>
 KKClockOrderSearch.vue <br>
 KKClockProductItem.vue <br>
+KKClockCart.vue <br>
 
 #### 【component】
 NavbarView.vue <br>
