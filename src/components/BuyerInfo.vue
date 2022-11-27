@@ -83,52 +83,50 @@
 
 <script>
 import { Form, Field, ErrorMessage } from 'vee-validate';
+import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
+import emitter from '@/methods/emitter';
+import Swal from 'sweetalert2';
 
 export default {
-  components: {
-    Form,
-    Field,
-    ErrorMessage,
-  },
-  inject: ['emitter'],
-  data() {
-    return {
-      form: {
-        user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-        },
-        message: '',
+  components: { Form, Field, ErrorMessage },
+  setup() {
+    const router = useRouter();
+    const axios = inject('axios');
+    const form = ref({
+      user: {
+        name: '',
+        email: '',
+        tel: '',
+        address: '',
       },
-      orderId: '',
-    };
-  },
-  methods: {
-    createOrder() {
+      message: '',
+    });
+    const orderId = ref('');
+
+    const createOrder = () => {
       const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order`;
-      const order = this.form;
-      this.axios
-        .post(api, { data: order })
+      const order = form.value;
+      axios.post(api, { data: order })
         .then((res) => {
           if (res.data.success) {
-            this.emitter.emit('updateData');
-            this.orderId = res.data.orderId;
-            this.$router.push(`checkout/${this.orderId}`);
+            emitter.emit('updateData');
+            orderId.value = res.data.orderId;
+            router.push(`checkout/${orderId.value}`);
           }
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
     // 表單驗證規則----------------
-    validateEmail(value) {
+    const validateEmail = (value) => {
       if (!value) {
         return '這是必填欄位';
       }
@@ -139,14 +137,17 @@ export default {
         return '此字段必須是有效的電子郵件';
       }
       return true;
-    },
-    validateName(value) {
-      if (!value) {
-        return '這是必填欄位';
-      }
-      return true;
-    },
-    validateTel(value) {
+    };
+
+    const validateName = (value) => (!value ? '這是必填欄位' : true);
+    // const validateName = (value) => {
+    //   if (!value) {
+    //     return '這是必填欄位';
+    //   }
+    //   return true;
+    // };
+
+    const validateTel = (value) => {
       if (!value) {
         return '這是必填欄位';
       }
@@ -155,13 +156,26 @@ export default {
         return '需要正確的手機號碼格式';
       }
       return true;
-    },
-    validateAddress(value) {
-      if (!value) {
-        return '這是必填欄位';
-      }
-      return true;
-    },
+    };
+
+    const validateAddress = (value) => (!value ? '這是必填欄位' : true);
+    // const validateAddress = (value) => {
+    //   if (!value) {
+    //     return '這是必填欄位';
+    //   }
+    //   return true;
+    // };
+
+    return {
+      form,
+      orderId,
+      createOrder,
+      validateEmail,
+      validateName,
+      validateTel,
+      validateAddress,
+    };
   },
+
 };
 </script>

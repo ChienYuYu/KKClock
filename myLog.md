@@ -22,3 +22,12 @@ NavbarView.vue <br>
 ProductCard.vue <br>
 CartOffcanvas.vue <br>
 ProductCardDiscounted.vue <br>
+BuyerInfo.vue
+
+### 免改寫的：
+#### 【page】
+KKClockView.vue <br>
+KKClockBuyerInfo.vue <br>
+
+#### 【component】
+
