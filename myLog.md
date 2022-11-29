@@ -16,6 +16,7 @@ KKClockProduct.vue <br>
 KKClockOrderSearch.vue <br>
 KKClockProductItem.vue <br>
 KKClockCart.vue <br>
+KKClockCheckout.vue <br>
 
 #### 【component】
 NavbarView.vue <br>

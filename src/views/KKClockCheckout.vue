@@ -84,6 +84,9 @@
 </template>
 
 <script>
+import { ref, inject } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import Swal from 'sweetalert2';
 import ProgressBar from '@/components/ProgressBar.vue';
 
 export default {
@@ -91,59 +94,66 @@ export default {
   components: {
     ProgressBar,
   },
-  data() {
-    return {
-      order: {
-        user: {},
-      },
-      orderId: '',
-      finalPrice: 0,
-      isLoading: false,
-    };
-  },
-  methods: {
-    getOrder() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${this.orderId}`;
-      this.isLoading = true;
-      this.axios
-        .get(api)
+  setup() {
+    const axios = inject('axios');
+    const router = useRouter();
+    const route = useRoute();
+    const order = ref({ user: {} });
+    // const order = ref({});
+    const orderId = ref('');
+    const finalPrice = ref(0);
+    const isLoading = ref(false);
+
+    orderId.value = route.params.orderId;
+
+    const getOrder = () => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/order/${orderId.value}`;
+      isLoading.value = true;
+      axios.get(api)
         .then((res) => {
-          this.order = res.data.order;
-          this.finalPrice = Math.round(res.data.order.total);
-          this.isLoading = false;
+          order.value = res.data.order;
+          finalPrice.value = Math.round(res.data.order.total);
+          isLoading.value = false;
         })
         .catch(() => {
-          this.isLoading = false;
-          this.$swal({
+          isLoading.value = false;
+          Swal.fire({
             title: '似乎有些問題 請稍後再來訪',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
-    checkout() {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${this.orderId}`;
-      this.axios
-        .post(api)
+    };
+    getOrder();
+
+    const checkout = () => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/pay/${orderId.value}`;
+      axios.post(api)
         .then(() => {
-          this.getOrder();
-          this.$router.push(`/pay_completed/${this.orderId}`);
+          getOrder();
+          router.push(`/pay_completed/${orderId.value}`);
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
+    return {
+      order,
+      orderId,
+      finalPrice,
+      isLoading,
+      getOrder,
+      checkout,
+    };
   },
-  created() {
-    this.orderId = this.$route.params.orderId;
-    this.getOrder();
-  },
+
 };
 </script>
 
