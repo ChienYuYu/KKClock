@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import DProductCard from '../components/ProductCardDiscounted.vue';
+import DProductCard from '@/components/front/ProductCardDiscounted.vue';
 
 export default {
   inject: ['emitter', 'currency'],

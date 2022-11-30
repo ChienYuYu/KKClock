@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import ProgressBar from '@/components/ProgressBar.vue';
+import ProgressBar from '@/components/front/ProgressBar.vue';
 
 export default {
   inject: ['currency'],

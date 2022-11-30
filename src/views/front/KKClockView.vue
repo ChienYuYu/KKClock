@@ -13,8 +13,8 @@
 <script>
 import currency from '@/methods/currency';
 import emitter from '@/methods/emitter';
-import Navbar from '../components/NavbarView.vue';
-import Footer from '../components/FooterView.vue';
+import Navbar from '@/components/front/NavbarView.vue';
+import Footer from '@/components/front/FooterView.vue';
 
 export default {
   data() {

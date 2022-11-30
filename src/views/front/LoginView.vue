@@ -70,7 +70,7 @@ export default {
 
 <style>
 .bg {
-  background-image: url(../assets/img/loginBG.jpg);
+  background-image: url(@/assets/img/loginBG.jpg);
   height: 100vh;
   background-position: center;
   background-size: cover;

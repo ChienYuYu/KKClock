@@ -17,15 +17,15 @@
           </router-link>
         </div>
         <router-link to="product_list/全部商品" class="carousel-item active">
-          <img src="../assets/img/banner04.jpg"
+          <img src="@/assets/img/banner04.jpg"
           class="banner d-block w-100" alt="banner1" height="500" />
         </router-link>
         <router-link to="product_list/全部商品" class="carousel-item">
-          <img src="../assets/img/banner07.jpg"
+          <img src="@/assets/img/banner07.jpg"
           class="banner d-block w-100" alt="banner2" height="500" />
         </router-link>
         <router-link to="product_list/全部商品" class="carousel-item">
-          <img src="../assets/img/banner08.jpg"
+          <img src="@/assets/img/banner08.jpg"
           class="banner d-block w-100" alt="banner3" height="500" />
         </router-link>
       </div>
