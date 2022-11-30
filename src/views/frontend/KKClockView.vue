@@ -12,9 +12,8 @@
 
 <script>
 import currency from '@/methods/currency';
-import emitter from '@/methods/emitter';
-import Navbar from '../components/NavbarView.vue';
-import Footer from '../components/FooterView.vue';
+import Navbar from '@/components/frontend/NavbarView.vue';
+import Footer from '@/components/frontend/FooterView.vue';
 
 export default {
   components: {
@@ -23,7 +22,6 @@ export default {
   },
   provide() {
     return {
-      emitter, // 待刪除 直接在要用的vue檔內 import，用provide inject有點多餘
       currency,
     };
   },

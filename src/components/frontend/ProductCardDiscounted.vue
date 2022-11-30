@@ -59,9 +59,9 @@ import currency from '@/methods/currency';
 import Swal from 'sweetalert2';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper';
-import '../assets/scss/helpers/swiper-vars.scss';
-import '../assets/scss/helpers/swiper.scss';
-import '../assets/scss/helpers/navigation.scss';
+import '../../assets/scss/helpers/swiper-vars.scss';
+import '../../assets/scss/helpers/swiper.scss';
+import '../../assets/scss/helpers/navigation.scss';
 
 export default {
   components: {

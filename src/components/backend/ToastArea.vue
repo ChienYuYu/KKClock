@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Toast from '@/components/ToastSingle.vue';
+import Toast from '@/components/backend/ToastSingle.vue';
 
 export default {
   inject: ['emitter'],

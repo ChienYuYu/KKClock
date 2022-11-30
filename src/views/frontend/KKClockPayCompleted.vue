@@ -46,15 +46,17 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
-  data() {
-    return {
-      orderId: '',
-    };
-  },
-  created() {
-    this.orderId = this.$route.params.orderId;
+  setup() {
+    const route = useRoute();
+    const orderId = ref('');
+
+    orderId.value = route.params.orderId;
+
+    return { orderId };
   },
 };
 </script>

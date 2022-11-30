@@ -3,7 +3,7 @@
     <div class="container">
       <h1 class="m-0">
         <router-link to="/" class="navbar-brand p-0 d-block">
-          <img src="../assets/img/fakeLogo05.png" alt="logo" height="40" />
+          <img src="../../assets/img/fakeLogo05.png" alt="logo" height="40" />
         </router-link>
       </h1>
       <button

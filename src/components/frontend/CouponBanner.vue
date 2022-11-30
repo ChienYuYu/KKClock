@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row mb-3 align-items-center justify-content-center">
         <div class="col d-flex justify-content-center">
-          <img src="../assets/img/saying01.jpg" alt="old clock image"
+          <img src="../../assets/img/saying01.jpg" alt="old clock image"
           class="pic rounded-3 shadow mb-4" />
         </div>
         <div class="col-xl-7 col-md-9 px-4">

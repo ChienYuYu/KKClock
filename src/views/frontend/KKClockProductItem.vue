@@ -146,7 +146,7 @@ import {
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import DProductCard from '../components/ProductCardDiscounted.vue';
+import DProductCard from '@/components/frontend/ProductCardDiscounted.vue';
 
 export default {
   components: {

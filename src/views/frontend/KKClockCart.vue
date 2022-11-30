@@ -110,7 +110,7 @@ import { useRouter } from 'vue-router';
 import emitter from '@/methods/emitter';
 import currency from '@/methods/currency';
 import Swal from 'sweetalert2';
-import ProgressBar from '@/components/ProgressBar.vue';
+import ProgressBar from '@/components/frontend/ProgressBar.vue';
 
 export default {
   components: {

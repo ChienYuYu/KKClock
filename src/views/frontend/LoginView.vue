@@ -32,45 +32,51 @@
 </template>
 
 <script>
+import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
 export default {
-  data() {
-    return {
+  setup() {
+    const router = useRouter();
+    const axios = inject('axios');
+    const user = ref({
       user: {
         username: '',
         password: '',
       },
-    };
-  },
-  methods: {
-    signIn() {
+    });
+
+    const signIn = () => {
       const api = `${process.env.VUE_APP_API}admin/signin`;
-      this.axios
-        .post(api, this.user)
+      axios.post(api, user.value)
         .then((res) => {
           if (res.data.success === true) {
             const { token, expired } = res.data;
             // 把token存到cookie裡↓
             document.cookie = `kkclock = ${token}; expires = ${new Date(expired)}`;
-            this.$router.push('/backstage/product_management');
+            router.push('/backstage/product_management');
           }
         })
         .catch(() => {
-          this.$swal({
+          Swal.fire({
             title: '似乎有些問題 請稍後再嘗試',
             icon: 'error',
             showConfirmButton: false,
             timer: 2000,
           });
         });
-    },
+    };
+
+    return { user, signIn };
   },
+
 };
 </script>
 
 <style>
 .bg {
-  background-image: url(../assets/img/loginBG.jpg);
+  background-image: url(@/assets/img/loginBG.jpg);
   height: 100vh;
   background-position: center;
   background-size: cover;

@@ -87,7 +87,7 @@
 import { ref, inject } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
-import ProgressBar from '@/components/ProgressBar.vue';
+import ProgressBar from '@/components/frontend/ProgressBar.vue';
 
 export default {
   inject: ['currency'],
