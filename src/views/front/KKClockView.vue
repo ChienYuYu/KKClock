@@ -12,8 +12,8 @@
 
 <script>
 import currency from '@/methods/currency';
-import Navbar from '@/components/frontend/NavbarView.vue';
-import Footer from '@/components/frontend/FooterView.vue';
+import Navbar from '@/components/front/NavbarView.vue';
+import Footer from '@/components/front/FooterView.vue';
 
 export default {
   components: {

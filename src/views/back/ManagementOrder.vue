@@ -71,9 +71,9 @@
 </template>
 
 <script>
-import OrderModal from '@/components/backend/OrderModal.vue';
-import DeleteOrderModal from '@/components/backend/DeleteOrderModal.vue';
-import Pagination from '@/components/backend/PaginationView.vue';
+import OrderModal from '@/components/back/OrderModal.vue';
+import DeleteOrderModal from '@/components/back/DeleteOrderModal.vue';
+import Pagination from '@/components/back/PaginationView.vue';
 
 export default {
   components: {

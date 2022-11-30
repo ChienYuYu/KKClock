@@ -51,7 +51,7 @@
 <script>
 import currency from '@/methods/currency';
 import emitter from '@/methods/emitter';
-import ToastArea from '@/components/backend/ToastArea.vue';
+import ToastArea from '@/components/back/ToastArea.vue';
 
 export default {
   components: {

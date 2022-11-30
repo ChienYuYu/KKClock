@@ -4,8 +4,8 @@
 </template>
 
 <script>
-import ProgressBar from '@/components/frontend/ProgressBar.vue';
-import BuyerInfo from '@/components/frontend/BuyerInfo.vue';
+import ProgressBar from '@/components/front/ProgressBar.vue';
+import BuyerInfo from '@/components/front/BuyerInfo.vue';
 
 export default {
   components: {

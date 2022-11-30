@@ -68,9 +68,9 @@
 </template>
 
 <script>
-import ProductModal from '@/components/backend/ProductModal.vue';
-import DeleteProductModal from '@/components/backend/DeleteProductModal.vue';
-import Pagination from '@/components/backend/PaginationView.vue';
+import ProductModal from '@/components/back/ProductModal.vue';
+import DeleteProductModal from '@/components/back/DeleteProductModal.vue';
+import Pagination from '@/components/back/PaginationView.vue';
 
 export default {
   inject: ['currency', 'emitter'],

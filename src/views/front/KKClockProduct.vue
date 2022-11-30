@@ -90,7 +90,7 @@
 import { ref, inject, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
-import ProductCard from '@/components/frontend/ProductCard.vue';
+import ProductCard from '@/components/front/ProductCard.vue';
 
 export default {
   components: {
