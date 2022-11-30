@@ -10,7 +10,9 @@
 待研究 - 按產品卡片會跳黃色警告
 
 #### 11/30
-將資料夾分前台後台檔案
+新增front、back資料夾分前台後台檔案，<br>
+新增v1分支， v1分支 = options api <br>
+將main 與 vue3分支先合併
 
 ***
 ### 已改寫composition api :
