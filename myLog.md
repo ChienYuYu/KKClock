@@ -14,6 +14,9 @@
 新增v1分支， v1分支 = options api <br>
 將main 與 vue3分支先合併
 
+#### 12/1
+更改輪播圖片&尺寸， 優惠券banner區塊新增aos套件效果
+
 ***
 ### 已改寫composition api :
 #### 【views】
@@ -32,7 +35,8 @@ NavbarView.vue <br>
 ProductCard.vue <br>
 CartOffcanvas.vue <br>
 ProductCardDiscounted.vue <br>
-BuyerInfo.vue
+BuyerInfo.vue <br>
+CarouselView.vue <br>
 
 ### 免改寫的：
 #### 【views】

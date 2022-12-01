@@ -163,7 +163,7 @@ export default {
   font-size: 8px;
 }
 .nav-spacing {
-  padding-bottom: 65px;
+  /* padding-bottom: 65px; */
 }
 .item-active {
   color: #CF4900 !important;
