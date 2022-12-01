@@ -1,0 +1,1 @@
+.step-list{border:1px solid #777;text-align:center;display:flex;justify-content:center}.step-list li{padding:0 5rem}@media(max-width:767.98px){.step-list li{padding:0 1.4rem}}.step-list li+li{border-left:1px solid #777}.step-active{background:#777;color:#fff}@media (max-width:575.98px){.small-font[data-v-3d099852]{font-size:14px}}
