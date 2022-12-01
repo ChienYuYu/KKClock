@@ -17,6 +17,7 @@ https://github.com/hexschool/vue3-course-api-wiki/wiki
 | VueRouter  | 設定路由 |
 | Bootstrap 5  | 開發 UI 介面 |
 | Vue-axios  | 串接 API |
+| AOS  | 進場動畫 |
 | Swiper  | 特價商品輪播 |
 | vue-sweetalert2  | 彈出提示窗 |
 ****
