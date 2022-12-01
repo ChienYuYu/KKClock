@@ -24,7 +24,7 @@ https://github.com/hexschool/vue3-course-api-wiki/wiki
 
 <br>
 
-![image](demo/CPT2210281029-720x353.gif)
+![image](demo/CPT2212011347-720x354.gif)
 
 <br>
 
