@@ -1,6 +1,6 @@
 <template>
   <LoadingPlugin :active="isLoading" />
-  <section class="py-5">
+  <section class="py-5 mt-5">
     <div class="container">
       <h2 class="text-center d-lg-none">產品項目</h2>
       <div class="row">

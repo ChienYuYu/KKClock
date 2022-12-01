@@ -1,56 +1,15 @@
 <template>
-  <!-- <div class="bg-white pb-5 pt-5">
-    <div ref="carousel" id="carouselExampleCaptions"
-    class="carousel index-carousel slide carousel-fade container"
-      data-bs-ride="carousel">
-      <div class="carousel-inner rounded-3">
-        <div class="carousel-caption">
-          <h5 class="mb-0 slogan rounded-3">
-            kkClock<br />鐘的專家 最專業時鐘專賣<br />
-          </h5>
-          <router-link to="product_list/全部商品" class="btn go-buy">
-            &ensp;
-            <i class="bi bi-cart me-1" />
-            <span>來去逛逛</span>
-            <i class="bi bi-caret-right" />
-            <i class="bi bi-caret-right" />
-          </router-link>
-        </div>
-        <router-link to="product_list/全部商品" class="carousel-item active">
-          <img src="../../assets/img/banner04.jpg"
-          class="banner d-block w-100" alt="banner1" height="500" />
-        </router-link>
-        <router-link to="product_list/全部商品" class="carousel-item">
-          <img src="../../assets/img/banner07.jpg"
-          class="banner d-block w-100" alt="banner2" height="500" />
-        </router-link>
-        <router-link to="product_list/全部商品" class="carousel-item">
-          <img src="../../assets/img/banner08.jpg"
-          class="banner d-block w-100" alt="banner3" height="500" />
-        </router-link>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-  </div> -->
   <div class="bg-white pb-">
     <div ref="carousel" id="carouselExampleCaptions"
     class="carousel index-carousel slide carousel-fade"
       data-bs-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-caption">
-          <h5 class="mb-0 slogan rounded-3">
+          <h5 class="mb-0 slogan rounded-3" data-aos="zoom-in-up">
             kkClock<br />鐘的專家 最專業時鐘專賣<br />
           </h5>
-          <router-link to="product_list/全部商品" class="btn go-buy">
+          <router-link to="product_list/全部商品" class="btn go-buy"
+          data-aos="zoom-in-up" data-aos-duration="800">
             &ensp;
             <i class="bi bi-cart me-1" />
             <span>來去逛逛</span>
@@ -125,13 +84,15 @@ export default {
   left: 50%;
   bottom: 40%;
   transform: translateX(-50%);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(7px);
   // background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.4));
   background: linear-gradient(rgba(243, 243, 243, 0.2), rgba(220, 220, 220, 0.3));
+  border-radius: .5rem;
   @media(max-width: 900px) {
     left: 0;
     right: 0;
     transform: translateX(0);
+    border-radius: 0;
   }
   @media(max-width: 600px) {
     bottom: 45%;

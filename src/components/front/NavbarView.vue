@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light p-3 shadow-sm fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-light p-3 shadow-sm fixed-top">
     <div class="container">
       <h1 class="m-0">
         <router-link to="/" class="navbar-brand p-0 d-block">
@@ -159,12 +159,13 @@ export default {
 </script>
 
 <style>
+.navbar {
+  background: #f4f4f4;
+}
 .badge_txt {
   font-size: 8px;
 }
-.nav-spacing {
-  /* padding-bottom: 65px; */
-}
+
 .item-active {
   color: #CF4900 !important;
 }

@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-white py-5">
+  <section class="bg-white py-5 mt-5">
     <div class="container">
       <div class="card p-3 p-md-4 border-0">
         <div class="row g-0">

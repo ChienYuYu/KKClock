@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5 container d-flex justify-content-center">
+  <div class="mt-5 pt-5 container d-flex justify-content-center">
     <ul class="step-list list-unstyled rounded-3 overflow-hidden">
       <li :class="{ 'step-active': stepStatus === 1 }">STEP1<br />確認訂單</li>
       <li :class="{ 'step-active': stepStatus === 2 }">STEP2<br />填寫資料</li>

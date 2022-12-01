@@ -6,7 +6,7 @@
         <hr />
       </h2>
       <div class="row row-cols-2 row-cols-md-4 g-3 pb-5">
-        <div class="col">
+        <div class="col" data-aos="flip-left" data-aos-delay="300" data-aos-duration="800">
           <div class="card border-0 rounded-3 overflow-hidden">
             <router-link to="product_list/流行炫彩" class="text-white">
               <img src="../../assets/img/sample_product02.jpg" class="card-img" alt="流行炫彩系列" />
@@ -16,7 +16,7 @@
             </router-link>
           </div>
         </div>
-        <div class="col">
+        <div class="col" data-aos="flip-left" data-aos-delay="300" data-aos-duration="800">
           <div class="card border-0 rounded-3 overflow-hidden">
             <router-link to="product_list/超級號碼" class="text-white">
               <img src="../../assets/img/sample_product01.jpg" class="card-img" alt="超級號碼系列" />
@@ -26,7 +26,7 @@
             </router-link>
           </div>
         </div>
-        <div class="col">
+        <div class="col" data-aos="flip-left" data-aos-delay="300" data-aos-duration="800">
           <div class="card border-0 rounded-3 overflow-hidden">
             <router-link to="product_list/四數大字" class="text-white">
               <img src="../../assets/img/sample_product03.jpg" class="card-img" alt="四數大字系列" />
@@ -36,7 +36,7 @@
             </router-link>
           </div>
         </div>
-        <div class="col">
+        <div class="col" data-aos="flip-left" data-aos-delay="300" data-aos-duration="800">
           <div class="card border-0 rounded-3 overflow-hidden">
             <router-link to="product_list/經典鬧鐘" class="text-white">
               <img src="../../assets/img/sample_product04.jpg" class="card-img" alt="經典系列" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center pt-5">
+  <div class="container d-flex justify-content-center pt-5 mt-5">
     <div class="col-lg-6">
       <h2 class="text-center text-myred py-3">付款完成</h2>
       <div class="text-center mb-5">

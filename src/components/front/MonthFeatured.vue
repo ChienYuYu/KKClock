@@ -1,6 +1,6 @@
 <template>
   <section class="py-5 bg-light">
-    <div class="container">
+    <div class="container" data-aos="fade-up">
       <h2 class="text-secondary mb-5">
         本月主打
         <hr />

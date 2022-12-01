@@ -1,6 +1,6 @@
 <template>
   <section class="bg-white py-5">
-    <div class="container">
+    <div class="container" data-aos="fade-up">
       <h2 class="text-secondary mb-4">
         特價商品
         <hr />

@@ -23,18 +23,8 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export default {
-  setup() {
-    onMounted(() => {
-      AOS.init({
-        once: true,
-      });
-    });
-  },
 };
 </script>
 <style lang="scss" scoped>

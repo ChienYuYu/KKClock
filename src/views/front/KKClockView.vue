@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
+import AOS from 'aos';
 import currency from '@/methods/currency';
 import Navbar from '@/components/front/NavbarView.vue';
 import Footer from '@/components/front/FooterView.vue';
@@ -19,6 +21,13 @@ export default {
   components: {
     Navbar,
     Footer,
+  },
+  setup() {
+    onMounted(() => {
+      AOS.init({
+        once: true,
+      });
+    });
   },
   provide() {
     return {
