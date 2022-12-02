@@ -52,11 +52,10 @@
 </template>
 
 <script>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import emitter from '@/methods/emitter';
+import { useStore } from 'vuex';
 import currency from '@/methods/currency';
-import Swal from 'sweetalert2';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation } from 'swiper';
 import '../../assets/scss/helpers/swiper-vars.scss';
@@ -69,28 +68,16 @@ export default {
     SwiperSlide,
   },
   setup() {
-    const axios = inject('axios');
+    const store = useStore();
     const router = useRouter();
-    const loadingItem = ref('');
-    const products = ref([]);
     const modules = ref([Navigation]);
     const deviceWidth = ref(0);
     const slidesPerView = ref(5);
+    const products = computed(() => store.state.ProductCardDiscounted.products);
+    const loadingItem = computed(() => store.state.ProductCardDiscounted.loadingItem);
 
     const getDiscountedProduct = () => {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      axios.get(api)
-        .then((res) => {
-          products.value = res.data.products.filter((item) => item.category === '特價');
-        })
-        .catch(() => {
-          Swal.fire({
-            title: '網頁似乎有些問題 請稍後再來訪',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        });
+      store.dispatch('ProductCardDiscounted/getDiscountedProduct');
     };
     getDiscountedProduct(); // 原created 執行
 
@@ -99,35 +86,7 @@ export default {
     };
 
     const addCart = (id) => {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      loadingItem.value = id;
-      const cart = {
-        product_id: id,
-        qty: 1,
-      };
-      axios.post(api, { data: cart })
-        .then(() => {
-          loadingItem.value = '';
-          emitter.emit('updateData');
-          // SweetAlert-----
-          Swal.fire({
-            title: '加入成功',
-            position: 'top-end',
-            toast: true,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        })
-        .catch(() => {
-          loadingItem.value = '';
-          Swal.fire({
-            title: '似乎有些問題 請稍後再嘗試',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        });
+      store.dispatch('ProductCardDiscounted/addCart', id);
     };
 
     // 設定swiper不同解析度顯示張數

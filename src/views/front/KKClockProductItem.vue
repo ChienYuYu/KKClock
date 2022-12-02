@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import { useStore } from 'vuex';
 import emitter from '@/methods/emitter';
 import currency from '@/methods/currency';
 import {
@@ -153,29 +154,17 @@ export default {
     DProductCard,
   },
   setup() {
+    const store = useStore();
     const axios = inject('axios');
     const route = useRoute();
     const router = useRouter();
     const id = ref('');
-    const product = ref({});
     const qty = ref(1);
     const loadingItem = ref('');
+    const product = computed(() => store.state.KKClockProductItem.product);
 
     const getProductDetail = () => {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/product/${id.value}`;
-      axios.get(api)
-        .then((res) => {
-          product.value = res.data.product;
-        })
-        .catch(() => {
-          Swal.fire({
-            title: '網頁似乎有些問題 請稍後再來訪',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          router.push('/');
-        });
+      store.dispatch('KKClockProductItem/getProductDetail', id.value);
     };
 
     id.value = route.params.id; // 原created

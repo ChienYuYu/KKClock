@@ -87,9 +87,9 @@
 </template>
 
 <script>
-import { ref, inject, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+import { useStore } from 'vuex';
 import ProductCard from '@/components/front/ProductCard.vue';
 
 export default {
@@ -97,40 +97,25 @@ export default {
     ProductCard,
   },
   setup() {
-    const products = ref([]);
+    const store = useStore();
     const category = ref('全部商品');
-    const isLoading = ref(false);
     const route = useRoute();
     const router = useRouter();
-    const axios = inject('axios'); // inject axios
 
     category.value = route.params.category;
+
     const getProducts = () => {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/products/all`;
-      isLoading.value = true;
-      axios.get(api)
-        .then((res) => {
-          products.value = res.data.products;
-          isLoading.value = false;
-        })
-        .catch(() => {
-          isLoading.value = false;
-          Swal.fire({
-            title: '似乎有些問題 請稍後再來訪',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          router.push('/');
-        });
+      store.dispatch('ProductPage/getProducts');
     };
     getProducts();
 
+    const isLoading = computed(() => store.state.ProductPage.isLoading);
+
     const filterCategory = computed(() => {
       if (category.value === '全部商品') {
-        return products.value;
+        return store.state.ProductPage.products;
       }
-      return products.value.filter((item) => item.category === category.value);
+      return store.state.ProductPage.products.filter((item) => item.category === category.value);
     });
 
     const getCategory = (txt) => {
@@ -139,7 +124,6 @@ export default {
     };
 
     return {
-      products,
       category,
       isLoading,
       getProducts,

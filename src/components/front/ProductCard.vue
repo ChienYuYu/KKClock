@@ -33,52 +33,22 @@
 </template>
 
 <script>
-import { ref, toRefs, inject } from 'vue';
+import { useStore } from 'vuex';
+import { toRefs, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import emitter from '@/methods/emitter';
 import currency from '@/methods/currency';
-import Swal from 'sweetalert2';
 
 export default {
   props: ['filterCategory'],
   setup(props) {
+    const store = useStore();
     const router = useRouter();
-    const axios = inject('axios'); // inject axios
+    // eslint-disable-next-line no-unused-vars
     const { filterCategory } = toRefs(props);
-    console.log(filterCategory);
-    const loadingItem = ref('');
+    const loadingItem = computed(() => store.state.ProductCard.loadingItem);
 
-    // 加入購物車
     const addCart = (id) => {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      loadingItem.value = id;
-      const cart = {
-        product_id: id,
-        qty: 1,
-      };
-      axios.post(api, { data: cart })
-        .then(() => {
-          loadingItem.value = '';
-          emitter.emit('updateData'); // 觸發 / 請參考mitt套件說明
-          // SweetAlert-----
-          Swal.fire({
-            title: '加入成功',
-            position: 'top-end',
-            toast: true,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        })
-        .catch(() => {
-          loadingItem.value = '';
-          Swal.fire({
-            title: '似乎有些問題 請稍後再嘗試',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        });
+      store.dispatch('ProductCard/addCart', id);
     };
 
     // 取得單一產品

@@ -13,6 +13,7 @@
 <script>
 import { onMounted } from 'vue';
 import AOS from 'aos';
+import 'aos/dist/aos.css';
 import currency from '@/methods/currency';
 import Navbar from '@/components/front/NavbarView.vue';
 import Footer from '@/components/front/FooterView.vue';
