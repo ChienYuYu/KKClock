@@ -105,17 +105,17 @@ export default {
     category.value = route.params.category;
 
     const getProducts = () => {
-      store.dispatch('ProductPage/getProducts');
+      store.dispatch('KKClockProduct/getProducts');
     };
     getProducts();
 
-    const isLoading = computed(() => store.state.ProductPage.isLoading);
+    const isLoading = computed(() => store.state.KKClockProduct.isLoading);
 
     const filterCategory = computed(() => {
       if (category.value === '全部商品') {
-        return store.state.ProductPage.products;
+        return store.state.KKClockProduct.products;
       }
-      return store.state.ProductPage.products.filter((item) => item.category === category.value);
+      return store.state.KKClockProduct.products.filter((item) => item.category === category.value);
     });
 
     const getCategory = (txt) => {

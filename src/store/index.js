@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import ProductPage from './KKClockProduct';
+import KKClockProduct from './KKClockProduct';
 import ProductCard from './ProductCard';
 import ProductCardDiscounted from './ProductCardDiscounted';
 import KKClockProductItem from './KKClockProductItem';
@@ -11,7 +11,7 @@ export default createStore({
   mutations: {},
   actions: {},
   modules: {
-    ProductPage,
+    KKClockProduct,
     ProductCard,
     ProductCardDiscounted,
     KKClockProductItem,

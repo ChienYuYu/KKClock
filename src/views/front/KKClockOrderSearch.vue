@@ -125,7 +125,6 @@ export default {
     const orderId = ref('');
     const order = ref({ user: {} });
     const isLoading = ref(false);
-
     const searchOrder = () => {
       if (orderId.value.trim() !== '') {
         isLoading.value = true;
@@ -168,7 +167,6 @@ export default {
           });
         });
     };
-
     return {
       tempOrderId, orderId, order, isLoading, searchOrder, checkout, currency,
     };
