@@ -17,6 +17,14 @@
 #### 12/1
 更改輪播圖片&尺寸， 優惠券banner區塊新增aos套件效果
 
+#### 12/2
+KKClockProduct.vue <br>
+KKClockProductItem.vue <br>
+ProductCard.vue <br>
+ProductCardDiscounted.vue <br>
+api請求整合至vuex
+
+
 ***
 ### 已改寫composition api :
 #### 【views】

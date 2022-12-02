@@ -140,13 +140,9 @@
 
 <script>
 import { useStore } from 'vuex';
-import emitter from '@/methods/emitter';
 import currency from '@/methods/currency';
-import {
-  ref, inject, computed, watch,
-} from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
 import DProductCard from '@/components/front/ProductCardDiscounted.vue';
 
 export default {
@@ -155,19 +151,18 @@ export default {
   },
   setup() {
     const store = useStore();
-    const axios = inject('axios');
     const route = useRoute();
     const router = useRouter();
     const id = ref('');
     const qty = ref(1);
-    const loadingItem = ref('');
     const product = computed(() => store.state.KKClockProductItem.product);
+    const loadingItem = computed(() => store.state.KKClockProductItem.loadingItem);
+
+    id.value = route.params.id; // 原created
 
     const getProductDetail = () => {
       store.dispatch('KKClockProductItem/getProductDetail', id.value);
     };
-
-    id.value = route.params.id; // 原created
     getProductDetail(); // 原created
 
     const paramsId = computed(() => route.params.id);
@@ -177,36 +172,7 @@ export default {
     });
 
     const addCart = (productId, directPurchase) => {
-      loadingItem.value = productId;
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/cart`;
-      const cart = {
-        data: {
-          product_id: productId,
-          qty: qty.value,
-        },
-      };
-      axios.post(api, cart)
-        .then(() => {
-          emitter.emit('updateData');
-          loadingItem.value = '';
-          Swal.fire({
-            title: '加入成功',
-            position: 'top-end',
-            toast: true,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        })
-        .catch(() => {
-          loadingItem.value = '';
-          Swal.fire({
-            title: '似乎有些問題 請稍後再嘗試',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-        });
+      store.dispatch('KKClockProductItem/addCart', { productId, num: qty.value });
       if (directPurchase) {
         router.push('/cart');
       }
