@@ -68,113 +68,132 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import emitter from '@/methods/emitter';
 import ProductModal from '@/components/back/ProductModal.vue';
 import DeleteProductModal from '@/components/back/DeleteProductModal.vue';
 import Pagination from '@/components/back/PaginationView.vue';
 
 export default {
   inject: ['currency', 'emitter'],
-  data() {
-    return {
-      products: [],
-      pagination: {},
-      tempProduct: {},
-      isNew: false, // 用於判斷是新增還是編輯
-      isLoading: false,
-    };
-  },
-  methods: {
-    getProducts(page = 1) {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
-      this.isLoading = true;
-      this.axios
-        .get(api)
-        .then((res) => {
-          this.products = res.data.products;
-          this.pagination = res.data.pagination;
-          this.isLoading = false;
-        })
-        .catch(() => {
-          this.$swal({
-            title: '似乎有些問題 請稍後再嘗試',
-            icon: 'error',
-            showConfirmButton: false,
-            timer: 2000,
-          });
-          this.isLoading = false;
-        });
-    },
-    // 開啟新增/編輯modal
-    openProductModal(isNew, item) {
-      if (isNew) {
-        this.tempProduct = {};
-      } else {
-        this.tempProduct = { ...item };
-      }
-      this.$refs.productModal.showModal();
-      this.isNew = isNew;
-    },
-    updateProduct(item) {
-      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
-      let httpMethod = 'post';
-      if (this.isNew === false) {
-        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
-        httpMethod = 'put';
-      }
-      this.axios[httpMethod](api, { data: item }).then((res) => {
-        this.$refs.productModal.hideModal();
-        if (res.data.success) {
-          this.getProducts();
-          this.emitter.emit('push-message', {
-            style: 'mygreen',
-            title: this.isNew ? '新增成功' : '更新成功',
-          });
-        } else {
-          this.emitter.emit('push-message', {
-            style: 'myred',
-            title: this.isNew ? '新增失敗' : '更新失敗',
-            content: res.data.message.join('、'),
-          });
-        }
-      }).catch(() => {
-        this.$swal({
-          title: '似乎有些問題 請稍後再嘗試',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      });
-    },
-    openDeleteModal(item) {
-      this.$refs.deleteProductModal.showModal();
-      this.tempProduct = item;
-    },
-    deleteProduct(item) {
-      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
-      this.axios.delete(api).then(() => {
-        this.$refs.deleteProductModal.hideModal();
-        this.getProducts();
-        this.emitter.emit('push-message', {
-          style: 'mygreen',
-          title: '刪除成功',
-        });
-      }).catch(() => {
-        this.$swal({
-          title: '似乎有些問題 請稍後再嘗試',
-          icon: 'error',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      });
-    },
-  },
   components: {
     ProductModal,
     DeleteProductModal,
     Pagination,
   },
-  created() {
-    this.getProducts();
+  setup() {
+    const products = ref([]);
+    const pagination = ref({});
+    const tempProduct = ref({});
+    const isNew = ref(false);
+    const isLoading = ref(false);
+    const productModal = ref(null);
+    const deleteProductModal = ref(null);
+
+    const getProducts = (page = 1) => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/products?page=${page}`;
+      isLoading.value = true;
+      axios.get(api)
+        .then((res) => {
+          products.value = res.data.products;
+          pagination.value = res.data.pagination;
+          isLoading.value = false;
+        })
+        .catch(() => {
+          Swal.fire({
+            title: '似乎有些問題 請稍後再嘗試',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          isLoading.value = false;
+        });
+    };
+
+    getProducts(); // created執行
+
+    const openProductModal = (newTF, item) => {
+      if (newTF) {
+        tempProduct.value = {};
+      } else {
+        tempProduct.value = { ...item };
+      }
+      productModal.value.showModal();
+      isNew.value = newTF;
+    };
+
+    const updateProduct = (item) => {
+      let api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product`;
+      let httpMethod = 'post';
+      if (isNew.value === false) {
+        api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+        httpMethod = 'put';
+      }
+      axios[httpMethod](api, { data: item }).then((res) => {
+        productModal.value.hideModal();
+        if (res.data.success) {
+          getProducts();
+          emitter.emit('push-message', {
+            style: 'mygreen',
+            title: isNew.value ? '新增成功' : '更新成功',
+          });
+        } else {
+          emitter.emit('push-message', {
+            style: 'myred',
+            title: isNew.value ? '新增失敗' : '更新失敗',
+            content: res.data.message.join('、'),
+          });
+        }
+      }).catch(() => {
+        Swal.fire({
+          title: '似乎有些問題 請稍後再嘗試',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
+    };
+
+    const openDeleteModal = (item) => {
+      deleteProductModal.value.showModal();
+      tempProduct.value = item;
+    };
+
+    const deleteProduct = (item) => {
+      const api = `${process.env.VUE_APP_API}api/${process.env.VUE_APP_PATH}/admin/product/${item.id}`;
+      axios.delete(api).then(() => {
+        deleteProductModal.value.hideModal();
+        getProducts();
+        emitter.emit('push-message', {
+          style: 'mygreen',
+          title: '刪除成功',
+        });
+      }).catch(() => {
+        Swal.fire({
+          title: '似乎有些問題 請稍後再嘗試',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      });
+    };
+
+    return {
+      products,
+      pagination,
+      tempProduct,
+      isNew, // 用於判斷是新增還是編輯
+      isLoading,
+      productModal,
+      deleteProductModal,
+      getProducts,
+      openProductModal,
+      updateProduct,
+      openDeleteModal,
+      deleteProduct,
+    };
   },
 };
 </script>

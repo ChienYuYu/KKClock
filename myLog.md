@@ -27,8 +27,8 @@ api請求整合至vuex
 
 ***
 ### 已改寫composition api :
-#### 【views】
-frontend /  <br>
+#### 【----- views -----】
+Front -----------------------------  <br>
 KKClockProduct.vue <br>
 KKClockOrderSearch.vue <br>
 KKClockProductItem.vue <br>
@@ -37,8 +37,11 @@ KKClockCheckout.vue <br>
 KKClockPayCompleted.vue <br>
 LoginView.vue <br>
 
-#### 【component】
-frontend /  <br>
+Back ----------------------------- <br>
+ManagementProduct.vue <br>
+
+#### 【------ component -----】
+Front -----------------------------  <br>
 NavbarView.vue <br>
 ProductCard.vue <br>
 CartOffcanvas.vue <br>
@@ -46,11 +49,13 @@ ProductCardDiscounted.vue <br>
 BuyerInfo.vue <br>
 CarouselView.vue <br>
 
+-----
+
 ### 免改寫的：
-#### 【views】
+#### 【----- views -----】
 KKClockView.vue <br>
 KKClockHome.vue <br>
 KKClockBuyerInfo.vue <br>
 
-#### 【component】
+#### 【----- component -----】
 
